@@ -3937,10 +3937,10 @@ function renderAdminUnlockModal() {
       <div class="admin-unlock-card">
         <div>
           <div class="quick-admin-kicker">Private admin</div>
-          <div class="quick-admin-title">Enter PIN</div>
+          <div class="quick-admin-title">Admin password</div>
         </div>
-        <div class="mobile-admin-hint">Enter your four-digit admin PIN to edit Today times, titles and notes.</div>
-        <input class="text-input" data-admin-pin type="password" autocomplete="current-password" placeholder="PIN" inputmode="numeric" onkeydown="if(event.key === 'Enter') unlockAdminWithPin()">
+        <div class="mobile-admin-hint">Enter your admin password to edit Today times, titles and notes.</div>
+        <input class="text-input" data-admin-pin type="password" autocomplete="current-password" aria-label="Admin password" placeholder="Admin password" onkeydown="if(event.key === 'Enter') unlockAdminWithPin()">
         ${quickAdminStatus ? `<div class="quick-admin-status">${escapeHtml(quickAdminStatus)}</div>` : ""}
         <div class="admin-unlock-actions">
           <button class="tools-admin-btn secondary" type="button" onclick="adminUnlockOpen=false;quickAdminStatus='';renderApp()">Cancel</button>
