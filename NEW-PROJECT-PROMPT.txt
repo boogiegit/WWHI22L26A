@@ -1,0 +1,14 @@
+This is my new WWHI22L26A project, in /Users/john/GitHub/Xmas Whirl 2026.
+Read START-HERE.txt. Work only in this folder. Do not change the original
+/Users/john/GitHub/EWHI11J26A project or its website.
+
+Keep this app's current design and features. Use my attached new files to
+replace the starter itinerary, dates, hotels, experiences, prices, map links,
+resources and recaps. Review hardcoded schedule/map rules as well as JSON.
+New dates: [ADD MY DATES HERE]
+New reference files: [ATTACH OR PROVIDE PATHS]
+
+Start a local preview so I can review it. Keep this app's WWHI22L26A identity,
+separate cache/storage and eventual independent admin configuration/database.
+Do not publish until I ask. When requested, use a new WWHI22L26A GitHub repository
+and separate public_html/WWHI22L26A Hostinger folder.

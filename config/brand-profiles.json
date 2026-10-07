@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "profiles": {
+    "trafalgar": {
+      "id": "trafalgar",
+      "displayName": "Trafalgar",
+      "guestFacingName": "Trafalgar",
+      "logoAsset": "icon-192.png",
+      "typography": {
+        "fontFamily": "Arial, Helvetica, sans-serif"
+      },
+      "colours": {
+        "primary": "#ce1126",
+        "secondary": "#221f1f",
+        "accent": "#b8923b",
+        "background": "#f6f3ee",
+        "surface": "#ffffff",
+        "text": "#221f1f"
+      },
+      "app": {
+        "titlePrefix": "Trafalgar",
+        "themeColor": "#ce1126",
+        "icon192": "icon-192.png",
+        "icon512": "icon-512.png"
+      },
+      "sharedWording": {
+        "operatorLabel": "The Travel Corporation",
+        "guestServicesLabel": "Trafalgar Guest Services"
+      }
+    },
+    "costsaver": {
+      "id": "costsaver",
+      "displayName": "Costsaver",
+      "guestFacingName": "Costsaver",
+      "logoAsset": "lovebus-icon-192.png",
+      "typography": {
+        "fontFamily": "Arial, Helvetica, sans-serif"
+      },
+      "colours": {
+        "primary": "#3046c7",
+        "secondary": "#111111",
+        "accent": "#f6b900",
+        "background": "#f7f8ff",
+        "surface": "#ffffff",
+        "text": "#111111"
+      },
+      "app": {
+        "titlePrefix": "Costsaver",
+        "themeColor": "#3046c7",
+        "icon192": "lovebus-icon-192.png",
+        "icon512": "lovebus-icon-512.png"
+      },
+      "sharedWording": {
+        "operatorLabel": "The Travel Corporation",
+        "guestServicesLabel": "Costsaver Guest Services"
+      }
+    },
+    "insight": {
+      "id": "insight",
+      "displayName": "Insight Vacations",
+      "guestFacingName": "Insight Vacations",
+      "logoAsset": "apple-touch-icon.png",
+      "typography": {
+        "fontFamily": "Arial, Helvetica, sans-serif"
+      },
+      "colours": {
+        "primary": "#061a3a",
+        "secondary": "#a9c6e4",
+        "accent": "#007c89",
+        "background": "#f7fafc",
+        "surface": "#ffffff",
+        "text": "#061a3a"
+      },
+      "app": {
+        "titlePrefix": "Insight Vacations",
+        "themeColor": "#061a3a",
+        "icon192": "icon-192.png",
+        "icon512": "icon-512.png"
+      },
+      "sharedWording": {
+        "operatorLabel": "The Travel Corporation",
+        "guestServicesLabel": "Insight Vacations Guest Services"
+      }
+    }
+  }
+}

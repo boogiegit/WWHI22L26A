@@ -1,0 +1,85 @@
+{
+  "sourceDocuments": {
+    "itinerary": "local-import-itinerary",
+    "hotels": "hotel-profile:xmas-whirl-standard",
+    "optionalExperienceLibrary": "config/experience-library.json"
+  },
+  "sourceRules": {
+    "dateSourceOfTruth": "itineraryDocx",
+    "hotelSourceOfTruth": "hotelPdf",
+    "experienceSourceOfTruth": "experienceWorkbook"
+  },
+  "tools": {
+    "dayResources": {
+      "1": {
+        "links": [
+          {
+            "url": "https://trafalgar.world/guides/trafalgar/general/know-before-you-go/",
+            "title": "Know Before You Go | Trafalgar",
+            "description": "Safety, coach seat rotation, and luggage handling guidance for guests before tour.",
+            "image": "https://trafalgar.world/guides/assets/og-trafalgar-know-before-you-go.jpg",
+            "publisher": "Trafalgar",
+            "kind": "link"
+          },
+          {
+            "url": "https://trafalgar.world/guides/allbrands/regions/discoveries/eurostar/",
+            "title": "Eurostar Boarding Instructions",
+            "description": "Your Travel Director will provide your physical Eurostar ticket before boarding.",
+            "image": "https://trafalgar.world/guides/allbrands/regions/discoveries/eurostar/assets/og-eurostar-boarding.jpg",
+            "publisher": "trafalgar.world",
+            "kind": "link"
+          }
+        ]
+      },
+      "4": {
+        "links": [
+          {
+            "url": "https://trafalgar.world/guides/allbrands/regions/italy/venice-city-guide/",
+            "title": "Venice City Guide",
+            "description": "Landmarks, local food, yellow signs, Murano glass, and the engineering behind Venice.",
+            "image": "https://trafalgar.world/guides/allbrands/regions/italy/venice-city-guide/assets/og-venice-city-guide-v2.jpg",
+            "publisher": "trafalgar.world",
+            "kind": "link"
+          }
+        ]
+      },
+      "5": {
+        "links": [
+          {
+            "url": "https://brendonbush.com/romesecurity.html",
+            "title": "Rome — Your Preparation Guide",
+            "description": "Everything you need to know before we arrive in Rome. Please read carefully.",
+            "image": "https://brendonbush.com/images/romehero.jpg",
+            "publisher": "brendonbush.com",
+            "kind": "link"
+          }
+        ]
+      },
+      "6": {
+        "links": [
+          {
+            "url": "https://trafalgar.world/ttc-hub/trafalgar/regions/italy/st-peters-basilica/?hub=1",
+            "title": "St. Peter's Basilica Floor Plan | Trafalgar",
+            "description": "A 20-minute self-guided route through St. Peter's Basilica with a numbered floor plan.",
+            "image": "https://trafalgar.world/guides/trafalgar/regions/italy/st-peters-basilica/assets/og-st-peters-basilica.jpg",
+            "publisher": "Trafalgar",
+            "kind": "link"
+          }
+        ]
+      },
+      "7": {
+        "links": [
+          {
+            "url": "https://trafalgar.world/guides/allbrands/regions/italy/florence-city-guide/",
+            "title": "Florence City Guide",
+            "description": "Duomo, Ponte Vecchio, leather, gold, food, viewpoints, and simple orientation for Florence.",
+            "image": "https://trafalgar.world/guides/allbrands/regions/italy/florence-city-guide/assets/og-florence-city-guide-v2.jpg",
+            "publisher": "trafalgar.world",
+            "kind": "link"
+          }
+        ]
+      }
+    },
+    "specialPassSystems": []
+  }
+}

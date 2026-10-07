@@ -1,0 +1,26 @@
+{
+  "name": "Xmas Whirl 2026",
+  "short_name": "Xmas Whirl 2026",
+  "description": "Companion app for Xmas Whirl 2026.",
+  "start_url": "./app.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ff8a00",
+  "theme_color": "#ff8a00",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "id": "./"
+}

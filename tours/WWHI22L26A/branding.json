@@ -1,0 +1,27 @@
+{
+  "tourCode": "WWHI22L26A",
+  "slug": "xmas-whirl",
+  "name": "Xmas Whirl",
+  "displayName": "Xmas Whirl",
+  "shortName": "Xmas Whirl",
+  "year": 2026,
+  "brand": "Trafalgar",
+  "operatorLabel": "The Travel Corporation",
+  "applicationTitle": "Trafalgar · Xmas Whirl",
+  "versionDisplay": "1",
+  "brandProfileId": "trafalgar",
+  "tourTypeId": "european-splendour",
+  "brandAssets": {
+    "logoAsset": "icon-192.png",
+    "icon192": "icon-192.png",
+    "icon512": "icon-512.png"
+  },
+  "brandTheme": {
+    "primary": "#ce1126",
+    "secondary": "#221f1f",
+    "background": "#f6f3ee",
+    "surface": "#ffffff",
+    "text": "#221f1f",
+    "themeColor": "#ce1126"
+  }
+}

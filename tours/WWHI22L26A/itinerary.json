@@ -1,0 +1,1205 @@
+{
+  "days": [
+    {
+      "number": 1,
+      "date": "2026-10-11",
+      "weekday": "Sunday",
+      "hotelId": "hotel-01-mercure-hotel-amsterdam-city",
+      "technical": {
+        "weekday": "Sunday",
+        "routeTitle": "London - Eurostar - Brussels - Amsterdam",
+        "routeSegments": [
+          "London",
+          "Brussels",
+          "Amsterdam"
+        ],
+        "heroImageId": "amsterdam-01",
+        "heroImageDestination": "Amsterdam"
+      },
+      "guest": {
+        "title": "London - Eurostar - Brussels - Amsterdam",
+        "narrative": "Travel by Eurostar from London to Brussels, continue by coach to Amsterdam, then settle in with an evening orientation and dinner cruise.",
+        "meals": [
+          "Breakfast",
+          "Dinner"
+        ],
+        "heroImage": "assets/shared/today-heroes/amsterdam-01.jpg"
+      },
+      "schedule": [
+        {
+          "time": "05:30",
+          "title": "Wake-up call",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "06:00",
+          "title": "Luggage",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "06:30",
+          "title": "Breakfast",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "07:00",
+          "title": "Depart Hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "07:30",
+          "title": "Arrive St. Pancras",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "09:01",
+          "title": "Eurostar London to Brussels",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "12:05",
+          "title": "Arrive in Brussels Gare du Midi",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "12:30",
+          "title": "Depart on coach for Amsterdam",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "14:00",
+          "title": "Arrive services for comfort stop",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "14:20",
+          "title": "Depart",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "15:50",
+          "title": "Arrive hotel and check in",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": true
+        },
+        {
+          "time": "17:00",
+          "title": "Depart hotel for Orientation",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "17:30",
+          "title": "Arrive Leidseplein - Free time",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "19:00",
+          "title": "Meet for dinner cruise",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "19:15",
+          "title": "Dinner cruise departs",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "21:15",
+          "title": "Cruise Ends at hotel",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "date": "2026-10-12",
+      "weekday": "Monday",
+      "hotelId": "hotel-02-hotel-sinsheim",
+      "technical": {
+        "weekday": "Monday",
+        "routeTitle": "Amsterdam - Rhine Cruise - Heidelberg - Rhineland",
+        "routeSegments": [
+          "Amsterdam",
+          "Boppard",
+          "Heidelberg",
+          "Rhineland"
+        ],
+        "heroImageId": "rhine-valley-01",
+        "heroImageDestination": "Rhineland"
+      },
+      "guest": {
+        "title": "Amsterdam - Rhine Cruise - Heidelberg - Rhineland",
+        "narrative": "Leave Amsterdam, cruise the Rhine, spend time in Heidelberg and continue to the Rhineland for dinner at the hotel.",
+        "meals": [
+          "Breakfast",
+          "Lunch",
+          "Dinner"
+        ],
+        "heroImage": "assets/shared/today-heroes/rhine-valley-01.jpg"
+      },
+      "schedule": [
+        {
+          "time": "06:15",
+          "title": "Breakfast and Bags",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "07:15",
+          "title": "Depart Amsterdam",
+          "note": "Passports, cameras, phones, phone chargers — safe cleared?",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "10:00",
+          "title": "Arrive services for comfort stop",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "10:30",
+          "title": "Depart for Boppard",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "12:30",
+          "title": "Rhine Cruise Departs",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "TBC",
+          "title": "Guests buy lunch onboard",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "14:20",
+          "title": "Depart Boppard",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "16:15",
+          "title": "Arrive Heidelberg",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "17:45",
+          "title": "Depart Heidelberg",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "18:30",
+          "title": "Arrive Hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": true
+        },
+        {
+          "time": "19:30",
+          "title": "Included dinner at hotel",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "date": "2026-10-13",
+      "weekday": "Tuesday",
+      "hotelId": "hotel-03-hilton-garden-inn-innsbruck-tivoli",
+      "technical": {
+        "weekday": "Tuesday",
+        "routeTitle": "Rhineland - Innsbruck",
+        "routeSegments": [
+          "Rhineland",
+          "Munich",
+          "Innsbruck"
+        ],
+        "heroImageId": "innsbruck-01",
+        "heroImageDestination": "Innsbruck"
+      },
+      "guest": {
+        "title": "Rhineland - Innsbruck",
+        "narrative": "Cross into Austria with time in Munich before arriving in Innsbruck.",
+        "meals": [
+          "Breakfast",
+          "Lunch"
+        ],
+        "heroImage": "assets/shared/today-heroes/innsbruck-01.jpg"
+      },
+      "schedule": [
+        {
+          "time": "06:30",
+          "title": "Breakfast and Bags",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "07:15",
+          "title": "Depart Hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "09:15",
+          "title": "Arrive services for comfort stop",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "09:45",
+          "title": "Depart",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "11:50",
+          "title": "Arrive in Munich - Free Time for Lunch",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "13:15",
+          "title": "Depart Munich",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "15:45",
+          "title": "Arrive in Innsbruck - Free time",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "17:30",
+          "title": "Depart center for hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "17:45",
+          "title": "Arrive hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": true
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "date": "2026-10-14",
+      "weekday": "Wednesday",
+      "hotelId": "hotel-04-novotel-venezia-mestre-castellana-hotel",
+      "technical": {
+        "weekday": "Wednesday",
+        "routeTitle": "Innsbruck - Venice",
+        "routeSegments": [
+          "Innsbruck",
+          "Venice"
+        ],
+        "heroImageId": "venice-01",
+        "heroImageDestination": "Venice"
+      },
+      "guest": {
+        "title": "Innsbruck - Venice",
+        "narrative": "Travel from Innsbruck to Venice, arrive at Tronchetto and enjoy Venice by water, glassblowing and time around St. Mark's.",
+        "meals": [
+          "Breakfast",
+          "Dinner"
+        ],
+        "heroImage": "assets/shared/today-heroes/venice-01.jpg"
+      },
+      "schedule": [
+        {
+          "time": "07:15",
+          "title": "Breakfast and bags",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "08:15",
+          "title": "Depart Innsbruck",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "10:30",
+          "title": "Arrive services for comfort stop",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "11:00",
+          "title": "Depart",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "13:00",
+          "title": "Arrive services for comfort stop",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "14:00",
+          "title": "Depart",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "14:30",
+          "title": "Arrive Tronchetto",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "14:45",
+          "title": "Taxi boats along Grand Canal - \"Gondolas and the Grand Canal\"",
+          "note": "Optional Experience.",
+          "kind": "optional",
+          "hideKindChip": false
+        },
+        {
+          "time": "15:20",
+          "title": "Arrive St. Mark's Square",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "15:30",
+          "title": "Gondolas - Harrys Bar",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "TBC",
+          "title": "Free time & time for dinner",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "TBC",
+          "title": "Meet Guests and walk to Palazzo Cornoldi",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "20:15",
+          "title": "Motoscafo back to Tronchetto",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "20:45",
+          "title": "Arrive Tronchetto",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "21:15",
+          "title": "Arrive hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": true
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "date": "2026-10-15",
+      "weekday": "Thursday",
+      "hotelId": "hotel-05-precise-house-mantegna",
+      "technical": {
+        "weekday": "Thursday",
+        "routeTitle": "Venice - Rome",
+        "routeSegments": [
+          "Venice",
+          "Rome"
+        ],
+        "heroImageId": "rome-01",
+        "heroImageDestination": "Rome"
+      },
+      "guest": {
+        "title": "Venice - Rome",
+        "narrative": "Travel south from Venice to Rome with useful comfort stops before an evening Optional Experience in the Eternal City.",
+        "meals": [
+          "Breakfast",
+          "Lunch",
+          "Dinner"
+        ],
+        "heroImage": "assets/shared/today-heroes/rome-01.png"
+      },
+      "schedule": [
+        {
+          "time": "06:45",
+          "title": "Breakfast and Bags",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "07:30",
+          "title": "Depart hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "09:15",
+          "title": "Arrive services",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "09:45",
+          "title": "Depart",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "11:00",
+          "title": "Arrive BMG Lunch Venue",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "13:00",
+          "title": "Depart",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "15:30",
+          "title": "Arrive services",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "16:00",
+          "title": "Depart services",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "17:00",
+          "title": "Arrive drop off Rome and meet LS for 'Piazzas and Fountains'",
+          "note": "Optional Experience.",
+          "kind": "optional",
+          "hideKindChip": false
+        },
+        {
+          "time": "19:00",
+          "title": "Finish in Piazza Navona- Free Time for Dinner",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "20:30",
+          "title": "Meet group and walk to pick-up",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "21:15",
+          "title": "Arrive at Hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": true
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "date": "2026-10-16",
+      "weekday": "Friday",
+      "hotelId": "hotel-05-precise-house-mantegna",
+      "technical": {
+        "weekday": "Friday",
+        "routeTitle": "Rome Sightseeing and Free Time",
+        "routeSegments": [
+          "Rome"
+        ],
+        "heroImageId": "rome-02",
+        "heroImageDestination": "Rome"
+      },
+      "guest": {
+        "title": "Rome Sightseeing and Free Time",
+        "narrative": "Explore Rome with free time and Optional Experiences including St Peter's, the Roman Forum, the Colosseum and dinner.",
+        "meals": [
+          "Breakfast",
+          "Lunch",
+          "Dinner"
+        ],
+        "heroImage": "assets/shared/today-heroes/rome-02.jpg"
+      },
+      "schedule": [
+        {
+          "time": "06:30",
+          "title": "Breakfast",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "07:20",
+          "title": "Depart Hotel for Rome Sightseeing",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "08:00",
+          "title": "Arrive Vatican — Inside St. Peter's",
+          "note": "Optional Experience.",
+          "kind": "optional",
+          "hideKindChip": false
+        },
+        {
+          "time": "10:15",
+          "title": "Depart on coach to continue Inside St. Peter's and Legends and Landmarks of Rome",
+          "note": "Optional Experience.",
+          "kind": "optional",
+          "hideKindChip": false
+        },
+        {
+          "time": "12:45",
+          "title": "Return to hotel for rest & Lunch",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "16:00",
+          "title": "Depart Hotel for 'Inside Colosseum & Dinner'",
+          "note": "Optional Experience.",
+          "kind": "optional",
+          "hideKindChip": false
+        },
+        {
+          "time": "16:15",
+          "title": "Arrive drop off point and walk to Colosseum",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "16:45",
+          "title": "Colosseum entry",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "18:15",
+          "title": "Arrive Dinner",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "20:30",
+          "title": "Depart",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "21:00",
+          "title": "Arrive Hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": true
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "date": "2026-10-17",
+      "weekday": "Saturday",
+      "hotelId": "hotel-07-doubletree-by-hilton-florence-metropole",
+      "technical": {
+        "weekday": "Saturday",
+        "routeTitle": "Rome - Florence Sightseeing",
+        "routeSegments": [
+          "Rome",
+          "Florence"
+        ],
+        "heroImageId": "florence-01",
+        "heroImageDestination": "Florence"
+      },
+      "guest": {
+        "title": "Rome - Florence Sightseeing",
+        "narrative": "Travel from Rome to Florence for sightseeing with a Local Specialist and the Tuscan countryside dinner experience.",
+        "meals": [
+          "Breakfast",
+          "Lunch"
+        ],
+        "heroImage": "assets/shared/today-heroes/florence-01.png"
+      },
+      "schedule": [
+        {
+          "time": "06:30",
+          "title": "Breakfast and Bags",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "07:30",
+          "title": "Depart Rome",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "10:00",
+          "title": "Arrive services for comfort stop - pick up snack as late lunch",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "10:40",
+          "title": "Depart",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "12:15",
+          "title": "Meet local specialist for included sightseeing walk",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "13:15",
+          "title": "Gold, watch and leather shopping opportunities",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "13:15",
+          "title": "Free time for late lunch and free time",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "15:45",
+          "title": "Meet group and take tram to Coach pick-up",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "16:10",
+          "title": "Depart Piazza Vittorio Veneto",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "16:40",
+          "title": "Arrive Hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": true
+        },
+        {
+          "time": "18:00",
+          "title": "Depart for 'Dinner in the Tuscan Hills'",
+          "note": "Optional Experience.",
+          "kind": "optional",
+          "hideKindChip": false
+        },
+        {
+          "time": "20:30",
+          "title": "Depart",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "21:00",
+          "title": "Return Hotel",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": true
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "date": "2026-10-18",
+      "weekday": "Sunday",
+      "hotelId": "hotel-08-grand-hotel-europe-lucerne",
+      "technical": {
+        "weekday": "Sunday",
+        "routeTitle": "Florence - Lucerne",
+        "routeSegments": [
+          "Florence",
+          "Lucerne"
+        ],
+        "heroImageId": "lucerne-01",
+        "heroImageDestination": "Lucerne"
+      },
+      "guest": {
+        "title": "Florence - Lucerne",
+        "narrative": "Cross into Switzerland and arrive in Lucerne for orientation, the Lion Monument and dinner at the hotel.",
+        "meals": [
+          "Breakfast",
+          "Lunch",
+          "Dinner"
+        ],
+        "heroImage": "assets/shared/today-heroes/lucerne-01.png"
+      },
+      "schedule": [
+        {
+          "time": "06:30",
+          "title": "Breakfast and Bags",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "07:30",
+          "title": "Depart",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "10:00",
+          "title": "Arrive services",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "10:30",
+          "title": "Depart",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "TBC",
+          "title": "Cross the Swiss border",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "12:45",
+          "title": "Arrive services for lunch",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "13:45",
+          "title": "Depart",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "15:30",
+          "title": "Arrival in Lucerne",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "TBC",
+          "title": "Orientation and visit to the Lion Monument",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "16:00",
+          "title": "Mt Pilatus & Lake Cruise - Lake cruise section",
+          "note": "Optional Experience.",
+          "kind": "optional",
+          "hideKindChip": false
+        },
+        {
+          "time": "17:30",
+          "title": "Arrive to Hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "19:15",
+          "title": "Included dinner in hotel",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "date": "2026-10-19",
+      "weekday": "Monday",
+      "hotelId": "hotel-08-grand-hotel-europe-lucerne",
+      "technical": {
+        "weekday": "Monday",
+        "routeTitle": "Lucerne Orientation and Free Time",
+        "routeSegments": [
+          "Lucerne"
+        ],
+        "heroImageId": "lucerne-02",
+        "heroImageDestination": "Lucerne"
+      },
+      "guest": {
+        "title": "Lucerne Orientation and Free Time",
+        "narrative": "Enjoy Lucerne and choose from alpine and countryside Optional Experiences before a free afternoon and evening.",
+        "meals": [
+          "Breakfast"
+        ],
+        "heroImage": "assets/shared/today-heroes/lucerne-02.jpg"
+      },
+      "schedule": [
+        {
+          "time": "07:00",
+          "title": "Breakfast",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "08:00",
+          "title": "Depart hotel for Mount Stanserhorn",
+          "note": "Optional Experience.",
+          "kind": "optional",
+          "hideKindChip": false
+        },
+        {
+          "time": "11:10",
+          "title": "Return to hotel",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "11:30",
+          "title": "Depart hotel for 'Swiss Countryside and Carriages'",
+          "note": "Optional Experience.",
+          "kind": "optional",
+          "hideKindChip": false
+        },
+        {
+          "time": "15:15",
+          "title": "Return to hotel - Free afternoon and evening",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "date": "2026-10-20",
+      "weekday": "Tuesday",
+      "hotelId": "hotel-10-hotel-occidental-paris-levallois",
+      "technical": {
+        "weekday": "Tuesday",
+        "routeTitle": "Lucerne - Paris",
+        "routeSegments": [
+          "Lucerne",
+          "Paris"
+        ],
+        "heroImageId": "paris-03",
+        "heroImageDestination": "Paris"
+      },
+      "guest": {
+        "title": "Lucerne - Paris",
+        "narrative": "Travel from Lucerne to Paris and celebrate the evening with the La Nouvelle Eve cabaret and dinner experience.",
+        "meals": [
+          "Breakfast",
+          "Lunch"
+        ],
+        "heroImage": "assets/shared/today-heroes/paris-03.jpg"
+      },
+      "schedule": [
+        {
+          "time": "06:00",
+          "title": "Breakfast and Bags",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "07:00",
+          "title": "Depart Lucerne",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "10:00",
+          "title": "Arrive services",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "10:30",
+          "title": "Depart services",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "13:00",
+          "title": "Arrive lunch stop",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "13:45",
+          "title": "Depart services",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "16:15",
+          "title": "Arrival Paris Hotel",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "18:00",
+          "title": "Depart for 'La Nouvelle Eve Cabaret and Dinner'",
+          "note": "Optional Experience.",
+          "kind": "optional",
+          "hideKindChip": false
+        },
+        {
+          "time": "18:30",
+          "title": "Arrive Cabaret",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "21:45",
+          "title": "Show finishes",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "EVE",
+          "title": "Depart on local coach for hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "date": "2026-10-21",
+      "weekday": "Wednesday",
+      "hotelId": "hotel-10-hotel-occidental-paris-levallois",
+      "technical": {
+        "weekday": "Wednesday",
+        "routeTitle": "Paris Sightseeing and Free Time",
+        "routeSegments": [
+          "Paris",
+          "Montmartre"
+        ],
+        "heroImageId": "paris-01",
+        "heroImageDestination": "Paris"
+      },
+      "guest": {
+        "title": "Paris Sightseeing and Free Time",
+        "narrative": "Discover Paris and Montmartre, with free time, the Seine Cruise and Paris Icons experience and an included dinner.",
+        "meals": [
+          "Breakfast",
+          "Lunch",
+          "Dinner"
+        ],
+        "heroImage": "assets/shared/today-heroes/paris-01.jpg"
+      },
+      "schedule": [
+        {
+          "time": "07:00",
+          "title": "Breakfast",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "TBC",
+          "title": "Montmartre and Artists’ Village",
+          "note": "Optional Experience. Timing and meeting point to be confirmed.",
+          "kind": "optional",
+          "hideKindChip": false
+        },
+        {
+          "time": "11:10",
+          "title": "Arrive Arc de Triumph - start Included Sightseeing",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "13:30",
+          "title": "Free time for shopping & lunch",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "15:30",
+          "title": "Depart for 'Seine Cruise and Parisian Icons'",
+          "note": "Optional Experience.",
+          "kind": "optional",
+          "hideKindChip": false
+        },
+        {
+          "time": "17:30",
+          "title": "Paris Included Dinner",
+          "note": "",
+          "kind": "meal",
+          "hideKindChip": false
+        },
+        {
+          "time": "19:30",
+          "title": "Visit Trocadero",
+          "note": "",
+          "kind": "included",
+          "hideKindChip": false
+        },
+        {
+          "time": "20:45",
+          "title": "Arrive hotel",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": true
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "date": "2026-10-22",
+      "weekday": "Thursday",
+      "hotelId": "hotel-10-hotel-occidental-paris-levallois",
+      "technical": {
+        "weekday": "Thursday",
+        "routeTitle": "Depart Paris",
+        "routeSegments": [
+          "Paris"
+        ],
+        "heroImageId": "paris-03",
+        "heroImageDestination": "Paris"
+      },
+      "guest": {
+        "title": "Depart Paris",
+        "narrative": "Depart Paris with arranged airport and Eurostar transfers.",
+        "meals": [],
+        "heroImage": "assets/shared/today-heroes/paris-03.jpg"
+      },
+      "schedule": [
+        {
+          "time": "07:00",
+          "title": "CDG Airport transfer",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        },
+        {
+          "time": "07:00",
+          "title": "Eurostar Transfer",
+          "note": "",
+          "kind": "transport",
+          "hideKindChip": false
+        }
+      ]
+    }
+  ]
+}

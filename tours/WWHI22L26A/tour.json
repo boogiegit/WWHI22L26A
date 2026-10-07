@@ -1,0 +1,16 @@
+{
+  "packageVersion": 1,
+  "code": "WWHI22L26A",
+  "displayName": "Xmas Whirl",
+  "version": "1",
+  "dataFiles": {
+    "base": "./data.json",
+    "itinerary": "./itinerary.json",
+    "hotels": "./hotels.json",
+    "experiences": "./experiences.json",
+    "resources": "./resources.json",
+    "branding": "./branding.json",
+    "features": "./features.json"
+  },
+  "legacyStorageSlug": "xmas-whirl"
+}

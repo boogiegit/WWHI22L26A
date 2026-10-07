@@ -1,0 +1,70 @@
+XMAS WHIRL 2026 — YOUR NEW APP
+Project / tour code: WWHI22L26A
+Computer folder: /Users/john/GitHub/Xmas Whirl 2026
+
+READY NOW
+This is a separate copy of the European Whirl app, renamed for Xmas Whirl.
+The original project and live website have not been changed. The new copy has
+its own tour code, storage namespaces, app title, export filename and cache.
+Its logout/cache cleanup does not clear the original tour's data.
+
+The existing itinerary, dates, hotels, prices, map links and recaps are retained
+as STARTER CONTENT. They are not yet a Christmas itinerary. Supply the new tour
+files and dates before using it with guests.
+
+WHAT YOU DO NEXT
+1. Open /Users/john/GitHub/Xmas Whirl 2026 as a NEW project in Codex.
+   Select this folder, not the original EWHI11J26A folder.
+2. Add your new itinerary and supporting files to the new task as references.
+3. Paste NEW-PROJECT-PROMPT.txt into that new task and fill in your new dates.
+4. Ask for changes there. This original app can remain as it is.
+
+TO PREVIEW
+Double-click Preview App.command. Leave the Terminal window open; Control+C
+stops the preview. The launcher uses Python 3 and a free localhost port.
+If macOS does not launch it, open the new Codex project and ask to start the
+local preview. Opening app.html directly is not the reliable way to preview it.
+The preview shows the app; admin saving/submissions need a configured PHP server.
+
+FILES TO EDIT LATER
+app.html                     Main app and some tour-specific map/schedule rules
+css/ and js/                 Design, behaviour, recaps and spreadsheet export
+tours/WWHI22L26A/itinerary.json    Day-by-day itinerary
+tours/WWHI22L26A/hotels.json       Hotels
+tours/WWHI22L26A/experiences.json  Experiences and prices
+tours/WWHI22L26A/resources.json    Resources
+tours/WWHI22L26A/branding.json     Name and branding
+config/tours.json             Registry pointing to this new tour
+assets/                      Bundled images and maps
+api.php and server/          PHP backend
+manifest.json and sw.js       Installed-app identity and caching
+
+WHEN YOU WANT IT ONLINE
+This folder is now an independent Git repository for WWHI22L26A.
+Read README.md for editing, preview and deployment. Publication progress is
+recorded separately in DEPLOYMENT-STATUS.local.txt.
+Build the Hostinger upload with: python3 scripts/package_app.py
+Use a separate Hostinger directory: public_html/WWHI22L26A/.
+The expected URL, if using your current domain, is:
+https://brendonbush.com/WWHI22L26A/
+This URL is a proposed destination, not an already published app.
+
+Create server/config.local.php from server/config.example.php. Set origin to
+https://brendonbush.com, base_path to /WWHI22L26A/, and a NEW admin password hash.
+The example already uses WWHI22L26A and the new storage slugs. The app creates
+its own private database after configuration. PHP 8.2+ with PDO SQLite and cURL
+is needed; photo uploads additionally need GD. DEPLOYMENT.md has server details.
+Upload reviewed application files only, not tests, references or local secrets.
+
+WHAT THIS COPY INCLUDES
+All 133 version-controlled source/assets files from the latest app release,
+with the project identity changes above. The bundled layout, imagery and
+features remain. Code is provided as separate files because HTML alone is not
+sufficient: this app also needs its JSON, JavaScript, CSS, assets and PHP backend.
+
+WHAT IS SEPARATE
+Live database content (including admin edits and posted links), guest records,
+analytics, passwords, private tickets and seating plans are not copied.
+No old operational database or connection to the old repository is included.
+If you want selected LIVE admin content carried across, request that separately.
+Do not copy the old config.local.php or .private folder into this project.

@@ -1,0 +1,231 @@
+{
+  "meta": {
+    "startDate": "2026-10-11",
+    "dayCount": 12,
+    "countries": [
+      "United Kingdom",
+      "Belgium",
+      "Netherlands",
+      "Germany",
+      "Austria",
+      "Italy",
+      "Vatican City",
+      "Switzerland",
+      "France"
+    ]
+  },
+  "hostDefaults": {
+    "tabLabel": "Brendon",
+    "displayName": "Brendon Bush",
+    "roleLabel": "Travel Director",
+    "portraitUrl": "https://brendonbush.com/images/photosme/veniceroofme.jpg",
+    "whatsAppUrl": "https://wa.me/447850880535",
+    "phone": "+447850880535",
+    "bio": "Travel Director on Xmas Whirl. Clear briefings, calm days and the practical details handled properly.",
+    "profileTitle": "Europe changed my life. Now I get to share that properly.",
+    "profileIntro": "I was born in the small rural town of Cobram, Australia. At 21, I set off on what was meant to be a six-week holiday to Europe and I never looked back. I fell completely in love with the continent, and its rich culture, deep history and vibrant way of life have shaped who I am ever since.",
+    "profileStory": "After 30 years on the road, many of them across TTC touring brands, I still feel it every time. The groups I love most span generations: young families and grandparents, honeymooners and seasoned travellers, all sharing the same coach, the same table and the same moments that make a trip memorable.",
+    "profileWelcome": "Whenever I can, I choose to be here, because I truly love Europe and everything it offers. I can't wait to share that love with you through stories, sights and unforgettable moments that bring this incredible continent to life.",
+    "profileStats": [
+      {
+        "value": "30",
+        "label": "Years on road"
+      },
+      {
+        "value": "10k+",
+        "label": "Guests"
+      },
+      {
+        "value": "95%",
+        "label": "Excellent ratings"
+      }
+    ],
+    "profileHighlightsTitle": "The trips I enjoy most are the ones that feel warm, local and genuinely personal from the first day.",
+    "profileHighlights": [
+      {
+        "title": "Real local connections",
+        "copy": "The places I love most on tour are the family kitchens, workshops and side streets guests would never find alone."
+      },
+      {
+        "title": "Groups that feel personal",
+        "copy": "My favourite tours are the ones where strangers become a table full of stories by the second night."
+      },
+      {
+        "title": "A practical style on the road",
+        "copy": "I like guests to feel looked after, well briefed and relaxed enough to enjoy the day instead of worrying about logistics."
+      }
+    ],
+    "secondaryHost": "Gianfranco",
+    "secondaryHostLabel": "Gianfranco",
+    "secondaryHostBio": "Our driver Gianfranco is a fantastic part of the team and has been driving coaches around Europe for the last 15 years plus. You'll find him to be a very safe and friendly driver.",
+    "contactPreference": "WhatsApp for quick questions, call for anything urgent, or email if you need something in writing.",
+    "email": "mailto:bushylove74@gmail.com",
+    "emailLabel": "bushylove74@gmail.com"
+  },
+  "contacts": {
+    "operatorSupport": [
+      {
+        "label": "European Guest Services",
+        "phone": "+44 207 620 8900"
+      }
+    ],
+    "emergency": [
+      {
+        "label": "Brendon Bush",
+        "phone": "+447850880535",
+        "note": "Emergency calls preferred. Otherwise send a text/SMS or contact through hotel reception."
+      }
+    ],
+    "specialLinks": [
+      {
+        "label": "BrendonBush.com",
+        "url": "https://brendonbush.com"
+      }
+    ]
+  },
+  "tools": {
+    "phrases": [
+      {
+        "language": "French",
+        "local": "Bonjour",
+        "english": "Good morning / hello"
+      },
+      {
+        "language": "French",
+        "local": "L'addition, s'il vous plait",
+        "english": "The bill, please"
+      },
+      {
+        "language": "Swiss German / German",
+        "local": "Danke",
+        "english": "Thank you"
+      },
+      {
+        "language": "Italian",
+        "local": "Buongiorno",
+        "english": "Good morning / hello"
+      },
+      {
+        "language": "Italian",
+        "local": "Parla inglese?",
+        "english": "Do you speak English?"
+      }
+    ],
+    "faq": [
+      {
+        "question": "When will I usually get the next day's details?",
+        "answer": "Use the app as the day-by-day source of truth. Admin notes can also be added for each day when you want to highlight a special meeting point, reminder or change."
+      },
+      {
+        "question": "Where do I find experiences?",
+        "answer": "Open Itinerary, then switch to Experiences. Each experience is attached to the correct tour day, and uploaded admin images will appear there as well."
+      },
+      {
+        "question": "What should I keep with me on coach days?",
+        "answer": "Keep your passport, wallet, phone, charger, any medication, weather layer and the items you will want before your checked luggage is unloaded at the hotel."
+      },
+      {
+        "question": "How do I contact Brendon Bush quickly during the tour?",
+        "answer": "For emergencies, call Brendon directly. Otherwise send a text or SMS, or ask the hotel reception to help you make contact if the phone is off."
+      }
+    ],
+    "tipping": [
+      {
+        "title": "Restaurant",
+        "amount": "5-10%",
+        "body": "If coperto or a cover charge appears on your bill, no additional tip is needed. For a genuinely good meal, leave €2-€5 or 5-10%."
+      },
+      {
+        "title": "Pizza / casual dining",
+        "amount": "Round up",
+        "body": "Leave the small change or round to the nearest euro."
+      },
+      {
+        "title": "Bar / coffee",
+        "amount": "Small change",
+        "body": "Drop a coin on the counter. Small change is often appreciated for friendly service."
+      },
+      {
+        "title": "Local Specialist (guide)",
+        "amount": "€2 per person",
+        "body": "Pass it directly at the end of the visit if you felt the difference."
+      },
+      {
+        "title": "Taxi",
+        "amount": "Round up",
+        "body": "Round to the nearest euro. It is not standard to tip beyond that."
+      },
+      {
+        "title": "Travel Director",
+        "amount": "€7 per person / per day",
+        "body": "Paid in cash, in person, on the final night of the tour."
+      },
+      {
+        "title": "Coach Driver",
+        "amount": "€4.50 per person / per day",
+        "body": "Paid in cash, in person, on the final night of the tour."
+      }
+    ],
+    "practical": [
+      {
+        "title": "Keep in hand",
+        "body": "Passport, daily medication, phone, charger, wallet, light weather layer and anything needed before your luggage is delivered at the hotel."
+      },
+      {
+        "title": "Coach days",
+        "body": "Please be ready a few minutes before departure times, keep essentials with you, and label your luggage clearly for smoother hotel arrivals."
+      },
+      {
+        "title": "Money",
+        "body": "Cards are widely accepted, but a little local cash can still be useful for toilets, small purchases, markets and quick stops."
+      }
+    ],
+    "beforeYouGo": [
+      {
+        "title": "Travel documents",
+        "body": "Please double-check passport validity, travel insurance, any required visas and any personal medical documents before departure."
+      },
+      {
+        "title": "Packing",
+        "body": "Bring comfortable walking shoes, a light waterproof layer, charging cables, a reusable water bottle and clothes for both warm afternoons and cooler mornings."
+      },
+      {
+        "title": "Arrival day",
+        "body": "Keep your arrival details handy and look out for your welcome meeting time inside the Day 1 schedule."
+      }
+    ],
+    "exchangeRates": [
+      {
+        "label": "GBP to EUR",
+        "url": "https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=EUR"
+      },
+      {
+        "label": "GBP to USD",
+        "url": "https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=USD"
+      },
+      {
+        "label": "GBP to AUD",
+        "url": "https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=AUD"
+      },
+      {
+        "label": "GBP to NZD",
+        "url": "https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=NZD"
+      }
+    ],
+    "maps": [
+      {
+        "label": "Open today's overnight hotel in Google Maps",
+        "mode": "hotel"
+      },
+      {
+        "label": "Open today's city in Google Maps",
+        "mode": "city"
+      }
+    ],
+    "groupPhotos": {
+      "title": "Group photos",
+      "body": "Add a shared album link here whenever you're ready and guests will be able to open it from Tools.",
+      "url": ""
+    }
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "days": [
+    {
+      "number": 1,
+      "optionals": []
+    },
+    {
+      "number": 2,
+      "optionals": []
+    },
+    {
+      "number": 3,
+      "optionals": []
+    },
+    {
+      "number": 4,
+      "optionals": [
+        {
+          "experienceId": "gondolas-and-grand-canal",
+          "title": "Venice - Gondolas & Grand Canal",
+          "description": "Venice is beautiful from every angle, but from the water it becomes unforgettable. Glide along the Grand Canal by private water taxi, then slip into the quieter canals by gondola for the classic Venice moment nobody wants to miss.",
+          "price": {
+            "currency": "EUR",
+            "amount": 96
+          },
+          "sourceDay": 4,
+          "technicalDay": 4,
+          "imageUrl": "assets/shared/experiences/gondolas-and-grand-canal.jpg"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "optionals": [
+        {
+          "experienceId": "piazzas-and-fountains-of-rome",
+          "title": "Rome - Piazzas & Fountains of Rome + Pantheon Entrance",
+          "description": "Rome is at its best when you wander its backstreets and suddenly land in a grand piazza or beside a beautiful fountain. Explore with a Local Guide and uncover the Eternal City's most charming corners, stories and photo moments.",
+          "price": {
+            "currency": "EUR",
+            "amount": 57
+          },
+          "sourceDay": 5,
+          "technicalDay": 5,
+          "imageUrl": "assets/shared/experiences/piazzas-and-fountains-of-rome.jpg"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "optionals": [
+        {
+          "experienceId": "inside-st-peters-and-roman-forum",
+          "title": "Rome - Legends and Landmarks of Rome",
+          "description": "Explore a quieter side of Rome with a Local Specialist, walking through the historic Jewish Quarter before discovering spectacular views over the Roman Forum — three thousand years of history in one photograph. Continue to the Capitoline Hill and Michelangelo’s beautifully designed Campidoglio square for a memorable insight into the stories, streets and landmarks of ancient Rome.",
+          "price": {
+            "currency": "EUR",
+            "amount": 46
+          },
+          "sourceDay": 6,
+          "technicalDay": 6,
+          "imageUrl": "assets/shared/experiences/inside-st-peters-and-roman-forum.jpg"
+        },
+        {
+          "experienceId": "inside-the-colosseum-and-roman-dinner",
+          "title": "Rome - Inside the Colosseum & Roman Dinner",
+          "description": "Step inside the mighty Colosseum, where gladiators once fought and Roman history still feels alive, then celebrate the final evening with a traditional local dinner. Ancient drama and hearty Roman flavour in one brilliant night.",
+          "price": {
+            "currency": "EUR",
+            "amount": 134
+          },
+          "sourceDay": 6,
+          "technicalDay": 6,
+          "imageUrl": "assets/shared/experiences/inside-the-colosseum-and-roman-dinner.jpg"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "optionals": [
+        {
+          "experienceId": "dinner-in-the-tuscan-countryside",
+          "title": "Florence - Dinner in the Tuscan Countryside",
+          "description": "Take a scenic drive to a friendly restaurant in the Tuscan countryside for a relaxed regional dinner with local ingredients and excellent wines from the surrounding vineyards.",
+          "price": {
+            "currency": "EUR",
+            "amount": 80
+          },
+          "sourceDay": 7,
+          "technicalDay": 7,
+          "imageUrl": "assets/shared/experiences/dinner-in-the-tuscan-countryside.jpg"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "optionals": []
+    },
+    {
+      "number": 9,
+      "optionals": [
+        {
+          "experienceId": "mount-pilatus-and-lake-cruise",
+          "title": "Lucerne - Mount Pilatus & Lake Cruise",
+          "description": "Ascend by cogwheel train to Mount Pilatus' summit, then descend by cable car and enjoy a scenic lake cruise surrounded by classic Swiss mountain views.",
+          "price": {
+            "currency": "CHF",
+            "amount": 131
+          },
+          "sourceDay": 9,
+          "technicalDay": 9,
+          "imageUrl": "assets/shared/experiences/mount-pilatus-and-lake-cruise.jpg"
+        },
+        {
+          "experienceId": "swiss-countryside-and-carriages",
+          "title": "Lucerne - Swiss Countryside & Carriages",
+          "description": "Take a step back in time with a horse-drawn carriage ride through rural Lucerne. Visit a local farm for fresh refreshments and experience the peace of Swiss country life.",
+          "price": {
+            "currency": "CHF",
+            "amount": 83
+          },
+          "sourceDay": 9,
+          "technicalDay": 9,
+          "imageUrl": "assets/shared/experiences/swiss-countryside-and-carriages.jpg"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "optionals": [
+        {
+          "experienceId": "la-nouvelle-eve-cabaret-and-dinner",
+          "title": "Paris - La Nouvelle Eve Cabaret Show & Dinner",
+          "description": "Make it a proper Paris night out at La Nouvelle Eve, with dinner, sparkle, feathers, music and the famous French can-can. It is glamorous, playful and exactly the sort of evening people talk about long after the tour ends.",
+          "price": {
+            "currency": "EUR",
+            "amount": 169
+          },
+          "sourceDay": 10,
+          "technicalDay": 10,
+          "imageUrl": "assets/shared/experiences/la-nouvelle-eve-cabaret-and-dinner.jpg"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "optionals": [
+        {
+          "experienceId": "montmartre-village-and-artists-square",
+          "title": "Paris - Montmartre and Artists’ Village",
+          "description": "Discover the village atmosphere of Montmartre, with its cobbled streets, welcoming cafés and rich artistic heritage. Explore Place du Tertre, where painters and portrait artists bring the square to life, and enjoy the charm of this much-loved Paris neighbourhood near Sacré-Cœur.",
+          "price": {
+            "currency": "EUR",
+            "amount": 50
+          },
+          "sourceDay": 11,
+          "technicalDay": 11,
+          "imageUrl": "assets/shared/experiences/montmartre-village-and-artists-square.jpg"
+        },
+        {
+          "experienceId": "seine-cruise-and-parisian-icons",
+          "title": "Paris - Seine Cruise & Paris Icons",
+          "description": "Start Paris in style as the city lights up around you. Cruise the Seine past world-famous landmarks, then sweep through the streets by coach for those unforgettable first views of the Eiffel Tower, grand boulevards and glittering Paris icons.",
+          "price": {
+            "currency": "EUR",
+            "amount": 51
+          },
+          "sourceDay": 11,
+          "technicalDay": 11,
+          "imageUrl": "assets/shared/experiences/seine-cruise-and-parisian-icons.jpg"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "optionals": []
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "defaultTour": "WWHI22L26A",
+  "tours": {
+    "WWHI22L26A": {
+      "code": "WWHI22L26A",
+      "name": "Xmas Whirl 2026",
+      "packageUrl": "./tours/WWHI22L26A/tour.json",
+      "legacyStorageSlug": "xmas-whirl-2026"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "runtime": {
+    "shoppingTab": true,
+    "travelImpactTab": true
+  },
+  "capabilities": {
+    "experiences": true,
+    "resources": true,
+    "travelImpact": true,
+    "weather": true,
+    "cityGuides": true,
+    "maps": true,
+    "tickets": false,
+    "menus": false,
+    "optionalExperiences": true,
+    "contacts": true,
+    "seatingPlans": false,
+    "uploads": false,
+    "adminContentOverrides": true
+  }
+}
