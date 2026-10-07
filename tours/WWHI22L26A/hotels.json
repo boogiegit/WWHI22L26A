@@ -8,8 +8,8 @@
       "name": "Mercure Hotel Amsterdam City",
       "address": "Joan Muyskenweg 10, Amsterdam, Noord-Holland, 1096 CJ, Netherlands",
       "phone": "+31 (0) 20 665 8181",
-      "arrivalDate": "2026-10-11",
-      "rawText": "2026-10-11 Amsterdam 1 Mercure Hotel Amsterdam City Joan Muyskenweg 10, Amsterdam, Noord-Holland, 1096 CJ, Netherlands +31 (0) 20 665 8181"
+      "arrivalDate": "2026-12-22",
+      "rawText": "2026-12-22 Amsterdam 1 Mercure Hotel Amsterdam City Joan Muyskenweg 10, Amsterdam, Noord-Holland, 1096 CJ, Netherlands +31 (0) 20 665 8181"
     },
     {
       "id": "hotel-02-hotel-sinsheim",
@@ -19,8 +19,8 @@
       "name": "Hotel Sinsheim",
       "address": "In der Au 25, Sinsheim, Baden-Wurttemberg, 74889, Germany",
       "phone": "+49 7261 40640",
-      "arrivalDate": "2026-10-12",
-      "rawText": "2026-10-12 Sinsheim 1 Hotel Sinsheim In der Au 25, Sinsheim, Baden-Wurttemberg, 74889, Germany +49 7261 40640"
+      "arrivalDate": "2026-12-23",
+      "rawText": "2026-12-23 Sinsheim 1 Hotel Sinsheim In der Au 25, Sinsheim, Baden-Wurttemberg, 74889, Germany +49 7261 40640"
     },
     {
       "id": "hotel-03-hilton-garden-inn-innsbruck-tivoli",
@@ -30,8 +30,8 @@
       "name": "Hilton Garden Inn Innsbruck Tivoli",
       "address": "Olympiastrasse 41, Innsbruck, Tyrol, 6020, Austria",
       "phone": "+43 512 890404",
-      "arrivalDate": "2026-10-13",
-      "rawText": "2026-10-13 Innsbruck 1 Hilton Garden Inn Innsbruck Tivoli Olympiastrasse 41, Innsbruck, Tyrol, 6020, Austria +43 512 890404"
+      "arrivalDate": "2026-12-24",
+      "rawText": "2026-12-24 Innsbruck 1 Hilton Garden Inn Innsbruck Tivoli Olympiastrasse 41, Innsbruck, Tyrol, 6020, Austria +43 512 890404"
     },
     {
       "id": "hotel-04-novotel-venezia-mestre-castellana-hotel",
@@ -41,8 +41,8 @@
       "name": "Novotel Venezia Mestre Castellana Hotel",
       "address": "Via Ceccherini 21, Mestre, Venice, Veneto, 30174, Italy",
       "phone": "+39 0415066511",
-      "arrivalDate": "2026-10-14",
-      "rawText": "2026-10-14 Venice / Mestre 1 Novotel Venezia Mestre Castellana Hotel Via Ceccherini 21, Mestre, Venice, Veneto, 30174, Italy +39 0415066511"
+      "arrivalDate": "2026-12-25",
+      "rawText": "2026-12-25 Venice / Mestre 1 Novotel Venezia Mestre Castellana Hotel Via Ceccherini 21, Mestre, Venice, Veneto, 30174, Italy +39 0415066511"
     },
     {
       "id": "hotel-05-precise-house-mantegna",
@@ -52,8 +52,8 @@
       "name": "PRECISE House Mantegna",
       "address": "Via Mantegna 130, Rome, Lazio, 00147, Italy",
       "phone": "+39 06 989521",
-      "arrivalDate": "2026-10-15",
-      "rawText": "2026-10-15 Rome 2 PRECISE House Mantegna Via Mantegna 130, Rome, Lazio, 00147, Italy +39 06 989521"
+      "arrivalDate": "2026-12-26",
+      "rawText": "2026-12-26 Rome 2 PRECISE House Mantegna Via Mantegna 130, Rome, Lazio, 00147, Italy +39 06 989521"
     },
     {
       "id": "hotel-07-doubletree-by-hilton-florence-metropole",
@@ -63,8 +63,8 @@
       "name": "DoubleTree by Hilton Florence Metropole",
       "address": "Via del Cavallaccio, 36, Florence, Tuscany, 50142, Italy",
       "phone": "+39 055 78711",
-      "arrivalDate": "2026-10-17",
-      "rawText": "2026-10-17 Florence 1 DoubleTree by Hilton Florence Metropole Via del Cavallaccio, 36, Florence, Tuscany, 50142, Italy +39 055 78711"
+      "arrivalDate": "2026-12-28",
+      "rawText": "2026-12-28 Florence 1 DoubleTree by Hilton Florence Metropole Via del Cavallaccio, 36, Florence, Tuscany, 50142, Italy +39 055 78711"
     },
     {
       "id": "hotel-08-grand-hotel-europe-lucerne",
@@ -74,8 +74,8 @@
       "name": "Grand Hotel Europe Lucerne",
       "address": "Haldenstrasse 59, Lucerne, Luzern, 6006, Switzerland",
       "phone": "+41 413700011",
-      "arrivalDate": "2026-10-18",
-      "rawText": "2026-10-18 Lucerne 2 Grand Hotel Europe Lucerne Haldenstrasse 59, Lucerne, Luzern, 6006, Switzerland +41 413700011"
+      "arrivalDate": "2026-12-29",
+      "rawText": "2026-12-29 Lucerne 2 Grand Hotel Europe Lucerne Haldenstrasse 59, Lucerne, Luzern, 6006, Switzerland +41 413700011"
     },
     {
       "id": "hotel-10-hotel-occidental-paris-levallois",
@@ -85,8 +85,8 @@
       "name": "Hotel Occidental Paris Levallois",
       "address": "8 Place Georges Pompidou, Levallois-Perret, Ile-de-France, 92300, France",
       "phone": "+33 147588899",
-      "arrivalDate": "2026-10-20",
-      "rawText": "2026-10-20 Paris / Levallois-Perret 2 Hotel Occidental Paris Levallois 8 Place Georges Pompidou, Levallois-Perret, Ile-de-France, 92300, France +33 147588899"
+      "arrivalDate": "2026-12-31",
+      "rawText": "2026-12-31 Paris / Levallois-Perret 2 Hotel Occidental Paris Levallois 8 Place Georges Pompidou, Levallois-Perret, Ile-de-France, 92300, France +33 147588899"
     }
   ]
 }

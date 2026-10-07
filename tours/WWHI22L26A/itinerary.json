@@ -2,11 +2,11 @@
   "days": [
     {
       "number": 1,
-      "date": "2026-10-11",
-      "weekday": "Sunday",
+      "date": "2026-12-22",
+      "weekday": "Tuesday",
       "hotelId": "hotel-01-mercure-hotel-amsterdam-city",
       "technical": {
-        "weekday": "Sunday",
+        "weekday": "Tuesday",
         "routeTitle": "London - Eurostar - Brussels - Amsterdam",
         "routeSegments": [
           "London",
@@ -142,11 +142,11 @@
     },
     {
       "number": 2,
-      "date": "2026-10-12",
-      "weekday": "Monday",
+      "date": "2026-12-23",
+      "weekday": "Wednesday",
       "hotelId": "hotel-02-hotel-sinsheim",
       "technical": {
-        "weekday": "Monday",
+        "weekday": "Wednesday",
         "routeTitle": "Amsterdam - Rhine Cruise - Heidelberg - Rhineland",
         "routeSegments": [
           "Amsterdam",
@@ -249,11 +249,11 @@
     },
     {
       "number": 3,
-      "date": "2026-10-13",
-      "weekday": "Tuesday",
+      "date": "2026-12-24",
+      "weekday": "Thursday",
       "hotelId": "hotel-03-hilton-garden-inn-innsbruck-tivoli",
       "technical": {
-        "weekday": "Tuesday",
+        "weekday": "Thursday",
         "routeTitle": "Rhineland - Innsbruck",
         "routeSegments": [
           "Rhineland",
@@ -340,11 +340,11 @@
     },
     {
       "number": 4,
-      "date": "2026-10-14",
-      "weekday": "Wednesday",
+      "date": "2026-12-25",
+      "weekday": "Friday",
       "hotelId": "hotel-04-novotel-venezia-mestre-castellana-hotel",
       "technical": {
-        "weekday": "Wednesday",
+        "weekday": "Friday",
         "routeTitle": "Innsbruck - Venice",
         "routeSegments": [
           "Innsbruck",
@@ -472,11 +472,11 @@
     },
     {
       "number": 5,
-      "date": "2026-10-15",
-      "weekday": "Thursday",
+      "date": "2026-12-26",
+      "weekday": "Saturday",
       "hotelId": "hotel-05-precise-house-mantegna",
       "technical": {
-        "weekday": "Thursday",
+        "weekday": "Saturday",
         "routeTitle": "Venice - Rome",
         "routeSegments": [
           "Venice",
@@ -584,11 +584,11 @@
     },
     {
       "number": 6,
-      "date": "2026-10-16",
-      "weekday": "Friday",
+      "date": "2026-12-27",
+      "weekday": "Sunday",
       "hotelId": "hotel-05-precise-house-mantegna",
       "technical": {
-        "weekday": "Friday",
+        "weekday": "Sunday",
         "routeTitle": "Rome Sightseeing and Free Time",
         "routeSegments": [
           "Rome"
@@ -688,11 +688,11 @@
     },
     {
       "number": 7,
-      "date": "2026-10-17",
-      "weekday": "Saturday",
+      "date": "2026-12-28",
+      "weekday": "Monday",
       "hotelId": "hotel-07-doubletree-by-hilton-florence-metropole",
       "technical": {
-        "weekday": "Saturday",
+        "weekday": "Monday",
         "routeTitle": "Rome - Florence Sightseeing",
         "routeSegments": [
           "Rome",
@@ -806,11 +806,11 @@
     },
     {
       "number": 8,
-      "date": "2026-10-18",
-      "weekday": "Sunday",
+      "date": "2026-12-29",
+      "weekday": "Tuesday",
       "hotelId": "hotel-08-grand-hotel-europe-lucerne",
       "technical": {
-        "weekday": "Sunday",
+        "weekday": "Tuesday",
         "routeTitle": "Florence - Lucerne",
         "routeSegments": [
           "Florence",
@@ -918,11 +918,11 @@
     },
     {
       "number": 9,
-      "date": "2026-10-19",
-      "weekday": "Monday",
+      "date": "2026-12-30",
+      "weekday": "Wednesday",
       "hotelId": "hotel-08-grand-hotel-europe-lucerne",
       "technical": {
-        "weekday": "Monday",
+        "weekday": "Wednesday",
         "routeTitle": "Lucerne Orientation and Free Time",
         "routeSegments": [
           "Lucerne"
@@ -978,11 +978,11 @@
     },
     {
       "number": 10,
-      "date": "2026-10-20",
-      "weekday": "Tuesday",
+      "date": "2026-12-31",
+      "weekday": "Thursday",
       "hotelId": "hotel-10-hotel-occidental-paris-levallois",
       "technical": {
-        "weekday": "Tuesday",
+        "weekday": "Thursday",
         "routeTitle": "Lucerne - Paris",
         "routeSegments": [
           "Lucerne",
@@ -1082,11 +1082,11 @@
     },
     {
       "number": 11,
-      "date": "2026-10-21",
-      "weekday": "Wednesday",
+      "date": "2027-01-01",
+      "weekday": "Friday",
       "hotelId": "hotel-10-hotel-occidental-paris-levallois",
       "technical": {
-        "weekday": "Wednesday",
+        "weekday": "Friday",
         "routeTitle": "Paris Sightseeing and Free Time",
         "routeSegments": [
           "Paris",
@@ -1166,11 +1166,11 @@
     },
     {
       "number": 12,
-      "date": "2026-10-22",
-      "weekday": "Thursday",
+      "date": "2027-01-02",
+      "weekday": "Saturday",
       "hotelId": "hotel-10-hotel-occidental-paris-levallois",
       "technical": {
-        "weekday": "Thursday",
+        "weekday": "Saturday",
         "routeTitle": "Depart Paris",
         "routeSegments": [
           "Paris"
