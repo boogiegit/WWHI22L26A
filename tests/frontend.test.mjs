@@ -164,7 +164,7 @@ assert.ok(vm.runInContext('loadLocalOnwardTravel().submittedAt',context));
 saveFails=true;mountForm({...flight,name:'Changed synthetic guest'});await vm.runInContext('submitOnwardTravel()',context);
 assert.ok(document.getElementById('onward-status').textContent.includes('not confirmed'));assert.equal(vm.runInContext('loadLocalOnwardTravel().name',context),flight.name);saveFails=false;
 const rail={name:'Synthetic Rail Guest',plan:'eurostar',eurostarDate:'2026-10-22',eurostarTime:'09:00',londonFlying:'yes',londonAirport:'Heathrow',londonFlightDate:'2026-10-23',londonFlightTime:'13:00',londonTerminal:'5',londonAirline:'Example Air',londonFlightNumber:'EX456'};
-mountForm({...rail,londonFlightNumber:''});start=calls.length;await vm.runInContext('submitOnwardTravel()',context);assert.equal(writesAfter(start).length,0);
+mountForm({...rail,londonFlightNumber:''});start=calls.length;await vm.runInContext('submitOnwardTravel()',context);assert.equal(writesAfter(start).length,1);
 mountForm(rail);start=calls.length;await vm.runInContext('submitOnwardTravel()',context);assert.equal(JSON.parse(writesAfter(start)[0].value).londonFlightNumber,'EX456');
 mountForm({...rail,londonFlying:'no'});start=calls.length;await vm.runInContext('submitOnwardTravel()',context);assert.ok(!('londonAirport' in JSON.parse(writesAfter(start)[0].value)));
 mountForm({...flight,plan:'staying'});start=calls.length;await vm.runInContext('submitOnwardTravel()',context);const stay=JSON.parse(writesAfter(start)[0].value);assert.ok(!('airport' in stay));assert.equal(stay.sharedKey,first.sharedKey);
@@ -228,3 +228,109 @@ vm.runInContext(`const repeated={number:3,schedule:[{time:'09:45',title:'Depart'
 vm.runInContext(`const oldDeparture={number:2,schedule:[{time:'14:20',title:'Depart St. Goar'}]};applyOctoberScheduleUpdates(oldDeparture,'20261002-details');if(oldDeparture.schedule[0].title!=='Depart Boppard')throw Error('Saved departure migration'); oldDeparture.schedule[0].title='Depart St. Goar';applyOctoberScheduleUpdates(oldDeparture,'20261006-fixes');if(oldDeparture.schedule[0].title!=='Depart St. Goar')throw Error('Later admin edit must survive');`,context);
 
 vm.runInContext(`localStorage.setItem('tour:EWHI11J26A:keep','original'); localStorage.setItem('tour:WWHI22L26A:clear','new'); clearPrivateBrowserState(); if(localStorage.getItem('tour:EWHI11J26A:keep')!=='original' || localStorage.getItem('tour:WWHI22L26A:clear')!==null)throw Error('Independent tour storage');`,context);
+
+// An unfinished form survives redraws and reloads without becoming a submission.
+vm.runInContext("clearOnwardTravelDraft(); sessionStorage.removeItem(storageKey('onward-travel-mine')); ADMIN_MODE=false; activeTab='today'; onwardTravelOpen=true; renderApp()",context);
+document.getElementById('onward-name').value='Unfinished synthetic couple';
+document.getElementById('onward-airport').value='';
+document.getElementById('onward-flight-number').value='EX999';
+vm.runInContext('captureOnwardTravelDraft(); renderApp()',context);
+assert.equal(document.getElementById('onward-name').value,'Unfinished synthetic couple');
+assert.equal(document.getElementById('onward-airport').value,'');
+assert.equal(document.getElementById('onward-flight-number').value,'EX999');
+assert.equal(vm.runInContext('loadLocalOnwardTravel()',context),null);
+vm.runInContext('onwardDraft=null; renderApp()',context);
+assert.equal(document.getElementById('onward-name').value,'Unfinished synthetic couple','Draft restored from session storage');
+let tick;
+context.setInterval=(callback,ms)=>{if(ms===60000)tick=callback;return 1;};
+vm.runInContext('todayTickerStarted=false; startTodayTicker()',context);
+const editingInput=document.getElementById('onward-name');
+tick();
+assert.equal(document.getElementById('onward-name'),editingInput,'Minute refresh leaves active form and focus intact');
+mountForm(flight);await vm.runInContext('submitOnwardTravel()',context);
+assert.equal(vm.runInContext('onwardDraft',context),null,'Successful submission clears draft');
+assert.ok(vm.runInContext('loadOnwardTravelDraft().submittedAt',context));
+console.log('PASS: unfinished onward draft survives redraw/reload; timer preserves form; successful submission clears draft.');
+
+vm.runInContext("sessionStorage.setItem(storageKey('onward-travel-draft'),JSON.stringify({name:'Reload synthetic'})); sessionStorage.setItem(storageKey('private-test'),'secret'); localStorage.setItem(storageKey('private-test'),'secret'); onwardDraft=null",context);
+serverRole=null;
+await vm.runInContext('initializeSession()',context);
+assert.equal(vm.runInContext('loadOnwardTravelDraft().name',context),'Reload synthetic','Guest startup retains own tab draft');
+assert.equal(vm.runInContext("sessionStorage.getItem(storageKey('private-test'))",context),null);
+assert.equal(vm.runInContext("localStorage.getItem(storageKey('private-test'))",context),null);
+vm.runInContext('clearPrivateBrowserState()',context);
+assert.equal(vm.runInContext('loadOnwardTravelDraft()',context),null,'Explicit sign-out still clears form data');
+console.log('PASS: normal guest startup preserves own form only; explicit sign-out clears it.');
+
+for(const plan of ['flying','eurostar']) {
+ mountForm({name:'Synthetic incomplete guest',plan});
+ for(const input of document.querySelectorAll('.onward-input')) if(input.id!=='onward-name')input.value='';
+ const before=calls.length;
+ await vm.runInContext('submitOnwardTravel()',context);
+ assert.equal(writesAfter(before).length,1,'Partial '+plan+' form submits');
+ assert.ok(document.getElementById('onward-status').textContent.includes('Thank you'));
+}
+console.log('PASS: incomplete Paris and London flight details submit successfully.');
+
+assert.equal(vm.runInContext('buildWeatherDestinations().join(",")',context),'Amsterdam,Boppard,Heidelberg,Munich,Innsbruck,Venice,Rome,Florence,Lucerne,Paris');
+assert.ok(vm.runInContext('buildWeatherDestinations().every(city=>TOOL_CITY_COORDS[city]?.length===2)',context));
+assert.equal(vm.runInContext('TOOL_TRANSLATE_LANGS.map(lang=>lang.code).join(",")',context),'en,fr,de,it,es,ja');
+for(const file of ['app.html','js/maps/map-panel.js']) {
+ const source=fs.readFileSync(path.join(root,file),'utf8');
+ assert.ok(!source.includes('cartocdn.com'));
+ assert.ok(source.includes('https://tile.openstreetmap.org/{z}/{x}/{y}.png'));
+ assert.ok(source.includes('referrerPolicy: "strict-origin"'));
+}
+console.log('PASS: exact tour weather order, six translation languages and key-free map backgrounds.');
+
+// Nearby works without credentials, sorts by distance, and links exact coordinates.
+const normalFetch=context.fetch;
+context.navigator.geolocation={getCurrentPosition(resolve){resolve({coords:{latitude:52.37,longitude:4.90}});}};
+context.fetch=async (url,options)=>{
+ assert.equal(url,'https://overpass.private.coffee/api/interpreter');
+ assert.ok(options.body.get('data').includes('around:5000,52.37000,4.90000'));
+ return {ok:true,json:async()=>({elements:[
+  {type:'node',id:1,lat:52.39,lon:4.9,tags:{name:'Further place'}},
+  {type:'node',id:2,lat:52.3701,lon:4.9,tags:{name:'Closest place','addr:street':'Test Street','addr:housenumber':'5','addr:city':'Amsterdam'}},
+  {type:'way',id:3,center:{lat:52.3702,lon:4.9},tags:{name:'Private place',access:'private'}}
+ ]})};
+};
+vm.runInContext("APP_ROOT.innerHTML='<div id=ess-results></div><div id=ess-map-wrap></div>'",context);
+for(const category of ['ATM','pharmacy','supermarket','public toilet','cafe','laundromat','taxi stand','Hospital']) {
+ context.nearbyCategory=category;
+ await vm.runInContext("searchEssentials(nearbyCategory,'','red',nearbyCategory)",context);
+ const body=document.getElementById('ess-results');
+ assert.ok(body.textContent.indexOf('Closest place')<body.textContent.indexOf('Further place'));
+ assert.ok(body.textContent.includes('5 Test Street, Amsterdam'));
+ assert.ok(!body.textContent.includes('Private place'));
+ assert.ok(body.querySelector('a[href*="/maps/dir/"]').getAttribute('href').includes('52.3701%2C4.9'));
+}
+context.fetch=async()=>{throw Error('Synthetic outage');};
+await vm.runInContext("searchEssentials('ATM','','red')",context);
+assert.ok(document.getElementById('ess-results').textContent.includes('Find in Google Maps'));
+context.navigator.geolocation={getCurrentPosition(_resolve,reject){reject({code:1});}};
+await vm.runInContext("searchEssentials('ATM','','red')",context);
+assert.ok(document.getElementById('ess-results').textContent.includes('Allow location access'));
+context.fetch=normalFetch;
+console.log('PASS: all eight Nearby categories, location-based ordering, addresses, exact directions, permission denial and service-outage fallback.');
+
+// A minute tick updates clocks without replacing the screen or the reader's content.
+vm.runInContext("ADMIN_MODE=false; activeTab='today'; onwardTravelOpen=false; onwardSaving=false; renderApp()",context);
+const readingScreen=document.getElementById('scr-today');
+const readingTimeline=document.getElementById('today-timeline');
+readingScreen.scrollTop=950;
+readingScreen.getBoundingClientRect=()=>({top:0});
+const clockBanner=document.getElementById('today-next-up');
+clockBanner.getBoundingClientRect=()=>({bottom:100});
+// Layout-specific marker drawing has separate browser coverage.
+const originalMarker=context.renderTodayTimelineNowLine;
+context.renderTodayTimelineNowLine=()=>{};
+tick();
+assert.equal(document.getElementById('scr-today'),readingScreen);
+assert.equal(document.getElementById('today-timeline'),readingTimeline);
+assert.equal(readingScreen.scrollTop,950);
+vm.runInContext('renderApp({preserveScroll:true})',context);
+assert.equal(document.getElementById('scr-today').scrollTop,950,'Background content refresh preserves scroll');
+context.renderTodayTimelineNowLine=originalMarker;
+
+console.log("PASS: imported shared features preserve form drafts, nearby searches, translations and Today scroll.");

@@ -60,6 +60,20 @@ console.log('PASS: couples remain together and count as two in all tallies.');
 const repeated = [...couples, {...couples[0], name:'  SYNTHETIC Alex and Sam Example ', sharedKey:'other-session', submittedAt:'later'}, {...couples[1]}, {...couples[2]}];
 assert.equal(OnwardExport.travellers(repeated).length,3);
 assert.deepEqual(OnwardExport.tallies(repeated).map(t=>t.count),[2,0,2,2]);
-assert.equal(OnwardExport.uniqueRecords([base,{...base,flightTime:'12:00'},{...base,name:'Different guest'}]).length,3);
-assert.equal(OnwardExport.uniqueRecords([base,{...base,partySize:2}]).length,2);
-console.log('PASS: repeated submissions count once; distinct guests, journeys and party sizes are retained.');
+assert.equal(OnwardExport.uniqueRecords([base,{...base,flightTime:'12:00'},{...base,name:'Different guest'}]).length,2);
+assert.equal(OnwardExport.uniqueRecords([base,{...base,partySize:2}]).length,1);
+console.log('PASS: repeated submissions count once; distinct guest names are retained.');
+
+const revisions = [
+ {...base,name:'Alex Example and Sam Sample',partySize:2,submittedAt:'2026-10-01T12:00:00Z'},
+ {...base,name:'Sam Sample & Alex Example',partySize:2,flightTime:'09:00',transferType:'private',submittedAt:'2026-10-03T12:00:00Z'},
+ {...base,name:'ALEX EXAMPLE, SAM SAMPLE',partySize:2,plan:'staying',submittedAt:'2026-10-04T12:00:00Z'}
+];
+assert.equal(OnwardExport.uniqueRecords(revisions).length,1);
+assert.equal(OnwardExport.uniqueRecords(revisions)[0].plan,'staying');
+assert.deepEqual(OnwardExport.tallies(revisions).map(t=>t.count),[0,0,0,2]);
+assert.equal(OnwardExport.uniqueRecords(revisions.slice().reverse())[0].plan,'staying');
+assert.equal(OnwardExport.uniqueRecords([{...base,name:'Alex Sample'},{...base,name:'Sam Sample'}]).length,2,'Shared flight and surname do not establish identity');
+assert.equal(OnwardExport.uniqueRecords([{...base,name:'Christine Lee'},{...base,name:'Christine West Kelly Lee'}]).length,2,'Ambiguous partial names need review');
+assert.equal(OnwardExport.uniqueRecords([{...base,name:'Mathew Sample'},{...base,name:'Matthew Sample'}]).length,2,'Spelling differences need review');
+console.log('PASS: identity matching ignores separators/order; latest whole submission drives rows and totals; ambiguous names stay separate.');

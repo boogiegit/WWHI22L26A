@@ -4,7 +4,7 @@ require __DIR__ . '/server/bootstrap.php';
 require __DIR__ . '/server/onward.php';
 require __DIR__ . '/server/resource-preview.php';
 
-$getActions = ['session', 'get', 'list', 'analyticsSummary', 'privateFile'];
+$getActions = ['session', 'get', 'list', 'analyticsSummary', 'privateFile', 'onwardSummary'];
 $postActions = ['login', 'logout', 'lockAdmin', 'set', 'delete', 'uploadPhoto', 'trackAnalytics', 'photoFeedback', 'resourcePreview'];
 if (!in_array($action, $method === 'GET' ? $getActions : $postActions, true)) {
     respond(['error' => 'Unknown action or method.'], 405);
@@ -149,26 +149,20 @@ if ($action === 'trackAnalytics') {
     $db->prepare('DELETE FROM analytics_counts WHERE day < ?')->execute([gmdate('Y-m-d', time() - 90 * 86400)]);
     respond(['ok' => true]);
 }
+if ($action === 'onwardSummary') {
+    requireAdmin();
+    respond(onwardSummary());
+}
 if ($action === 'analyticsSummary') {
     requireAdmin();
     $rows = $db->query('SELECT event AS label, SUM(count) AS count FROM analytics_counts GROUP BY event ORDER BY count DESC')->fetchAll(PDO::FETCH_ASSOC);
-    // Count saved forms, not submission clicks: updates replace the same record.
-    // Only aggregate numbers leave this endpoint; guest details stay in protected storage.
+    // The spreadsheet and dashboard use the same reconciled parties.
     $onwardPeople = 0;
     $onward = ['total' => 0, 'flying' => 0, 'eurostar' => 0, 'staying' => 0];
-    $forms = $db->prepare('SELECT value FROM storage WHERE substr(key,1,?)=?');
-    foreach (array_unique($config['storage_slugs'] ?? []) as $slug) {
-        $prefix = 'tour:' . $slug . ':shared:tool:onward:';
-        $forms->execute([strlen($prefix), $prefix]);
-        foreach ($forms as $form) {
-            $record = json_decode($form['value'], true);
-            if (!is_array($record) || !is_string($record['name'] ?? null) || trim($record['name']) === '') continue;
-            $plan = $record['plan'] ?? null;
-            if (!in_array($plan, ['flying', 'eurostar', 'staying'], true)) continue;
-            $onward[$plan]++;
-            $onward['total']++;
-            $onwardPeople += ($record['partySize'] ?? 1) === 2 ? 2 : 1;
-        }
+    foreach (onwardSummary()['records'] as $record) {
+        $onward[$record['plan']]++;
+        $onward['total']++;
+        $onwardPeople += ($record['partySize'] ?? 1) === 2 ? 2 : 1;
     }
     $breakdown = $db->query('SELECT label, SUM(count) AS count FROM analytics_breakdown GROUP BY label ORDER BY count DESC')->fetchAll(PDO::FETCH_ASSOC);
     respond(['enabled' => !empty($config['analytics_enabled']), 'events' => $rows, 'onward' => $onward, 'onwardPeople' => $onwardPeople, 'breakdown' => $breakdown]);

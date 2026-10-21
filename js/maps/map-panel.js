@@ -71,8 +71,8 @@ async function loadRouteMapTool() {
   }
   if (!toolRouteMap) {
     toolRouteMap = L.map(mapEl, { zoomControl: true }).setView(segments[0].coords[0], 5);
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-      attribution: "&copy; OpenStreetMap &copy; CARTO",
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', referrerPolicy: "strict-origin",
       maxZoom: 19
     }).addTo(toolRouteMap);
     toolRouteMapLayer = L.layerGroup().addTo(toolRouteMap);

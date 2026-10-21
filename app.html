@@ -19,37 +19,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <title>Xmas Whirl 2026</title>
-<link rel="stylesheet" href="./css/app.css?v=20261006-maps">
+<link rel="stylesheet" href="./css/app.css?v=20261021-parity">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 <div id="app">
   <div class="loading">Loading tour app...</div>
 </div>
-<script src="./js/core/utils.js?v=20261006-maps"></script>
-<script src="./js/core/tour-updates.js?v=20261006-maps"></script>
-<script src="./js/core/itinerary-helpers.js?v=20261006-maps"></script>
-<script src="./js/core/resource-helpers.js?v=20261006-maps"></script>
-<script src="./js/core/tour-config-helpers.js?v=20261006-maps"></script>
-<script src="./js/core/today-state.js?v=20261006-maps"></script>
-<script src="./js/services/auth.js?v=20261006-maps"></script>
-<script src="./js/services/storage.js?v=20261006-maps"></script>
-<script src="./js/services/admin-content-storage.js?v=20261006-maps"></script>
-<script src="./js/services/admin-content-overrides.js?v=20261006-maps"></script>
-<script src="./js/viewer/document-viewer.js?v=20261006-maps"></script>
-<script src="./js/maps/map-panel.js?v=20261006-maps"></script>
-<script src="./js/navigation/navigation.js?v=20261006-maps"></script>
-<script src="./js/rendering/contacts-renderer.js?v=20261006-maps"></script>
-<script src="./js/rendering/travel-director-renderer.js?v=20261006-maps"></script>
-<script src="./js/services/analytics.js?v=20261006-maps"></script>
-<script src="./js/services/onward-export.js?v=20261006-maps"></script>
-<script src="./js/core/journey-recaps.js?v=20261006-maps"></script>
-<script src="./js/rendering/experiences-renderer.js?v=20261006-maps"></script>
-<script src="./js/rendering/tools-renderer.js?v=20261006-maps"></script>
-<script src="./js/rendering/rewards-renderer.js?v=20261006-maps"></script>
-<script src="./js/rendering/travel-impact-renderer.js?v=20261006-maps"></script>
-<script src="./js/rendering/today-components.js?v=20261006-maps"></script>
-<script src="./js/rendering/itinerary-components.js?v=20261006-maps"></script>
+<script src="./js/core/utils.js?v=20261021-parity"></script>
+<script src="./js/core/tour-updates.js?v=20261021-parity"></script>
+<script src="./js/core/itinerary-helpers.js?v=20261021-parity"></script>
+<script src="./js/core/resource-helpers.js?v=20261021-parity"></script>
+<script src="./js/core/tour-config-helpers.js?v=20261021-parity"></script>
+<script src="./js/core/today-state.js?v=20261021-parity"></script>
+<script src="./js/services/auth.js?v=20261021-parity"></script>
+<script src="./js/services/storage.js?v=20261021-parity"></script>
+<script src="./js/services/admin-content-storage.js?v=20261021-parity"></script>
+<script src="./js/services/admin-content-overrides.js?v=20261021-parity"></script>
+<script src="./js/viewer/document-viewer.js?v=20261021-parity"></script>
+<script src="./js/maps/map-panel.js?v=20261021-parity"></script>
+<script src="./js/navigation/navigation.js?v=20261021-parity"></script>
+<script src="./js/rendering/contacts-renderer.js?v=20261021-parity"></script>
+<script src="./js/rendering/travel-director-renderer.js?v=20261021-parity"></script>
+<script src="./js/services/analytics.js?v=20261021-parity"></script>
+<script src="./js/services/onward-export.js?v=20261021-parity"></script>
+<script src="./js/core/journey-recaps.js?v=20261021-parity"></script>
+<script src="./js/rendering/experiences-renderer.js?v=20261021-parity"></script>
+<script src="./js/rendering/tools-renderer.js?v=20261021-parity"></script>
+<script src="./js/rendering/rewards-renderer.js?v=20261021-parity"></script>
+<script src="./js/rendering/travel-impact-renderer.js?v=20261021-parity"></script>
+<script src="./js/rendering/today-components.js?v=20261021-parity"></script>
+<script src="./js/rendering/itinerary-components.js?v=20261021-parity"></script>
 <script>
 const URL_PARAMS = new URLSearchParams(location.search);
 const DEFAULT_TOUR_CODE = "WWHI22L26A";
@@ -2070,8 +2070,8 @@ function initializeInformationMap() {
   }
   if (!informationMapInstance) {
     informationMapInstance = L.map(mapEl, { zoomControl: true, scrollWheelZoom: true }).setView(config.center, config.zoom || 15);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "&copy; OpenStreetMap contributors",
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', referrerPolicy: "strict-origin",
       maxZoom: 19
     }).addTo(informationMapInstance);
     informationMapLayer = L.layerGroup().addTo(informationMapInstance);
@@ -2158,7 +2158,7 @@ async function refreshLiveGuestContent() {
     const after = liveRefreshSignature();
     if (after !== before) {
       applyAdminContentOverrides();
-      if (activeTab === "today" || activeTab === "programme") renderApp();
+      if ((activeTab === "today" || activeTab === "programme") && !onwardTravelOpen) renderApp({ preserveScroll: true });
     }
   } catch (error) {
   } finally {
@@ -3375,7 +3375,7 @@ function renderTodayImportantActions(day) {
   const resources = dayResourceButtons(day);
   if (!actions.length && !resources && !onwardTravelOpen) return "";
   return `
-    ${onwardTravelOpen ? renderOnwardTravelForm(loadLocalOnwardTravel()) : ""}
+    ${onwardTravelOpen ? renderOnwardTravelForm(loadOnwardTravelDraft()) : ""}
     <section class="today-actions-card">
       <div class="today-actions-head">
         <div class="today-actions-kicker">Important Today</div>
@@ -3741,6 +3741,25 @@ function loadLocalOnwardTravel() {
 function saveLocalOnwardTravel(payload) {
   try { sessionStorage.setItem(storageKey("onward-travel-mine"), JSON.stringify(payload)); } catch {}
 }
+// Drafts are private to this browser tab and never count as submitted details.
+let onwardDraft = null;
+function loadOnwardTravelDraft() {
+  try { onwardDraft = JSON.parse(sessionStorage.getItem(storageKey("onward-travel-draft")) || "null") || onwardDraft; } catch {}
+  return onwardDraft ? {...loadLocalOnwardTravel(), ...onwardDraft, submittedAt: null} : loadLocalOnwardTravel();
+}
+function captureOnwardTravelDraft() {
+  if (!document.getElementById('onward-name')) return;
+  const draft = {plan: document.querySelector("input[name='onward-plan']:checked")?.value || 'flying', partySize: Number(onwardInputValue('onward-people'))};
+  for (const [field, id] of Object.entries({name:'name',airport:'airport',flightDate:'flight-date',flightTime:'flight-time',terminal:'terminal',airline:'airline',flightNumber:'flight-number',transferType:'transfer',londonFlightDate:'london-flight-date',londonFlightTime:'london-flight-time',londonTerminal:'london-terminal',londonFlightNumber:'london-flight-number'})) {
+    draft[field] = document.getElementById('onward-'+id)?.value || '';
+  }
+  onwardDraft = draft;
+  try { sessionStorage.setItem(storageKey('onward-travel-draft'), JSON.stringify(draft)); } catch {}
+}
+function clearOnwardTravelDraft() {
+  onwardDraft = null;
+  try { sessionStorage.removeItem(storageKey('onward-travel-draft')); } catch {}
+}
 function setOnwardTravelOpen(open) {
   onwardTravelOpen = !!open;
   if (!open) showOnwardOpeningPrompt=false;
@@ -3751,7 +3770,7 @@ function onwardField(label, html) {
   return `<label class="onward-field"><div class="onward-label">${escapeHtml(label)}</div>${html}</label>`;
 }
 function renderOnwardTravelPrompt() {
-  return onwardTravelOpen ? renderOnwardTravelForm(loadLocalOnwardTravel()) : renderOnwardTravelActionItem();
+  return onwardTravelOpen ? renderOnwardTravelForm(loadOnwardTravelDraft()) : renderOnwardTravelActionItem();
 }
 function renderOnwardChoice(value, current, title, copy) {
   return `<label class="onward-choice ${current === value ? 'active' : ''}" data-onward-choice>
@@ -3761,9 +3780,9 @@ function renderOnwardChoice(value, current, title, copy) {
 function renderOnwardTravelForm(saved = null) {
   const data = saved || {}, plan = ['flying','staying','eurostar'].includes(data.plan) ? data.plan : 'flying';
   const field = (label,id,value='',type='text',placeholder='') => onwardField(label,`<input class="onward-input" id="onward-${id}" type="${type}" value="${escapeHtml(value)}" placeholder="${escapeHtml(placeholder)}" maxlength="200">`);
-  return `<section class="onward-form-card">
+  return `<section class="onward-form-card" oninput="captureOnwardTravelDraft()" onchange="captureOnwardTravelDraft()">
     <div class="onward-kicker">Guest Details</div><div class="onward-title">What are you doing at the end of the trip?</div>
-    <div class="onward-copy">Please complete your onward travel details.</div><div class="onward-form-grid">
+    <div class="onward-copy">Enter your name and any travel details you know. Leave unknown details blank; you can update them later.</div><div class="onward-form-grid">
       ${field('Full name or names (both names if travelling as a couple)','name',data.name)}
       ${onwardField('Number of people on this form',`<select class="onward-select" id="onward-people"><option value="1" ${data.partySize !== 2 ? 'selected' : ''}>1 person</option><option value="2" ${data.partySize === 2 ? 'selected' : ''}>2 people — travelling as a couple</option></select>`)}
       <div class="onward-choice-grid">
@@ -3772,12 +3791,12 @@ function renderOnwardTravelForm(saved = null) {
         ${renderOnwardChoice('eurostar',plan,'Trafalgar Eurostar extension','Add your onward flight details from London below.')}
       </div>
       <div class="onward-fields ${plan === 'flying' ? 'active' : ''}" data-onward-fields="flying">
-        <div class="onward-note">One complimentary transfer is available for flights departing after 10:30. Choose it only if you want it. Earlier flights need private or own arrangements. Enter your flight departure time, not a pickup time; an unconfirmed terminal can be “Not known”.</div>
+        <div class="onward-note">One complimentary transfer is available for flights departing after 10:30. Choose it only if you want it. Earlier flights need private or own arrangements. Enter your flight departure time, not a pickup time; leave any unknown details blank.</div>
         <div class="onward-fields-grid">
-          ${field('Airport','airport',data.airport || 'Paris Charles de Gaulle (CDG)')}
-          ${field('Date of flight','flight-date',data.flightDate || onwardTravelDefaultDate(),'date')}
+          ${field('Airport','airport',data.airport ?? 'Paris Charles de Gaulle (CDG)')}
+          ${field('Date of flight','flight-date',data.flightDate ?? onwardTravelDefaultDate(),'date')}
           ${field('Time of flight','flight-time',data.flightTime,'time')}
-          ${field('Terminal','terminal',data.terminal,'text','Terminal or Not known')}
+          ${field('Terminal','terminal',data.terminal,'text','Leave blank if unknown')}
           ${field('Airline','airline',data.airline)}
           ${field('Flight number','flight-number',data.flightNumber)}
           ${onwardField('Airport transfer',`<select class="onward-select" id="onward-transfer"><option value="">Please choose</option><option value="complimentary" ${data.transferType === 'complimentary' ? 'selected' : ''}>Complimentary tour transfer</option><option value="private" ${data.transferType === 'private' ? 'selected' : ''}>PT / private transfer</option><option value="own" ${data.transferType === 'own' ? 'selected' : ''}>Own arrangements</option></select>`)}
@@ -3786,7 +3805,7 @@ function renderOnwardTravelForm(saved = null) {
       <div class="onward-fields ${plan === 'eurostar' ? 'active' : ''}" data-onward-fields="eurostar"><div class="onward-fields-grid">
         ${field('London flight date','london-flight-date',data.londonFlightDate,'date')}
         ${field('London flight time','london-flight-time',data.londonFlightTime,'time')}
-        ${field('London terminal','london-terminal',data.londonTerminal,'text','Terminal or Not known')}
+        ${field('London terminal','london-terminal',data.londonTerminal,'text','Leave blank if unknown')}
         ${field('London flight number','london-flight-number',data.londonFlightNumber)}
       </div></div>
       <div class="button-row"><button class="button secondary" type="button" onclick="setOnwardTravelOpen(false)">Back</button><button id="onward-submit" class="button primary" type="button" onclick="submitOnwardTravel()">Submit details</button></div>
@@ -3802,6 +3821,7 @@ function onwardInputValue(id) { return (document.getElementById(id)?.value || ''
 let onwardSaving = false;
 async function submitOnwardTravel() {
   if (onwardSaving) return;
+  captureOnwardTravelDraft();
   const status = document.getElementById('onward-status'), button = document.getElementById('onward-submit');
   const fail = message => { if (status) status.textContent = message; };
   if (!USE_REMOTE_STORAGE || !authState.csrfToken) return fail('The submission service is unavailable. Please try again later.');
@@ -3814,15 +3834,15 @@ async function submitOnwardTravel() {
   if (plan === 'flying') {
     for (const [field,id] of Object.entries({airport:'airport',flightDate:'flight-date',flightTime:'flight-time',terminal:'terminal',airline:'airline',flightNumber:'flight-number',transferType:'transfer'})) {
       const input=document.getElementById('onward-'+id);
-      if (!input?.value?.trim() || (input.checkValidity && !input.checkValidity())) return fail('Please complete all flight fields and choose your transfer arrangements.');
-      payload[field]=input.value.trim();
+      if (input?.value && input.checkValidity && !input.checkValidity()) return fail('Please check the flight date or time you entered, or leave it blank if unknown.');
+      payload[field]=input?.value?.trim() || '';
     }
   }
-  if (plan === 'flying' && payload.transferType === 'complimentary' && payload.flightTime <= '10:30') return fail('The complimentary transfer is for flights after 10:30. Please choose PT/private transfer or own arrangements.');
+  if (plan === 'flying' && payload.transferType === 'complimentary' && payload.flightTime && payload.flightTime <= '10:30') return fail('The complimentary transfer is for flights after 10:30. Please choose PT/private transfer or own arrangements.');
   if (plan === 'eurostar') {
     payload.londonFlying = 'yes';
     for (const [field,id] of Object.entries({londonFlightDate:'london-flight-date',londonFlightTime:'london-flight-time',londonTerminal:'london-terminal',londonFlightNumber:'london-flight-number'})) {
-      payload[field]=onwardInputValue('onward-'+id);if(!payload[field])return fail('Please complete your London flight date, time, flight number and terminal.');
+      payload[field]=onwardInputValue('onward-'+id);
     }
   }
   // Keep an existing submission key for a retry, without falsely marking the form submitted.
@@ -3831,21 +3851,21 @@ async function submitOnwardTravel() {
   try {
     ensureToolStorage();
     await window.storage.set(payload.sharedKey,JSON.stringify(payload),true);
-    payload.submittedAt=new Date().toISOString();saveLocalOnwardTravel(payload);onwardSheetRows=null;remoteAnalyticsCache=null;showOnwardOpeningPrompt=false;
+    payload.submittedAt=new Date().toISOString();saveLocalOnwardTravel(payload);clearOnwardTravelDraft();onwardSheetRows=null;remoteAnalyticsCache=null;showOnwardOpeningPrompt=false;
     trackAnalytics('onward:submitted');fail('Thank you. Your onward travel details have been submitted.');
-  } catch { trackAnalytics('onward:failed'); fail('Your details were not confirmed saved. Please retry while signed in.'); }
+  } catch { trackAnalytics('onward:failed'); fail('Your details were not confirmed saved. Please check your connection and retry.'); }
   finally { onwardSaving=false;if(button)button.disabled=false; }
 }
+let onwardSubmissionCount = 0;
 async function loadOnwardTravelSheet(force = false) {
   if (!ADMIN_MODE || onwardSheetLoading || (onwardSheetRows && !force)) return;
   ensureToolStorage();onwardSheetLoading=true;
   try {
-    const rows=[];
-    for(const key of await window.storage.list('onward:',true)) {
-      const raw=await window.storage.get(key,true);
-      if(raw) { const item=JSON.parse(raw);if(item?.name)rows.push(item); }
-    }
-    onwardSheetRows=rows;renderOnwardTravelSheetBody();
+    const summary = await authRequest('onwardSummary');
+    if (!Array.isArray(summary.records)) throw new Error('Invalid onward summary');
+    onwardSheetRows=summary.records;
+    onwardSubmissionCount=summary.submissionCount;
+    renderOnwardTravelSheetBody();
   } catch { const body=document.getElementById('onward-sheet-body');if(body)body.textContent='Unable to load submissions. Please retry.'; }
   finally { onwardSheetLoading=false; }
 }
@@ -3854,7 +3874,7 @@ function renderOnwardTravelSheetBody() {
   const rows=OnwardExport.travellers(onwardSheetRows || []);
   const eurostar=OnwardExport.eurostar(onwardSheetRows || []);
   const staying=rows.filter(row=>row.plan==='staying').length;
-  const duplicates=(onwardSheetRows || []).length - rows.length;
+  const duplicates=Math.max(0,onwardSubmissionCount - rows.length);
   body.innerHTML=`<p>${rows.length - eurostar.length - staying} Paris flight submissions. ${eurostar.length} Eurostar submissions (included on the same sheet). ${staying} staying-in-Paris submissions (names included below). ${duplicates ? `${duplicates} duplicate submission${duplicates===1?'':'s'} excluded.` : ''}</p>
     <div class="button-row"><button class="button primary" onclick="downloadOnwardTravelXls()">Download Excel Sheet</button><button class="button secondary" onclick="loadOnwardTravelSheet(true)">Refresh</button></div>
     <div class="onward-sheet-table-wrap"><table class="onward-sheet-table"><thead><tr>${OnwardExport.headers.map(h=>`<th>${escapeHtml(h)}</th>`).join('')}</tr></thead>
@@ -3863,7 +3883,7 @@ function renderOnwardTravelSheetBody() {
 }
 function renderOnwardTravelAdminPanel() {
   return `<div class="tool-stack"><div class="tool-card"><div class="tool-body"><div class="brief-hdr">Guest flight details</div>
-    <p>One complimentary transfer, chosen by guests flying after 10:30. PT/private transfers and own arrangements are separate groups. Paris flights and Eurostar travellers share one Excel sheet. Eurostar rows show their London flight details in a distinct italic font, or No flight. The bottom tally includes complimentary transfers, private transfers, Eurostar and staying in Paris. Staying guests are listed at the bottom in peach. Matching duplicate submissions are counted once. Excel fits the entire sheet onto one A4 portrait page. Longer lists print in smaller text. City, airport and airline columns are omitted. Confirm pickup times, dates and airports separately.</p>
+    <p>One complimentary transfer, chosen by guests flying after 10:30. PT/private transfers and own arrangements are separate groups. Paris flights and Eurostar travellers share one Excel sheet. Eurostar rows show their London flight details in a distinct italic font, or No flight. The bottom tally includes complimentary transfers, private transfers, Eurostar and staying in Paris. Staying guests are listed at the bottom in peach. Each person or couple is counted once. Reviewed name variations are combined, and the latest submission is used unless the Travel Director has confirmed a correction. Excel fits the entire sheet onto one A4 portrait page. Longer lists print in smaller text. City, airport and airline columns are omitted. Confirm pickup times, dates and airports separately.</p>
     </div></div><div id="onward-sheet-body">Loading onward travel details…</div></div>`;
 }
 function downloadOnwardTravelXls() {
@@ -3937,10 +3957,10 @@ function renderAdminUnlockModal() {
       <div class="admin-unlock-card">
         <div>
           <div class="quick-admin-kicker">Private admin</div>
-          <div class="quick-admin-title">Admin password</div>
+          <div class="quick-admin-title"><span class="material-symbols-outlined" aria-hidden="true">lock</span> Enter PIN</div>
         </div>
-        <div class="mobile-admin-hint">Enter your admin password to edit Today times, titles and notes.</div>
-        <input class="text-input" data-admin-pin type="password" autocomplete="current-password" aria-label="Admin password" placeholder="Admin password" onkeydown="if(event.key === 'Enter') unlockAdminWithPin()">
+        <div class="mobile-admin-hint">Enter your four-digit admin PIN to edit Today times, titles and notes.</div>
+        <input class="text-input" data-admin-pin type="password" autocomplete="current-password" aria-label="Admin PIN" placeholder="PIN" inputmode="numeric" onkeydown="if(event.key === 'Enter') unlockAdminWithPin()">
         ${quickAdminStatus ? `<div class="quick-admin-status">${escapeHtml(quickAdminStatus)}</div>` : ""}
         <div class="admin-unlock-actions">
           <button class="tools-admin-btn secondary" type="button" onclick="adminUnlockOpen=false;quickAdminStatus='';renderApp()">Cancel</button>
@@ -4017,7 +4037,7 @@ function renderToday() {
       <div class="today-title">${escapeHtml(displayDayTitle(day))}</div>
       <div class="today-highlights">${escapeHtml(todayHeroHighlights(day.number))}</div>
     </div>
-    ${nextUpBannerMarkup(day, nextState)}
+    <div id="today-next-up">${nextUpBannerMarkup(day, nextState)}</div>
     ${renderDepartureCountdown(day)}
     ${renderTodayImportantActions(day)}
     ${todayBriefMarkup(day, note)}
@@ -4291,7 +4311,9 @@ const TOOL_TRANSLATE_LANGS = [
   { code: "en", label: "English" },
   { code: "fr", label: "French" },
   { code: "de", label: "German" },
-  { code: "it", label: "Italian" }
+  { code: "it", label: "Italian" },
+  { code: "es", label: "Spanish" },
+  { code: "ja", label: "Japanese" }
 ];
 const TOOL_RATE_CURRENCIES = [
   { code: "GBP", label: "British Pound", symbol: "GBP" },
@@ -4635,7 +4657,7 @@ function renderEssentialsPanel(current, hotel) {
   const location = currentCity(current) || (hotel ? hotel.city : tour.meta.name);
   return `
     <div class="tool-stack">
-      <div class="tool-card"><div class="tool-body"><div class="brief-hdr">What do you need?</div><div class="copy">Tap a category and we'll find the nearest options with directions and opening times around ${escapeHtml(location)}.</div></div></div>
+      <div class="tool-card"><div class="tool-body"><div class="brief-hdr">What do you need?</div><div class="copy">Tap a category and allow your location to see the nearest mapped places, then choose directions. Results are ordered by straight-line distance.</div></div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <button class="ess-btn" onclick="searchEssentials('ATM','🏧','#3B9DD2','ATM')" type="button"><span style="font-size:30px">🏧</span><span style="font-size:11px;font-weight:800;color:var(--text);letter-spacing:.06em;text-transform:uppercase">ATM</span></button>
         <button class="ess-btn" onclick="searchEssentials('pharmacy','💊','#2A9D8F','Pharmacy')" type="button"><span style="font-size:30px">💊</span><span style="font-size:11px;font-weight:800;color:var(--text);letter-spacing:.06em;text-transform:uppercase">Pharmacy</span></button>
@@ -4644,7 +4666,7 @@ function renderEssentialsPanel(current, hotel) {
         <button class="ess-btn" onclick="searchEssentials('cafe','☕','#8B5E3C','Coffee')" type="button"><span style="font-size:30px">☕</span><span style="font-size:11px;font-weight:800;color:var(--text);letter-spacing:.06em;text-transform:uppercase">Coffee</span></button>
         <button class="ess-btn" onclick="searchEssentials('laundromat','🧺','#4C84C4','Laundry')" type="button"><span style="font-size:30px">🧺</span><span style="font-size:11px;font-weight:800;color:var(--text);letter-spacing:.06em;text-transform:uppercase">Laundry</span></button>
         <button class="ess-btn" onclick="searchEssentials('taxi stand','🚕','#C69214','Taxi Stand')" type="button"><span style="font-size:30px">🚕</span><span style="font-size:11px;font-weight:800;color:var(--text);letter-spacing:.06em;text-transform:uppercase">Taxi stand</span></button>
-        <a class="ess-btn" href="${escapeHtml(mapUrlForQuery(`Hospital near ${location}`))}" target="_blank" rel="noopener"><span style="font-size:30px">🏥</span><span style="font-size:11px;font-weight:800;color:var(--text);letter-spacing:.06em;text-transform:uppercase">Hospital</span></a>
+        <button class="ess-btn" onclick="searchEssentials('Hospital','🏥','#ce1126','Hospital')" type="button"><span style="font-size:30px">🏥</span><span style="font-size:11px;font-weight:800;color:var(--text);letter-spacing:.06em;text-transform:uppercase">Hospital</span></button>
       </div>
       <div id="ess-results" class="tool-stack"></div>
       <div id="ess-map-wrap" style="display:none;border:1px solid var(--rule);overflow:hidden;border-radius:18px"><div id="ess-map-el" style="width:100%;height:220px"></div></div>
@@ -4672,7 +4694,7 @@ async function initializeToolPanel(id) {
 }
 
 function buildWeatherDestinations() {
-  return ["Rome", "Florence", "Pisa", "Venice", "Lucerne", "Paris"];
+  return ["Amsterdam", "Boppard", "Heidelberg", "Munich", "Innsbruck", "Venice", "Rome", "Florence", "Lucerne", "Paris"];
 }
 
 function weatherSummary(code) {
@@ -4951,7 +4973,7 @@ async function doTranslate() {
 function speakTranslation() {
   const text = document.getElementById("translate-result")?.textContent || "";
   if (!text || !window.speechSynthesis) return;
-  const langMap = { en: "en-US", it: "it-IT", de: "de-DE", fr: "fr-FR", nl: "nl-NL" };
+  const langMap = { en: "en-US", it: "it-IT", de: "de-DE", fr: "fr-FR", nl: "nl-NL", es: "es-ES", ja: "ja-JP" };
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = langMap[lastTranslatedLang] || "en-US";
@@ -4976,7 +4998,7 @@ function startVoice() {
     return;
   }
   voiceRec = new SpeechRecognitionCtor();
-  voiceRec.lang = ({ en: "en-US", it: "it-IT", de: "de-DE", fr: "fr-FR", nl: "nl-NL" }[translateFrom] || "en-US");
+  voiceRec.lang = ({ en: "en-US", it: "it-IT", de: "de-DE", fr: "fr-FR", nl: "nl-NL", es: "es-ES", ja: "ja-JP" }[translateFrom] || "en-US");
   voiceRec.onstart = () => {
     if (!button) return;
     button.textContent = "⏹";
@@ -5054,12 +5076,44 @@ function renderTodayTimelineNowLine() {
   timeline.appendChild(marker);
 }
 
+function refreshTodayClock() {
+  const screen = document.getElementById('scr-today');
+  const day = dayByNumber(displayDayNumber());
+  if (!screen || !day) return;
+  if (screen.dataset.day !== String(day.number)) {
+    renderApp({ preserveScroll: true });
+    return;
+  }
+  const rows = Array.from(screen.querySelectorAll('#today-timeline > .tl-item'));
+  const now = new Date();
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+  let activeIndex = -1;
+  if (isDisplayedDayToday(day)) rows.forEach((row, index) => {
+    if (row.dataset.timeMins !== '' && Number(row.dataset.timeMins) <= nowMins) activeIndex = index;
+  });
+  rows.forEach((row, index) => {
+    row.classList.toggle('tl-past', activeIndex >= 0 && index < activeIndex && row.dataset.timeMins !== '');
+    row.classList.toggle('tl-now', index === activeIndex);
+    row.querySelector('.tl-icon')?.classList.toggle('now', index === activeIndex);
+  });
+  const banner = document.getElementById('today-next-up');
+  if (banner && !banner.contains(document.activeElement)) {
+    const top = screen.scrollTop;
+    const height = banner.offsetHeight;
+    const aboveReadingPosition = banner.getBoundingClientRect().bottom <= screen.getBoundingClientRect().top;
+    banner.innerHTML = nextUpBannerMarkup(day, nextUpState(day));
+    // Compensate for a changed banner above the reader, without recreating the screen.
+    screen.scrollTop = top + (aboveReadingPosition ? banner.offsetHeight - height : 0);
+  }
+  renderTodayTimelineNowLine();
+}
+
 function startTodayTicker() {
   if (todayTickerStarted) return;
   todayTickerStarted = true;
   setInterval(() => {
-    if (activeTab !== "today" || ADMIN_MODE) return;
-    renderApp();
+    if (activeTab !== "today" || ADMIN_MODE || onwardTravelOpen || onwardSaving) return;
+    refreshTodayClock();
   }, 60000);
 }
 
@@ -5114,50 +5168,94 @@ function getEssentialsHoursStatus(place) {
   return { tone: "closed", text: "Closed for today" };
 }
 
+const NEARBY_FILTERS = {
+  ATM: ['[amenity=atm]', '[amenity=bank][atm=yes]'], pharmacy: ['[amenity=pharmacy]'],
+  supermarket: ['[shop=supermarket]'], 'public toilet': ['[amenity=toilets]'],
+  cafe: ['[amenity=cafe]'], laundromat: ['[shop=laundry]'],
+  'taxi stand': ['[amenity=taxi]'], Hospital: ['[amenity=hospital]']
+};
+let nearbySearchId = 0;
+let nearbyController = null;
+function nearbyDistance(lat, lon, a, b) {
+  const rad = Math.PI / 180;
+  const h = Math.sin((a-lat)*rad/2)**2 + Math.cos(lat*rad)*Math.cos(a*rad)*Math.sin((b-lon)*rad/2)**2;
+  return 6371000 * 2 * Math.asin(Math.sqrt(Math.min(1,h)));
+}
+function nearbyPlaces(elements, lat, lon, label) {
+  const seen = new Set();
+  return elements.map(item => {
+    const t=item.tags || {}, a=item.lat ?? item.center?.lat, b=item.lon ?? item.center?.lon;
+    if (!Number.isFinite(a) || !Number.isFinite(b) || t.access==='private' || t.access==='no') return null;
+    const name=t.name || t.brand || t.operator || label;
+    const address=t['addr:full'] || [ [t['addr:housenumber'],t['addr:street'] || t['addr:place']].filter(Boolean).join(' '),t['addr:postcode'],t['addr:city'] ].filter(Boolean).join(', ');
+    return {position:{lat:a,lon:b},dist:nearbyDistance(lat,lon,a,b),poi:{name},address:{freeformAddress:address},osmId:`${item.type}/${item.id}`};
+  }).filter(Boolean).sort((a,b)=>a.dist-b.dist).filter(place=>{
+    const key=place.poi.name+'|'+place.position.lat.toFixed(4)+'|'+place.position.lon.toFixed(4);
+    if(seen.has(key))return false;seen.add(key);return true;
+  }).slice(0,6);
+}
+function nearbyGoogleFallback(query, lat, lon) {
+  const where=Number.isFinite(lat)&&Number.isFinite(lon) ? ` near ${lat},${lon}` : ' near me';
+  return `<div class="button-row"><a class="button secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query+where)}">Find in Google Maps</a></div>`;
+}
+
 async function searchEssentials(query, icon, color, label = query) {
   const resultsEl = document.getElementById("ess-results");
   const mapWrap = document.getElementById("ess-map-wrap");
   const mapEl = document.getElementById("ess-map-el");
   if (!resultsEl) return;
-  if (!TOMTOM_KEY) {
-    resultsEl.innerHTML = `<div class="tool-empty">Nearby search needs a runtime map-search API key before it can be used.</div>`;
-    if (mapWrap) mapWrap.style.display = "none";
-    return;
-  }
+  const searchId=++nearbySearchId;
+  nearbyController?.abort();
+  const controller=new AbortController();nearbyController=controller;
+  if(mapWrap)mapWrap.style.display='none';
   resultsEl.innerHTML = `<div class="tool-empty">${icon} Finding nearby ${escapeHtml(label)}…</div>`;
   let lat;
   let lon;
   try {
     const pos = await new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 8000, enableHighAccuracy: true }));
+    if(searchId!==nearbySearchId)return;
     lat = pos.coords.latitude;
     lon = pos.coords.longitude;
+    resultsEl.innerHTML = `<div class="tool-empty">${icon} Finding nearby ${escapeHtml(label)}…</div>${nearbyGoogleFallback(query,lat,lon)}`;
   } catch (error) {
-    resultsEl.innerHTML = `<div class="tool-empty">Location access is needed for nearby results. Please enable GPS and try again.</div>`;
+    if(searchId!==nearbySearchId)return;
+    resultsEl.innerHTML = `<div class="tool-empty">Allow location access in your browser and tap the category again, or search directly in Google Maps.</div>${nearbyGoogleFallback(query)}`;
     if (mapWrap) mapWrap.style.display = "none";
     return;
   }
   try {
-    const response = await fetch(`https://api.tomtom.com/search/2/poiSearch/${encodeURIComponent(query)}.json?lat=${lat}&lon=${lon}&radius=2000&limit=6&openingHours=nextSevenDays&key=${TOMTOM_KEY}`);
-    const json = await response.json();
-    const results = json.results || [];
+    const filters=NEARBY_FILTERS[query];
+    if(!filters)throw new Error('Unknown category');
+    const area=`(around:5000,${lat.toFixed(5)},${lon.toFixed(5)})`;
+    const data=`[out:json][timeout:20];(${filters.map(filter=>`nwr${filter}${area};`).join('')});out center tags;`;
+    const timer=setTimeout(()=>controller.abort(),25000);
+    let json;
+    try {
+      const response=await fetch('https://overpass.private.coffee/api/interpreter',{method:'POST',headers:{Accept:'application/json'},body:new URLSearchParams({data}),signal:controller.signal,credentials:'omit'});
+      if(!response.ok)throw new Error('Nearby service unavailable');
+      json=await response.json();
+      if(json.remark || !Array.isArray(json.elements))throw new Error('Incomplete nearby results');
+    } finally {clearTimeout(timer);}
+    if(searchId!==nearbySearchId || !resultsEl.isConnected)return;
+    const results=nearbyPlaces(json.elements,lat,lon,label);
     if (!results.length) {
-      resultsEl.innerHTML = `<div class="tool-empty">Nothing was found nearby. Try again from a busier part of town.</div>`;
+      resultsEl.innerHTML = `<div class="tool-empty">No mapped results within 5 km. Try Google Maps for more places.</div>${nearbyGoogleFallback(query,lat,lon)}`;
       if (mapWrap) mapWrap.style.display = "none";
       return;
     }
-    resultsEl.innerHTML = results.map((place) => {
+    resultsEl.innerHTML = `<div class="tool-note">Nearest mapped places first · distance is straight-line. <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></div>` + results.map((place) => {
       const dist = place.dist < 1000 ? `${Math.round(place.dist)}m away` : `${(place.dist / 1000).toFixed(1)}km away`;
       const addr = place.address?.streetName ? `${place.address.streetName}${place.address.streetNumber ? ` ${place.address.streetNumber}` : ""}` : (place.address?.freeformAddress || "");
       const name = place.poi?.name || label;
       const destination = `${place.position.lat},${place.position.lon}`;
       const walkUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=walking`;
-      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${name} ${addr}`.trim() || destination)}`;
+      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(destination)}`;
       const hours = getEssentialsHoursStatus(place);
       return `
         <div class="tool-route-item">
           <div class="tool-route-body">
             <div class="tool-title">${escapeHtml(name)}</div>
-            <div class="copy">${escapeHtml(addr)}</div>
+            <div class="copy">${escapeHtml(addr || "Street address not listed — open the map for the exact position.")}</div>
             <div class="tool-admin-caption" style="margin-top:6px;color:${escapeHtml(color)}">${escapeHtml(dist)}</div>
             ${hours ? `<div class="tool-admin-caption" style="margin-top:4px;color:${hours.tone === "open" ? "#34c759" : "var(--mid)"}">${escapeHtml(hours.text)}</div>` : ""}
             <div class="button-row" style="margin-top:12px">
@@ -5176,8 +5274,8 @@ async function searchEssentials(query, icon, color, label = query) {
       }
       if (!essentialsMap) {
         essentialsMap = L.map(mapEl, { zoomControl: true }).setView([lat, lon], 14);
-        L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-          attribution: "&copy; OpenStreetMap &copy; CARTO",
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', referrerPolicy: "strict-origin",
           maxZoom: 19
         }).addTo(essentialsMap);
         essentialsMapLayer = L.layerGroup().addTo(essentialsMap);
@@ -5193,7 +5291,8 @@ async function searchEssentials(query, icon, color, label = query) {
       essentialsMap.fitBounds(group.getBounds().pad(0.22));
     }
   } catch (error) {
-    resultsEl.innerHTML = `<div class="tool-empty">Unable to fetch nearby results right now.</div>`;
+    if(searchId!==nearbySearchId || !resultsEl.isConnected)return;
+    resultsEl.innerHTML = `<div class="tool-empty">Nearby results are temporarily unavailable. You can still find places in Google Maps.</div>${nearbyGoogleFallback(query,lat,lon)}`;
     if (mapWrap) mapWrap.style.display = "none";
   }
 }
@@ -5708,7 +5807,7 @@ async function loadPhotoMapTool() {
   if (!window.L) return;
   if (!toolPhotoMap) {
     toolPhotoMap = L.map(mapEl, { zoomControl: false }).setView([items[0].lat, items[0].lng], 6);
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", { attribution: "&copy; OpenStreetMap &copy; CARTO", maxZoom: 19 }).addTo(toolPhotoMap);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', referrerPolicy: "strict-origin", maxZoom: 19 }).addTo(toolPhotoMap);
     toolPhotoMapLayer = L.layerGroup().addTo(toolPhotoMap);
   }
   toolPhotoMapLayer.clearLayers();
@@ -5851,12 +5950,13 @@ function softRefresh() {
   location.reload();
 }
 
-function renderApp() {
+function renderApp({ preserveScroll = false } = {}) {
+  const scrollPositions = preserveScroll ? Array.from(APP_ROOT.querySelectorAll('.screen')).map(screen => [screen.id, screen.scrollTop]) : [];
   normalizeActiveTabForNav();
   APP_ROOT.innerHTML = `
     ${renderBuilderBackButton()}
     ${renderHeader()}
-    <main class="screen ${activeTab === "today" ? "active" : ""}" id="scr-today">${renderToday()}</main>
+    <main class="screen ${activeTab === "today" ? "active" : ""}" id="scr-today" data-day="${displayDayNumber()}">${renderToday()}</main>
     <main class="screen ${activeTab === "programme" ? "active" : ""}" id="scr-programme">${renderProgramme()}</main>
     <main class="screen ${activeTab === "experiences" ? "active" : ""}" id="scr-experiences">${renderExperiences()}</main>
     <main class="screen ${activeTab === "tools" ? "active" : ""}" id="scr-tools">${renderTools()}</main>
@@ -5870,6 +5970,10 @@ function renderApp() {
     ${renderQuickAdminPanel()}
     ${renderNav()}
   `;
+  for (const [id, top] of scrollPositions) {
+    const screen = document.getElementById(id);
+    if (screen) screen.scrollTop = top;
+  }
   if (activeTab === "today") {
     setTimeout(() => renderTodayTimelineNowLine(), 0);
     setTimeout(() => startDayOneCountdown(), 0);

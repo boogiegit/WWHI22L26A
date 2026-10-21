@@ -19,10 +19,15 @@ function acceptSession(data) {
   WHATSAPP_COMMUNITY_URL = data.config?.whatsappCommunityUrl || '';
   TOMTOM_KEY = data.config?.tomTomBrowserKey || '';
 }
-function clearPrivateBrowserState() {
+function clearPrivateBrowserState(preserveOnward = false) {
+  if (!preserveOnward && typeof clearOnwardTravelDraft === 'function') clearOnwardTravelDraft();
   // Remove legacy recovered-app data as well as this departure's data on sign-out.
   for (const store of [localStorage, sessionStorage]) {
-    for (const key of Object.keys(store)) if (['tour:WWHI22L26A:', 'tour:xmas-whirl:', 'tour:xmas-whirl-2026:'].some(prefix => key.startsWith(prefix))) store.removeItem(key);
+    for (const key of Object.keys(store)) {
+      // Public guest startup must retain this tab's own form; explicit sign-out still clears it.
+      if (preserveOnward && store === sessionStorage && /:onward-travel-(draft|mine)$/.test(key)) continue;
+      if (['tour:WWHI22L26A:', 'tour:xmas-whirl:', 'tour:xmas-whirl-2026:'].some(prefix => key.startsWith(prefix))) store.removeItem(key);
+    }
   }
 }
 async function initializeSession() {
@@ -38,13 +43,13 @@ async function initializeSession() {
       if (ADMIN_MODE) acceptSession(await authRequest('lockAdmin', {}));
       adminUnlockOpen = true;
     }
-    if (!authState.role) clearPrivateBrowserState();
+    if (!authState.role) clearPrivateBrowserState(true);
   } catch (error) {
     // The public itinerary remains usable even before server setup or during an outage.
     // Disabling remote writes does not grant local administrator privileges.
     acceptSession({ role: null, csrfToken: '', config: null });
     USE_REMOTE_STORAGE = false;
-    clearPrivateBrowserState();
+    clearPrivateBrowserState(true);
     if (URL_PARAMS.get('admin') === '1') adminUnlockOpen = true;
   }
 }

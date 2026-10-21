@@ -109,6 +109,8 @@ check((await request(admin, 'get', undefined, { query: { key: onward } })).data.
 check((await request(guest, 'uploadPhoto', {})).status === 401, 'Anonymous uploads require administrator');
 check((await request(guest, 'set', { key: base + 'tool:photo:synthetic', value: '{}' })).status === 403, 'Photo storage cannot bypass disabled uploads');
 check((await request(guest, 'analyticsSummary')).status === 401, 'Analytics summary admin-only');
+check((await request(guest, 'onwardSummary')).status === 401, 'Reconciled guest details are admin-only');
+check((await request(admin, 'onwardSummary')).data.records.length === 1, 'Admin can load reconciled sheet');
 check((await request(guest, 'trackAnalytics', { event: 'click:Synthetic person' })).status === 400, 'Dynamic labels rejected');
 check((await request(guest, 'trackAnalytics', { event: 'visit', device: 'synthetic' })).status === 400, 'Extra analytics fields rejected');
 check((await request(guest, 'trackAnalytics', { event: 'visit' })).status === 200, 'Fixed event accepted');
@@ -136,9 +138,16 @@ check(!JSON.stringify(deviceSummary).includes('private marker'),'Raw user agent 
 check(JSON.stringify((await request(admin,'analyticsSummary')).data.onward) === JSON.stringify({total:1,flying:1,eurostar:0,staying:0}), 'Updating a form changes its category without double counting');
 for(const time of ['10:29','10:30'])check((await onwardWrite({...departure,flightTime:time})).status===400,'Complimentary cutoff enforced');
 for(const transferType of ['private','own'])check((await onwardWrite({...departure,flightTime:'07:00',transferType})).status===200,'Earlier independent transfer accepted');
-for(const patch of [{flightDate:'2026-02-30'},{flightTime:'25:00'},{airline:''},{transferType:'guess'},{plan:'invalid'}])check((await onwardWrite({...departure,...patch})).status===400,'Invalid departure rejected');
+for(const patch of [{flightDate:'2026-02-30'},{flightTime:'25:00'},{transferType:'guess'},{plan:'invalid'}])check((await onwardWrite({...departure,...patch})).status===400,'Invalid departure rejected');
+
+for(const plan of ['flying','eurostar']) {
+ const partial={name:'Synthetic incomplete guest',plan,londonFlying:'yes'};
+ check((await onwardWrite(partial)).status===200,'Name-only travel details accepted: '+plan);
+}
+for(const field of ['airport','flightDate','flightTime','terminal','airline','flightNumber','transferType']) check((await onwardWrite({...departure,[field]:''})).status===200,'Unknown flight field accepted: '+field);
+
 const rail={name:'Synthetic rail traveller',plan:'eurostar',eurostarDate:'2026-10-22',eurostarTime:'09:00',eurostarRef:'EX-test',londonFlying:'yes',londonAirport:'Heathrow',londonFlightDate:'2026-10-23',londonFlightTime:'13:00',londonTerminal:'5',londonAirline:'Example Air',londonFlightNumber:'EX456'};
-check((await onwardWrite({...rail,londonFlightNumber:''})).status===400,'London fields required when flying');
+check((await onwardWrite({...rail,londonFlightNumber:''})).status===200,'Unknown London flight number accepted');
 check((await onwardWrite(rail)).status===200,'Eurostar with London flight saved');
 check((await onwardWrite({name:'Synthetic extension guest',plan:'eurostar',londonFlying:'yes',londonFlightDate:'2026-10-23',londonFlightTime:'13:00',londonTerminal:'5',londonFlightNumber:'EX456'})).status===200,'Extension requires only four London flight fields, no train, airport or airline');
 check((await onwardWrite({...rail,londonFlying:'no'})).status===200,'Eurostar without flight saved');
@@ -302,5 +311,16 @@ const previews=JSON.parse(previewCheck.text);
 check(previews[0].title==='Gallery & gardens' && previews[0].image==='https://example.com/images/garden.jpg','Open Graph attributes, entities and relative image resolved');
 check(previews[1].image==='https://example.com/visit/../photo.jpg','Twitter image fallback resolved');
 check(previews[2].image==='','Unsafe image scheme omitted');
+const reconciledCheck = await php.run({code:`<?php require_once '/site/server/onward.php';
+$rows=[['name'=>'Alex Example and Sam Sample','partySize'=>2,'plan'=>'staying','submittedAt'=>'2026-10-01'],['name'=>'Sam Sample & Alex Example','partySize'=>2,'plan'=>'flying','submittedAt'=>'2026-10-02','flightTime'=>'11:00'],['name'=>'A. Example','partySize'=>2,'plan'=>'staying','submittedAt'=>'2026-10-03'],['name'=>'Other Guest','plan'=>'staying']];
+$rules=[['names'=>['Alex Example and Sam Sample','A. Example'],'name'=>'Alex Example and Sam Sample','partySize'=>2,'confirmedAt'=>'2026-10-04','prefer'=>['plan'=>'flying'],'confirmed'=>['flightTime'=>'11:45']]];
+$normal=reconcileOnwardRecords($rows);
+$reviewed=reconcileOnwardRecords($rows,$rules);
+$rows[]=['name'=>'A. Example','partySize'=>2,'plan'=>'eurostar','submittedAt'=>'2026-10-05'];
+echo json_encode([$normal,$reviewed,reconcileOnwardRecords($rows,$rules)]);`});
+const cleaned=JSON.parse(reconciledCheck.text);
+check(cleaned[0].length===3 && cleaned[0][0].plan==='flying','Name punctuation/order and latest submission reconciled');
+check(cleaned[1].length===2 && cleaned[1][0].flightTime==='11:45' && cleaned[1][0].plan==='flying','Confirmed aliases and travel correction applied once');
+check(cleaned[2][0].plan==='eurostar' && !cleaned[2][0].flightTime,'Later submissions can change plans without inherited flight fields');
 php.exit();
 console.log(`PASS: ${checks} PHP/API, permissions, privacy, exclusion and JavaScript syntax checks.`);

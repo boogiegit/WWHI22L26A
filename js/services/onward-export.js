@@ -4,18 +4,33 @@
   const headers = ['NAME', 'JOURNEY', 'FLIGHT DATE', 'TIME', 'FLIGHT NO.', 'TERMINAL', 'TRANSFER'];
   const people = row => row.partySize === 2 ? 2 : 1;
   const totalPeople = rows => rows.reduce((total,row)=>total+people(row),0);
-  // Ignore submission IDs/timestamps; compare only active travel details.
-  function uniqueRecords(rows) {
-    const seen = new Set();
-    const normalize = value => String(value ?? '').normalize('NFKC').trim().replace(/\s+/g, ' ').toLowerCase();
-    return rows.filter(row => {
-      const fields = row.plan === 'flying'
-        ? ['airport','flightDate','flightTime','flightNumber','terminal','airline','transferType']
-        : row.plan === 'eurostar' ? ['eurostarDate','eurostarTime','eurostarRef','londonFlying', ...(row.londonFlying === 'yes' ? ['londonAirport','londonFlightDate','londonFlightTime','londonFlightNumber','londonTerminal','londonAirline'] : [])] : [];
-      const key = JSON.stringify([normalize(row.name), people(row), row.plan, ...fields.map(field => normalize(row[field]))]);
-      if (seen.has(key)) return false;
-      seen.add(key); return true;
+  // A corrected submission belongs to the same traveller even when flight details change.
+  // Keep whole submissions together: never mix fields from different travel plans.
+  function nameKey(value) {
+    return String(value ?? '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase().replace(/\(\s*[12]\s*(?:people|persons?)\s*\)/g, '')
+      .replace(/['’]/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim().split(/\s+/)
+      .filter(token => token && token !== 'and').sort().join(' ');
+  }
+  function recordTime(row) {
+    const time = Date.parse(row.submittedAt || '');
+    return Number.isFinite(time) ? time : 0;
+  }
+  function submissionGroups(rows) {
+    const groups = new Map();
+    rows.forEach((row, index) => {
+      // Unnamed records must never be collapsed into one another.
+      const key = nameKey(row.name) || `unnamed:${index}`;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(row);
     });
+    return Array.from(groups.values()).map(records => {
+      const sorted = records.map((row,index)=>({row,index})).sort((a,b)=>recordTime(b.row)-recordTime(a.row) || a.index-b.index);
+      return { records, selected: sorted[0].row };
+    });
+  }
+  function uniqueRecords(rows) {
+    return submissionGroups(rows).map(group => group.selected);
   }
   function group(row) { return row.transferType === 'private' ? 2 : row.transferType === 'own' ? 3 : row.transferType === 'complimentary' && /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(row.flightTime) && row.flightTime > '10:30' ? 1 : 4; }
   function flyers(rows) {
@@ -69,7 +84,7 @@
   function workbook(records) {
     const rows=travellers(records), end=rows.length+2;
     const cell=(value,col,row,style=0)=>`<c r="${String.fromCharCode(65+col)}${row}" s="${style}" t="inlineStr"><is><t xml:space="preserve">${xml(value)}</t></is></c>`;
-    const title=`<row r="1" ht="24" customHeight="1">${cell('ONWARD TRAVEL · WWHI22L26A',0,1,1)}</row>`;
+    const title=`<row r="1" ht="24" customHeight="1">${cell('ONWARD TRAVEL · EWHI11J26A',0,1,1)}</row>`;
     const heading=`<row r="2" ht="23" customHeight="1">${headers.map((h,c)=>cell(h,c,2,1)).join('')}</row>`;
     const widths=[24,14,13,8,12,10,17];
     const body=rows.map((r,i)=>{
@@ -91,5 +106,5 @@
       'xl/styles.xml':styles, 'xl/worksheets/sheet1.xml':sheet
     });
   }
-  global.OnwardExport={uniqueRecords,flyers,eurostar,travellers,tallies,values,workbook,headers};
+  global.OnwardExport={nameKey,submissionGroups,uniqueRecords,flyers,eurostar,travellers,tallies,values,workbook,headers};
 })(typeof window === 'undefined' ? globalThis : window);
