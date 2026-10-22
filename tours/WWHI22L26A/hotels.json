@@ -56,37 +56,37 @@
       "rawText": "2026-12-26 Rome 2 PRECISE House Mantegna Via Mantegna 130, Rome, Lazio, 00147, Italy +39 06 989521"
     },
     {
-      "id": "hotel-07-doubletree-by-hilton-florence-metropole",
+      "id": "hotel-07-radisson-blu-florence",
       "arrivalDay": 7,
       "city": "Florence",
       "nights": 1,
-      "name": "DoubleTree by Hilton Florence Metropole",
-      "address": "Via del Cavallaccio, 36, Florence, Tuscany, 50142, Italy",
-      "phone": "+39 055 78711",
+      "name": "Radisson Blu Hotel, Florence",
+      "address": "Via Giovanni Agnelli, 33, Florence, Italy",
+      "phone": "+39 055 6490001",
       "arrivalDate": "2026-12-28",
-      "rawText": "2026-12-28 Florence 1 DoubleTree by Hilton Florence Metropole Via del Cavallaccio, 36, Florence, Tuscany, 50142, Italy +39 055 78711"
+      "rawText": "2026-12-28 Florence 1 Radisson Blu Hotel, Florence Via Giovanni Agnelli, 33, Florence, Italy +39 055 6490001"
     },
     {
-      "id": "hotel-08-grand-hotel-europe-lucerne",
+      "id": "hotel-08-astoria-lucerne",
       "arrivalDay": 8,
       "city": "Lucerne",
       "nights": 2,
-      "name": "Grand Hotel Europe Lucerne",
-      "address": "Haldenstrasse 59, Lucerne, Luzern, 6006, Switzerland",
-      "phone": "+41 413700011",
+      "name": "Hotel Astoria",
+      "address": "Pilatusstrasse 29, 6002 Lucerne, Switzerland",
+      "phone": "+41 41 226 88 88",
       "arrivalDate": "2026-12-29",
-      "rawText": "2026-12-29 Lucerne 2 Grand Hotel Europe Lucerne Haldenstrasse 59, Lucerne, Luzern, 6006, Switzerland +41 413700011"
+      "rawText": "2026-12-29 Lucerne 2 Hotel Astoria Pilatusstrasse 29, 6002 Lucerne, Switzerland +41 41 226 88 88"
     },
     {
-      "id": "hotel-10-hotel-occidental-paris-levallois",
+      "id": "hotel-10-renaissance-paris-la-defense",
       "arrivalDay": 10,
-      "city": "Paris / Levallois-Perret",
+      "city": "Paris / La Défense",
       "nights": 2,
-      "name": "Hotel Occidental Paris Levallois",
-      "address": "8 Place Georges Pompidou, Levallois-Perret, Ile-de-France, 92300, France",
-      "phone": "+33 147588899",
+      "name": "Renaissance Paris La Défense Hotel",
+      "address": "60 Cours Valmy, 92800 Paris La Défense, France",
+      "phone": "+33 1 41 97 50 50",
       "arrivalDate": "2026-12-31",
-      "rawText": "2026-12-31 Paris / Levallois-Perret 2 Hotel Occidental Paris Levallois 8 Place Georges Pompidou, Levallois-Perret, Ile-de-France, 92300, France +33 147588899"
+      "rawText": "2026-12-31 Paris / La Défense 2 Renaissance Paris La Défense Hotel 60 Cours Valmy, 92800 Paris La Défense, France +33 1 41 97 50 50"
     }
   ]
 }

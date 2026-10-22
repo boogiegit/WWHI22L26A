@@ -34,7 +34,7 @@ window.EWHI_RECAPS = {
     "title": "Day 3 | Rhineland - Innsbruck",
     "subtitle": "From Germany to the Tyrol",
     "paragraphs": [
-      "Today took us through Germany to Munich, where we had free time for lunch, then across into Austria. Innsbruck gave us time to explore before checking in at our hotel."
+      "Today took us through Germany to Munich, where we had free time for lunch, then across into Austria. Innsbruck gave us time to explore before checking in at our hotel and heading out for an included dinner in a local restaurant."
     ],
     "highlights": [
       "Free time in Munich.",
@@ -48,13 +48,13 @@ window.EWHI_RECAPS = {
     "subtitle": "From the mountains to the lagoon",
     "paragraphs": [
       "We travelled from Innsbruck towards Venice, reaching the lagoon at Tronchetto. The afternoon brought us into the city and the area around St Mark’s Square.",
-      "For those joining Gondolas and the Grand Canal, the waterways were part of the introduction. There was free time for dinner before the evening boat and coach journey back to our hotel."
+      "For those joining Gondolas and the Grand Canal, the waterways were part of the introduction. There was free time before meeting for dinner at 18:30, followed by the evening boat and coach journey back to our hotel."
     ],
     "highlights": [
       "Journey from Innsbruck to Venice.",
       "Time around St Mark’s Square.",
       "Optional Gondolas and Grand Canal experience.",
-      "Free time for dinner."
+      "Free time, followed by our dinner meeting."
     ],
     "facts": [],
     "reflections": []
@@ -80,12 +80,12 @@ window.EWHI_RECAPS = {
     "subtitle": "Rome in layers",
     "paragraphs": [
       "Today gave us a full day in Rome. For those taking part, St Peter’s and Legends and Landmarks of Rome explored the city’s sacred and historic sights.",
-      "A return to the hotel allowed time for rest and lunch. Guests choosing Inside the Colosseum and Roman Dinner headed out again in the afternoon for the visit and evening meal."
+      "Guests choosing Inside the Colosseum and Roman Dinner arrived for the Colosseum visit at 12:45, returned to the hotel for a siesta at 14:45 and departed again for Roman dinner at 17:30."
     ],
     "highlights": [
       "Rome sightseeing and free time.",
       "St Peter’s and optional Legends and Landmarks of Rome.",
-      "Midday return to the hotel.",
+      "Afternoon siesta at the hotel.",
       "Optional Colosseum and Roman Dinner."
     ],
     "facts": [],
@@ -95,7 +95,7 @@ window.EWHI_RECAPS = {
     "title": "Day 7 | Rome - Florence Sightseeing",
     "subtitle": "Renaissance streets and Tuscan countryside",
     "paragraphs": [
-      "We travelled from Rome to Florence, with time for shopping and a late lunch. Our included sightseeing with a Local Specialist took in the Duomo, Baptistery and Piazza della Signoria.",
+      "We travelled from Rome to Florence, with time for shopping and a late lunch. We met in Piazza Santa Croce at 14:30 for our included sightseeing walk, finishing at the meeting point to depart the city.",
       "After checking in at the hotel, guests choosing Dinner in the Tuscan Countryside headed out for an evening beyond the city."
     ],
     "highlights": [
@@ -127,11 +127,11 @@ window.EWHI_RECAPS = {
     "title": "Day 9 | Lucerne Orientation and Free Time",
     "subtitle": "Mountain views and Swiss country life",
     "paragraphs": [
-      "Lucerne was our base for a day of choices. Guests joining Mount Stanserhorn set out in the morning, while the Swiss Countryside and Carriages experience offered another way to discover the region.",
+      "Lucerne was our base for a day of choices. Guests joining Mount Pilatus set out in the morning, while the Swiss Countryside and Carriages experience offered another way to discover the region.",
       "The afternoon and evening were free to enjoy at your own pace, with time to return to favourite spots or relax before tomorrow’s journey."
     ],
     "highlights": [
-      "Optional Mount Stanserhorn experience.",
+      "Optional Mount Pilatus experience.",
       "Optional Swiss Countryside and Carriages.",
       "Free afternoon and evening in Lucerne."
     ],
@@ -142,12 +142,12 @@ window.EWHI_RECAPS = {
     "title": "Day 10 | Lucerne - Paris",
     "subtitle": "From Switzerland to Paris",
     "paragraphs": [
-      "We left Lucerne and travelled towards France, with breaks along the way before arriving at our Paris hotel. It was a day of changing landscapes and anticipation for our final city.",
+      "We left Lucerne and travelled towards France, with breaks along the way before arriving in Paris for the Seine cruise and Paris icons. It was a day of changing landscapes and anticipation for our final city.",
       "Guests choosing La Nouvelle Eve Cabaret Show and Dinner continued the evening at the show before returning to the hotel."
     ],
     "highlights": [
       "Journey from Lucerne to Paris.",
-      "Arrival at the Paris hotel.",
+      "Seine cruise and Paris icons on arrival.",
       "Optional La Nouvelle Eve Cabaret Show and Dinner."
     ],
     "facts": [],

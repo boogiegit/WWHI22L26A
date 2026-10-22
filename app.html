@@ -19,37 +19,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <title>Xmas Whirl 2026</title>
-<link rel="stylesheet" href="./css/app.css?v=20261021-parity">
+<link rel="stylesheet" href="./css/app.css?v=20261022-itinerary">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 <div id="app">
   <div class="loading">Loading tour app...</div>
 </div>
-<script src="./js/core/utils.js?v=20261021-parity"></script>
-<script src="./js/core/tour-updates.js?v=20261021-parity"></script>
-<script src="./js/core/itinerary-helpers.js?v=20261021-parity"></script>
-<script src="./js/core/resource-helpers.js?v=20261021-parity"></script>
-<script src="./js/core/tour-config-helpers.js?v=20261021-parity"></script>
-<script src="./js/core/today-state.js?v=20261021-parity"></script>
-<script src="./js/services/auth.js?v=20261021-parity"></script>
-<script src="./js/services/storage.js?v=20261021-parity"></script>
-<script src="./js/services/admin-content-storage.js?v=20261021-parity"></script>
-<script src="./js/services/admin-content-overrides.js?v=20261021-parity"></script>
-<script src="./js/viewer/document-viewer.js?v=20261021-parity"></script>
-<script src="./js/maps/map-panel.js?v=20261021-parity"></script>
-<script src="./js/navigation/navigation.js?v=20261021-parity"></script>
-<script src="./js/rendering/contacts-renderer.js?v=20261021-parity"></script>
-<script src="./js/rendering/travel-director-renderer.js?v=20261021-parity"></script>
-<script src="./js/services/analytics.js?v=20261021-parity"></script>
-<script src="./js/services/onward-export.js?v=20261021-parity"></script>
-<script src="./js/core/journey-recaps.js?v=20261021-parity"></script>
-<script src="./js/rendering/experiences-renderer.js?v=20261021-parity"></script>
-<script src="./js/rendering/tools-renderer.js?v=20261021-parity"></script>
-<script src="./js/rendering/rewards-renderer.js?v=20261021-parity"></script>
-<script src="./js/rendering/travel-impact-renderer.js?v=20261021-parity"></script>
-<script src="./js/rendering/today-components.js?v=20261021-parity"></script>
-<script src="./js/rendering/itinerary-components.js?v=20261021-parity"></script>
+<script src="./js/core/utils.js?v=20261022-itinerary"></script>
+<script src="./js/core/tour-updates.js?v=20261022-itinerary"></script>
+<script src="./js/core/itinerary-helpers.js?v=20261022-itinerary"></script>
+<script src="./js/core/resource-helpers.js?v=20261022-itinerary"></script>
+<script src="./js/core/tour-config-helpers.js?v=20261022-itinerary"></script>
+<script src="./js/core/today-state.js?v=20261022-itinerary"></script>
+<script src="./js/services/auth.js?v=20261022-itinerary"></script>
+<script src="./js/services/storage.js?v=20261022-itinerary"></script>
+<script src="./js/services/admin-content-storage.js?v=20261022-itinerary"></script>
+<script src="./js/services/admin-content-overrides.js?v=20261022-itinerary"></script>
+<script src="./js/viewer/document-viewer.js?v=20261022-itinerary"></script>
+<script src="./js/maps/map-panel.js?v=20261022-itinerary"></script>
+<script src="./js/navigation/navigation.js?v=20261022-itinerary"></script>
+<script src="./js/rendering/contacts-renderer.js?v=20261022-itinerary"></script>
+<script src="./js/rendering/travel-director-renderer.js?v=20261022-itinerary"></script>
+<script src="./js/services/analytics.js?v=20261022-itinerary"></script>
+<script src="./js/services/onward-export.js?v=20261022-itinerary"></script>
+<script src="./js/core/journey-recaps.js?v=20261022-itinerary"></script>
+<script src="./js/rendering/experiences-renderer.js?v=20261022-itinerary"></script>
+<script src="./js/rendering/tools-renderer.js?v=20261022-itinerary"></script>
+<script src="./js/rendering/rewards-renderer.js?v=20261022-itinerary"></script>
+<script src="./js/rendering/travel-impact-renderer.js?v=20261022-itinerary"></script>
+<script src="./js/rendering/today-components.js?v=20261022-itinerary"></script>
+<script src="./js/rendering/itinerary-components.js?v=20261022-itinerary"></script>
 <script>
 const URL_PARAMS = new URLSearchParams(location.search);
 const DEFAULT_TOUR_CODE = "WWHI22L26A";
@@ -1800,20 +1800,19 @@ const INFORMATION_MAPS = {
     intro: "Switch between the interactive map and Brendon's original annotated aerial map.",
     liveCopy: "Zoom, pan and tap any marker for details and a direct Google Maps navigation link.",
     originalCopy: "Swipe across the original map to explore every highlighted landmark and area.",
-    image: "assets/maps/lucerne-information-map.jpeg",
+    image: "assets/maps/lucerne-information-map-astoria.png",
     center: [47.0532, 8.3096],
     zoom: 15,
     bounds: [[47.0470, 8.3000], [47.0587, 8.3239]],
     points: [
-      { title: "Grand Hotel Europe", copy: "Lucerne hotel.", lat: 47.0557831, lng: 8.3248886, color: "#d60d2a" },
-      { title: "Schwanenplatz · Main Square", copy: "Bus 6 and 8 to and from Grand Hotel Europe.", lat: 47.0533514, lng: 8.3086325, color: "#7c4dff" },
+      { title: "Hotel Astoria", copy: "Our Lucerne hotel · Pilatusstrasse 29.", lat: 47.0484, lng: 8.3060, color: "#d60d2a" },
+      { title: "Schwanenplatz · Main Square", copy: "Main square by the lake and Old Town.", lat: 47.0533514, lng: 8.3086325, color: "#7c4dff" },
       { title: "Chapel Bridge", copy: "Beautiful medieval wooden bridge with water tower.", lat: 47.0517, lng: 8.3075, color: "#25b45b" },
       { title: "Bahnhof · Train Station", copy: "Underground shops, restaurants, supermarket and medical centre.", lat: 47.0502, lng: 8.3100, color: "#1678c2" },
       { title: "Lion Monument", copy: "Lucerne's famous carved lion memorial.", lat: 47.0583, lng: 8.3107, color: "#b8923b" },
       { title: "Casa Grande Gift Shop", copy: "Swiss Army knives, free engraving and Swiss souvenirs.", lat: 47.0535270, lng: 8.3079118, color: "#d60d2a" },
       { title: "Old City Walls", copy: "Historic walls above the Old Town near Schirmerturm.", lat: 47.0547189, lng: 8.3056006, color: "#b8923b" },
       { title: "Old Town Centre", copy: "Shopping and restaurants.", lat: 47.0529, lng: 8.3051, color: "#25b45b" },
-      { title: "Astoria Hotel", copy: "City reference point south of Old Town.", lat: 47.0484, lng: 8.3060, color: "#8b5e21" }
     ],
     route: [[47.0547189,8.3056006],[47.0535270,8.3079118],[47.0533514,8.3086325],[47.0517,8.3075],[47.0529,8.3051]]
   }

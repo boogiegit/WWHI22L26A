@@ -142,7 +142,7 @@ const OCTOBER_SCHEDULE_UPDATES = [
       "title": "Depart hotel for 'Mount Pilatus and Lake Cruise'"
     },
     "after": {
-      "title": "Depart hotel for Mount Stanserhorn"
+      "title": "Depart hotel for Mount Pilatus"
     }
   },
   {
