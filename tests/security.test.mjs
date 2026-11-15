@@ -13,7 +13,7 @@ const runtime = fs.mkdtempSync(path.join(root, 'tests/.runtime/run-'));
 const site = path.join(runtime, 'site');
 fs.mkdirSync(path.join(site, 'server'), { recursive: true });
 fs.mkdirSync(path.join(runtime, 'internal'), { recursive: true });
-for (const file of ['api.php', 'server/packing.php', 'server/experience-interest.php', 'server/announcement-media.php', 'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php', 'server/config.example.php', 'tests/dev-router.php']) {
+for (const file of ['api.php', 'admin.php', 'app.html', 'server/announcement-polish.php', 'server/packing.php', 'server/experience-interest.php', 'server/announcement-media.php', 'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php', 'server/config.example.php', 'tests/dev-router.php']) {
   fs.mkdirSync(path.dirname(path.join(site, file)), { recursive: true });
   fs.copyFileSync(path.join(root, file), path.join(site, file));
 }
@@ -28,7 +28,7 @@ await php.mount('/site', createNodeFsMountHandler(site));
 let checks = 0;
 function check(value, label) { assert.ok(value, label); checks++; }
 // Parse PHP using PHP itself. No original operational data is used by this test site.
-for (const file of ['api.php', 'server/packing.php', 'server/experience-interest.php', 'server/announcement-media.php', 'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php', 'server/config.example.php', 'tests/dev-router.php']) {
+for (const file of ['api.php', 'admin.php', 'app.html', 'server/announcement-polish.php', 'server/packing.php', 'server/experience-interest.php', 'server/announcement-media.php', 'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php', 'server/config.example.php', 'tests/dev-router.php']) {
   const result = await php.run({ code: `<?php token_get_all(file_get_contents(${JSON.stringify('/site/' + file)}), TOKEN_PARSE); echo 'ok';` });
   if (result.text !== 'ok' || result.errors) console.log('PHP parser diagnostic:', result.errors || result.text);
   check(result.text === 'ok' && !result.errors, `PHP syntax: ${file}`);
@@ -424,5 +424,7 @@ check(clipResponse.status===206&&Buffer.from(clipResponse.bytes).equals(mediaByt
 check((await request(reader,'announcementMedia',undefined,{query:{id:clip.data.id},headers:{Range:'bytes=9999-'}})).status===416,'Unsatisfiable media range rejected');
 await request(announcer,'announcementDelete',{id:clip.data.id});
 check((await request(reader,'announcementMedia',undefined,{query:{id:clip.data.id}})).status===404,'Removing announcement revokes clip');
+result=await request(reader,'polishAnnouncement',{text:'Meet at 17:00.'});check(result.status===401,'Guests cannot use paid polishing');
+result=await request(announcer,'polishAnnouncement',{text:'Meet at 17:00.'});check(result.status===503,'Unconfigured polishing cannot call external service');
 php.exit();
 console.log(`PASS: ${checks} PHP/API, permissions, privacy, exclusion and JavaScript syntax checks.`);

@@ -1,6 +1,9 @@
 <?php
 // Copy to config.local.php (ignored). Never put plaintext passwords here.
 return [
+    'openai_api_key' => '', // Optional AI polishing; keep only in config.local.php.
+    'openai_model' => '', // A Responses API text model enabled for your account.
+
     'origin' => 'https://brendonbush.com', // Exact HTTPS origin, no path.
     'base_path' => '/WWHI22L26A/',
     'admin_password_hash' => '', // password_hash() output for a NEW strong password.

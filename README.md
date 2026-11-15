@@ -40,3 +40,22 @@ is needed for fresh tour data, admin changes and submissions.
 This repository contains application source and public tour content. Passwords,
 local configuration, databases, uploaded guest files and deployment archives are
 excluded by `.gitignore`. See `DEPLOYMENT.md` for backend configuration and tests.
+
+
+## Phone admin shortcut
+Guest link: `https://brendonbush.com/WWHI22L26A/app.html`.
+Director link: `https://brendonbush.com/WWHI22L26A/admin.php`.
+Save the director link separately to the phone Home Screen as **Whirl Admin**.
+It opens Announcements and uses the existing server session and PIN; it never
+puts a PIN in the link. Its manifest has a separate app identity. Session expiry
+or Lock requires the PIN again. Device installation should be checked on the
+actual phone; browser support for multiple installed apps varies.
+
+AI polishing is optional. Configure `openai_api_key` and `openai_model` only in
+Hostinger's existing `server/config.local.php`, preserving all other settings.
+Do not commit that file or send the key in chat. The API account has separate
+billing. The button remains disabled until configured. Only administrators can
+call the endpoint, with CSRF protection and 30 requests/hour. Draft text is sent
+to OpenAI only on request (`store: false`); the result is reviewed before posting.
+Dictation uses supported browser speech recognition or the phone keyboard microphone.
+The composer supports links, one photo and one video/audio clip (20 MB) per post.

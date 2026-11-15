@@ -370,3 +370,13 @@ assert.ok(vm.runInContext("(toolsConfig().faq||TOOL_FAQ_SECTIONS).some(s=>s.titl
 assert.ok(!vm.runInContext("JSON.stringify(toolsConfig().faq||TOOL_FAQ_SECTIONS)",context).includes('Meeting Point 3'));
 assert.ok(vm.runInContext('renderAnnouncements()',context).includes('Add a heading (optional)'));
 console.log('PASS: London FAQ and optional announcement heading.');
+
+vm.runInContext("activeTab='today';moreNavOpen=false",context);
+let nav=vm.runInContext('renderNav()',context);
+assert.equal((nav.match(/class="ni /g)||[]).length,5);
+assert.ok(nav.indexOf("setTab('announcements')")<nav.indexOf("setTab('experiences')"));
+vm.runInContext('moreNavOpen=true',context);nav=vm.runInContext('renderNav()',context);
+for(const label of ['Itinerary','Contacts & hotels','Brendon'])assert.ok(nav.includes(label));
+assert.ok(vm.runInContext('announcementCaughtUp()',context).includes('You’re all caught up'));
+assert.ok(vm.runInContext('renderExperiences()',context).includes('swiss-carriages-winter.jpeg'));
+console.log('PASS: five-button navigation, More destinations, caught-up message and winter carriage photo.');

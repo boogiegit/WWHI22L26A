@@ -7,15 +7,17 @@ require __DIR__ . '/server/announcement-media.php';
 require __DIR__ . '/server/announcements.php';
 require __DIR__ . '/server/experience-interest.php';
 require __DIR__ . '/server/packing.php';
+require __DIR__ . '/server/announcement-polish.php';
 
 $getActions = ['getPacking', 'interestSummary', 'session', 'get', 'list', 'analyticsSummary', 'privateFile', 'onwardSummary', 'announcements', 'announcementMedia', 'announcementPhoto', 'announcementPushKey'];
-$postActions = ['savePacking', 'interestMine', 'interestSave', 'login', 'logout', 'lockAdmin', 'set', 'delete', 'uploadPhoto', 'trackAnalytics', 'photoFeedback', 'resourcePreview', 'announcementUploadMedia', 'announcementPublish', 'announcementDelete', 'announcementSubscribe', 'announcementUnsubscribe', 'announcementRetry'];
+$postActions = ['polishAnnouncement', 'savePacking', 'interestMine', 'interestSave', 'login', 'logout', 'lockAdmin', 'set', 'delete', 'uploadPhoto', 'trackAnalytics', 'photoFeedback', 'resourcePreview', 'announcementUploadMedia', 'announcementPublish', 'announcementDelete', 'announcementSubscribe', 'announcementUnsubscribe', 'announcementRetry'];
 if (!in_array($action, $method === 'GET' ? $getActions : $postActions, true)) {
     respond(['error' => 'Unknown action or method.'], 405);
 }
 if (in_array($action,['getPacking','savePacking'],true)) handlePacking($action);
 if (str_starts_with($action, 'interest')) handleExperienceInterest($action);
 if (str_starts_with($action, 'announcement')) handleAnnouncements($action);
+if ($action === 'polishAnnouncement') handleAnnouncementPolish();
 if ($action === 'session') respond(sessionInfo());
 if ($action === 'resourcePreview') {
     requireAdmin();

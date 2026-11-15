@@ -1,7 +1,9 @@
 const BUILDER_PREVIEW_TABS = new Set(["today", "programme", "experiences", "announcements", "tools", "director", "rewards", "contacts"]);
-let activeTab = new URLSearchParams(location.search).get("tab") === "announcements" ? "announcements" : typeof URL_PARAMS !== "undefined" && URL_PARAMS.get("builderPreview") === "1" && BUILDER_PREVIEW_TABS.has(URL_PARAMS.get("previewTab")) ? URL_PARAMS.get("previewTab") : "today";
+let moreNavOpen = false;
+let activeTab = (location.pathname.endsWith("/admin.php") || new URLSearchParams(location.search).get("tab") === "announcements") ? "announcements" : typeof URL_PARAMS !== "undefined" && URL_PARAMS.get("builderPreview") === "1" && BUILDER_PREVIEW_TABS.has(URL_PARAMS.get("previewTab")) ? URL_PARAMS.get("previewTab") : "today";
 
 function setTab(tab) {
+  moreNavOpen = false;
   if (tab === "programme") activeProgrammeTab = "days";
   if (tab === "experiences") activeProgrammeTab = "optionals";
   activeTab = tab;
@@ -17,11 +19,11 @@ function rewardsNavActive() {
 }
 
 function normalizeActiveTabForNav() {
-  if (activeTab === "director" && rewardsNavActive()) activeTab = "rewards";
+
   if (activeTab === "rewards" && !rewardsNavActive()) activeTab = "director";
 }
 
-function renderNav() {
+function renderFullNav() {
   const showRewards = rewardsNavActive();
   return `
     <nav class="bnav">
@@ -57,4 +59,14 @@ function renderNav() {
         <span>Contacts</span>
       </button>
     </nav>`;
+}
+
+function toggleMoreNav(){moreNavOpen=!moreNavOpen;renderApp({preserveScroll:true});}
+function renderNav(){
+  // Reuse the established icons and unread badge, with five phone-sized controls.
+  const all=renderFullNav();
+  const buttons=Array.from(all.matchAll(/<button class="ni [\s\S]*?<\/button>/g),m=>m[0]);
+  const find=tab=>buttons.find(button=>button.includes(`setTab('${tab}')`))||'';
+  const extra=['programme','contacts','director','rewards'].includes(activeTab);
+  return `${moreNavOpen?`<div class="more-panel" aria-label="More sections"><button onclick="setTab('programme')">Itinerary</button><button onclick="setTab('contacts')">Contacts & hotels</button><button onclick="setTab('director')">${escapeHtml(navDirectorLabel())}</button>${rewardsNavActive()?`<button onclick="setTab('rewards')">Where Next</button>`:''}<button onclick="toggleMoreNav()">Close</button></div>`:''}<nav class="bnav">${['today','announcements','experiences','tools'].map(find).join('')}<button class="ni ${extra||moreNavOpen?'active':''}" aria-expanded="${moreNavOpen}" onclick="toggleMoreNav()"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path d="m5 9 7 7 7-7"/></svg><span>More</span></button></nav>`;
 }

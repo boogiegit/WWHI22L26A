@@ -43,6 +43,7 @@ async function initializeSession() {
       if (ADMIN_MODE) acceptSession(await authRequest('lockAdmin', {}));
       adminUnlockOpen = true;
     }
+    if (location.pathname.endsWith('/admin.php') && !ADMIN_MODE) adminUnlockOpen = true;
     if (!authState.role) clearPrivateBrowserState(true);
   } catch (error) {
     // The public itinerary remains usable even before server setup or during an outage.
@@ -50,6 +51,6 @@ async function initializeSession() {
     acceptSession({ role: null, csrfToken: '', config: null });
     USE_REMOTE_STORAGE = false;
     clearPrivateBrowserState(true);
-    if (URL_PARAMS.get('admin') === '1') adminUnlockOpen = true;
+    if (URL_PARAMS.get('admin') === '1' || location.pathname.endsWith('/admin.php')) adminUnlockOpen = true;
   }
 }

@@ -159,6 +159,7 @@ function sessionInfo(): array {
         'whatsappCommunityUrl' => $role === 'admin' ? (string)($config['whatsapp_community_url'] ?? '') : '',
         'tomTomBrowserKey' => (string)($config['tomtom_browser_key'] ?? ''),
         'analyticsEnabled' => !empty($config['analytics_enabled']),
+        'announcementAiAvailable' => $role === 'admin' && !empty($config['openai_api_key']) && !empty($config['openai_model']),
         'uploadsEnabled' => $role === 'admin' && !empty($config['uploads_enabled']),
     ]];
 }

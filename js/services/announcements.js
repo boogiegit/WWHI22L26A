@@ -22,14 +22,14 @@ function announcementText(text) {
 }
 function announcementCards() {
   if (!announcementState.loaded) return `<p class="ann-empty">${escapeHtml(announcementState.error || 'Loading announcements…')}</p>`;
-  if (!announcementState.items.length) return '<p class="ann-empty">No announcements yet. Updates from Brendon will appear here.</p>';
+  if (!announcementState.items.length) return announcementCaughtUp();
   return announcementState.items.map(item => `<article class="ann-card">
     <p class="ann-meta">BRENDON · <time datetime="${escapeHtml(item.created)}">${escapeHtml(new Date(item.created).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }))}</time></p>
     <h2>${escapeHtml(item.title)}</h2><div class="ann-body">${announcementText(item.body)}</div>
     ${item.photo && /^\.\/api\.php\?action=announcementPhoto&id=\d+$/.test(item.photo) ? `<a href="${escapeHtml(item.photo)}" target="_blank" rel="noopener"><img class="ann-photo" src="${escapeHtml(item.photo)}" alt="Photo from Brendon for ${escapeHtml(item.title)}" loading="lazy"></a>` : ''}
     ${announcementMediaPlayer(item)}
     ${ADMIN_MODE ? `<button class="ann-remove" onclick="deleteAnnouncement(${Number(item.id)})">Remove announcement</button>` : ''}
-  </article>`).join('');
+  </article>`).join('') + (!announcementUnread() ? announcementCaughtUp() : '');
 }
 function announcementAlertHint() {
   if (!USE_REMOTE_STORAGE) return 'Local preview. Publishing and phone alerts work on the hosted app.';
@@ -48,26 +48,23 @@ function announcementDeliveryText() {
 }
 function renderAnnouncements() {
   const s = announcementState, d = s.draft;
-  return `<section class="ann-wrap"><p class="sec-label">FROM YOUR TRAVEL DIRECTOR</p><h1>Announcements</h1><p>Messages, meeting points and moments from Brendon. For everyone on this trip.</p>
+  return `<section class="ann-wrap">${location.pathname.endsWith('/admin.php')?`<div class="admin-shortcut-label">Whirl Admin · ${ADMIN_MODE?'Unlocked':'Locked'} <button class="tools-admin-btn secondary" onclick="${ADMIN_MODE?'lockMobileAdmin()':'openAdminLogin()'}">${ADMIN_MODE?'Lock':'Unlock with PIN'}</button></div>`:''}<p class="sec-label">FROM YOUR TRAVEL DIRECTOR</p><h1>Announcements</h1><p>Messages, meeting points and moments from Brendon. For everyone on this trip.</p>
     <div class="ann-alerts"><p id="ann-alert-hint">${escapeHtml(announcementAlertHint())}</p>
     <button class="tools-admin-btn secondary" onclick="toggleAnnouncementAlerts()" ${!USE_REMOTE_STORAGE ? 'disabled' : ''} id="ann-alert-button">${s.subscribed ? 'Turn alerts off' : 'Enable alerts'}</button></div>
     <p id="ann-status" role="status" aria-live="polite">${escapeHtml(s.message)}</p>
-    ${ADMIN_MODE ? `<form class="ann-composer" onsubmit="event.preventDefault();publishAnnouncement()"><h2>New announcement</h2><p>Visible to everyone on this trip. Guests cannot reply.</p>
+    ${ADMIN_MODE ? `<form class="ann-composer" onsubmit="event.preventDefault();publishAnnouncement()"><h2>Share with your guests</h2><p>Visible to everyone on this trip. Guests cannot reply.</p>
       <label for="ann-body">Message</label><textarea id="ann-body" maxlength="5000" rows="5" placeholder="Write your message. Paste YouTube, Google Maps or Apple Maps links here." oninput="announcementState.draft.body=this.value;updateAnnouncementPreview()">${escapeHtml(d.body)}</textarea>
-<div class="ann-format-tools">      <button id="ann-publish" class="tools-admin-btn" type="submit" ${s.busy || s.photoBusy || announcementRecorder ? 'disabled' : ''}>${s.busy ? 'Publishing…' : 'Publish & alert everyone'}</button>      <button type="button" id="ann-record" onclick="toggleAnnouncementRecording()">${announcementRecorder?'Stop recording':'Record voice message'}</button></div>
-<p class="ann-help">Type or use your keyboard microphone, then publish. Everything below is optional.</p>
-<details><summary>Photos, video & formatting</summary>
+${announcementWritingTools()}<div class="ann-format-tools">      <button id="ann-publish" class="tools-admin-btn" type="submit" ${s.busy || s.photoBusy || announcementRecorder ? 'disabled' : ''}>${s.busy ? 'Publishing…' : 'Publish & alert everyone'}</button>      <button type="button" id="ann-record" onclick="toggleAnnouncementRecording()">${announcementRecorder?'Stop recording':'Record voice message'}</button></div>
+<p class="ann-help">Type or dictate, add anything you need, then publish.</p>
+<div class="ann-attach-row"><button type="button" onclick="document.getElementById('ann-link-box').open=!document.getElementById('ann-link-box').open">↗ Add link</button><label>＋ Photo<input id="ann-upload" type="file" accept="image/jpeg,image/png,image/webp,image/heic" onchange="attachAnnouncementPhoto(this.files[0])"></label><label>＋ Video / audio<input id="ann-media-upload" type="file" accept="video/mp4,video/quicktime,video/webm,audio/mp4,audio/mpeg,audio/ogg,audio/webm,audio/wav,.m4a,.mov" onchange="attachAnnouncementMedia(this.files[0])"></label></div>
+<details id="ann-link-box"><summary>YouTube, maps or another link</summary><input id="ann-link-input" type="url" placeholder="Paste your link here"><button type="button" class="tools-admin-btn secondary" onclick="addAnnouncementLink()">Add to message</button></details>
+<div id="ann-photo-draft">${announcementDraftPhoto()}</div><div id="ann-media-draft">${announcementDraftMedia()}</div>
+<p class="ann-help">One photo and one video or voice clip per announcement. Clips up to 20 MB; use a YouTube link for longer videos.</p>
+<details><summary>Heading, bold & preview</summary>
       <details><summary>Add a heading (optional)</summary><label for="ann-title">Heading</label><input id="ann-title" maxlength="120" placeholder="Update from Brendon" value="${escapeHtml(d.title)}" oninput="announcementState.draft.title=this.value"></details>
       <div class="ann-format-tools"><button type="button" onclick="formatAnnouncement('*')"><strong>Bold</strong></button><button type="button" onclick="formatAnnouncement('_')"><em>Italic</em></button></div>
       <p class="ann-help">Use *bold*, _italic_ and emojis. To dictate text, tap the microphone on your phone keyboard.</p>
       <details class="ann-preview"><summary>Preview your message</summary><div id="ann-message-preview" class="ann-body">${announcementText(d.body)}</div></details>
-      <label for="ann-upload">Add a photo (optional)</label><input id="ann-upload" type="file" accept="image/jpeg,image/png,image/webp,image/heic" onchange="attachAnnouncementPhoto(this.files[0])" ${s.busy || s.photoBusy || announcementRecorder ? 'disabled' : ''}>
-      <div id="ann-photo-draft">${announcementDraftPhoto()}</div>
-      <label for="ann-media-upload">Add a video or voice clip (optional)</label><input id="ann-media-upload" type="file" accept="video/mp4,video/quicktime,video/webm,audio/mp4,audio/mpeg,audio/ogg,audio/webm,audio/wav,.m4a,.mov" onchange="attachAnnouncementMedia(this.files[0])" ${s.busy||s.photoBusy?'disabled':''}>
-      <p class="ann-help">Up to 20 MB. MP4 is best across phones. For longer videos, paste a YouTube link. Clips are shared as uploaded, including any location metadata.</p>
-
-      <div id="ann-media-draft">${announcementDraftMedia()}</div>
-
       </details><p id="ann-delivery" class="ann-meta">${escapeHtml(announcementDeliveryText())}</p>
     </form>` : ''}
     <div class="ann-feed-heading"><h2>Latest updates</h2><button class="tools-admin-btn secondary" onclick="refreshAnnouncements(true)">Refresh</button></div>
@@ -202,3 +199,26 @@ async function toggleAnnouncementRecording(){
     recorder.onerror=()=>{announcementStatus('Recording failed. Please try again.');if(recorder.state!=='inactive')recorder.stop();};recorder.start(1000);
   }catch{stream?.getTracks().forEach(track=>track.stop());announcementRecorder=null;announcementStatus('Microphone unavailable. Allow microphone access or use your keyboard microphone to dictate text.');}
 }
+
+function announcementCaughtUp(){return '<div class="ann-caught-up"><div class="bell" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg></div><strong>You’re all caught up.</strong><p>Updates, helpful tips and photos from Brendon will appear here.</p></div>';}
+function announcementWritingTools(){return `<div class="ann-writing"><strong>Speak or write your message</strong><div class="ann-format-tools"><button type="button" id="ann-dictate" onclick="dictateAnnouncement()">🎙 Dictate message</button><button type="button" id="ann-polish" onclick="polishAnnouncement()" ${authState.config?.announcementAiAvailable?'':'disabled'}>✨ Polish with AI</button><button type="button" onclick="undoAnnouncementPolish()">Undo polish</button></div><p>${authState.config?.announcementAiAvailable?'Polishing sends this draft to OpenAI. Review the result before publishing.':'AI polishing is awaiting service setup. Typing, dictation and publishing are ready.'}</p><p id="ann-writing-status" role="status"></p></div>`;}
+function addAnnouncementLink(){const input=document.getElementById('ann-link-input');try{const url=new URL(input.value.trim());if(!['https:','http:'].includes(url.protocol)||url.username||url.password)throw Error();const body=document.getElementById('ann-body');body.value=(body.value.trimEnd()+'\n'+url.href).trim();announcementState.draft.body=body.value;updateAnnouncementPreview();input.value='';document.getElementById('ann-link-box').open=false;}catch{announcementStatus('Paste a full link beginning with https://.');}}
+let announcementDictation=null,announcementBeforePolish='';
+function dictateAnnouncement(){
+  if(announcementDictation){announcementDictation.stop();return;}
+  const body=document.getElementById('ann-body'),status=document.getElementById('ann-writing-status');
+  const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!Speech){body.focus();status.textContent='Tap the microphone on your phone keyboard and speak. Your words will appear in Message.';return;}
+  const speech=new Speech();announcementDictation=speech;speech.lang='en-GB';speech.continuous=false;speech.interimResults=false;
+  speech.onresult=event=>{const text=Array.from(event.results).filter(result=>result.isFinal).map(result=>result[0].transcript).join(' ');const current=document.getElementById('ann-body');if(current){current.value=(current.value.trimEnd()+' '+text).trim().slice(0,5000);announcementState.draft.body=current.value;updateAnnouncementPreview();}};
+  speech.onerror=()=>{status.textContent='Dictation stopped. You can also use the microphone on your phone keyboard.';};
+  speech.onend=()=>{announcementDictation=null;const button=document.getElementById('ann-dictate');if(button)button.textContent='🎙 Dictate message';};
+  try{speech.start();document.getElementById('ann-dictate').textContent='Stop dictation';status.textContent='Listening…';}catch{announcementDictation=null;body.focus();status.textContent='Use the microphone on your phone keyboard to dictate.';}
+}
+async function polishAnnouncement(){
+  const body=document.getElementById('ann-body'),button=document.getElementById('ann-polish'),status=document.getElementById('ann-writing-status');
+  const original=body.value;if(!original.trim()){status.textContent='Type or dictate a message first.';return;}button.disabled=true;status.textContent='Polishing your draft…';
+  try{const result=await authRequest('polishAnnouncement',{text:original});if(body.isConnected&&body.value===original){announcementBeforePolish=original;body.value=result.text;announcementState.draft.body=result.text;updateAnnouncementPreview();status.textContent='Ready to review. Check names and times, then publish.';}else{status.textContent='Your draft changed while polishing. Your edits have been kept.';}}
+  catch(error){status.textContent=error.message||'Could not polish. Your draft is unchanged.';}finally{button.disabled=false;}
+}
+function undoAnnouncementPolish(){if(!announcementBeforePolish)return;const body=document.getElementById('ann-body');body.value=announcementBeforePolish;announcementState.draft.body=announcementBeforePolish;announcementBeforePolish='';updateAnnouncementPreview();}
