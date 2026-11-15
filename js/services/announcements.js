@@ -66,7 +66,7 @@ function announcementCards() {
     ${ADMIN_MODE ? `<button class="ann-remove" onclick="deleteAnnouncement(${Number(item.id)})">Remove announcement</button>` : ''}
     ${!ADMIN_MODE?`<button class="ann-remove" data-ann-read="${Number(item.id)}" onclick="markAnnouncementSeen(${Number(item.id)})" ${announcementSeen.has(Number(item.id))?'disabled':''}>${announcementSeen.has(Number(item.id))?'✓ Seen':'Mark as read'}</button>`:''}
     <span data-ann-edge="end" data-ann-id="${Number(item.id)}" style="display:block;height:1px"></span>
-  </article>`).join('') + `<div id="ann-read-status" role="status" aria-live="polite">${!ADMIN_MODE&&!announcementUnread()?announcementCaughtUp():''}</div>`;
+  </article>`).join('') + `<div id="ann-read-status" style="min-height:120px" role="status" aria-live="polite">${!ADMIN_MODE&&!announcementUnread()?announcementCaughtUp():''}</div>`;
 }
 function announcementAlertHint() {
   if (!USE_REMOTE_STORAGE) return 'Local preview. Publishing and phone alerts work on the hosted app.';
