@@ -24,7 +24,8 @@ function handleAnnouncementMedia(string $action): void {
             if($start>$end||$start>=$size){header('Content-Range: bytes */'.$size);respond(['error'=>'Invalid range.'],416);}
             http_response_code(206);header("Content-Range: bytes $start-$end/$size");
         }
-        session_write_close();header('Content-Type: '.$media['mime']);header('Content-Disposition: inline');header('Accept-Ranges: bytes');header('Content-Length: '.($end-$start+1));
+        session_write_close();header('Content-Type: '.$media['mime']);$extensions=['video/mp4'=>'mp4','video/quicktime'=>'mov','video/webm'=>'webm','audio/mp4'=>'m4a','audio/mpeg'=>'mp3','audio/ogg'=>'ogg','audio/webm'=>'webm','audio/x-wav'=>'wav','audio/wav'=>'wav'];
+        header(($_GET['download']??'')==='1'?'Content-Disposition: attachment; filename="whirl-clip-'.(int)($_GET['id']??0).'.'.($extensions[$media['mime']]??'bin').'"':'Content-Disposition: inline');header('Accept-Ranges: bytes');header('Content-Length: '.($end-$start+1));
         $handle=fopen($file,'rb');fseek($handle,$start);$left=$end-$start+1;
         while($left>0&&!feof($handle)){ $chunk=fread($handle,min(65536,$left));echo $chunk;$left-=strlen($chunk); }fclose($handle);exit;
     }

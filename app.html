@@ -19,40 +19,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <title>Xmas Whirl 2026</title>
-<link rel="stylesheet" href="./css/app.css?v=20261115-guest-dictation">
+<link rel="stylesheet" href="./css/app.css?v=20261115-announcement-reading">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 <div id="app">
   <div class="loading">Loading tour app...</div>
 </div>
-<script src="./js/core/utils.js?v=20261115-guest-dictation"></script>
-<script src="./js/core/tour-updates.js?v=20261115-guest-dictation"></script>
-<script src="./js/core/itinerary-helpers.js?v=20261115-guest-dictation"></script>
-<script src="./js/core/resource-helpers.js?v=20261115-guest-dictation"></script>
-<script src="./js/core/tour-config-helpers.js?v=20261115-guest-dictation"></script>
-<script src="./js/core/today-state.js?v=20261115-guest-dictation"></script>
-<script src="./js/services/offline-guide.js?v=20261115-guest-dictation"></script>
-<script src="./js/services/experience-interest.js?v=20261115-guest-dictation"></script>
-<script src="./js/services/announcements.js?v=20261115-guest-dictation"></script>
-<script src="./js/services/auth.js?v=20261115-guest-dictation"></script>
-<script src="./js/services/storage.js?v=20261115-guest-dictation"></script>
-<script src="./js/services/admin-content-storage.js?v=20261115-guest-dictation"></script>
-<script src="./js/services/admin-content-overrides.js?v=20261115-guest-dictation"></script>
-<script src="./js/viewer/document-viewer.js?v=20261115-guest-dictation"></script>
-<script src="./js/maps/map-panel.js?v=20261115-guest-dictation"></script>
-<script src="./js/navigation/navigation.js?v=20261115-guest-dictation"></script>
-<script src="./js/rendering/contacts-renderer.js?v=20261115-guest-dictation"></script>
-<script src="./js/rendering/travel-director-renderer.js?v=20261115-guest-dictation"></script>
-<script src="./js/services/analytics.js?v=20261115-guest-dictation"></script>
-<script src="./js/services/onward-export.js?v=20261115-guest-dictation"></script>
-<script src="./js/core/journey-recaps.js?v=20261115-guest-dictation"></script>
-<script src="./js/rendering/experiences-renderer.js?v=20261115-guest-dictation"></script>
-<script src="./js/rendering/tools-renderer.js?v=20261115-guest-dictation"></script>
-<script src="./js/rendering/rewards-renderer.js?v=20261115-guest-dictation"></script>
-<script src="./js/rendering/travel-impact-renderer.js?v=20261115-guest-dictation"></script>
-<script src="./js/rendering/today-components.js?v=20261115-guest-dictation"></script>
-<script src="./js/rendering/itinerary-components.js?v=20261115-guest-dictation"></script>
+<script src="./js/core/utils.js?v=20261115-announcement-reading"></script>
+<script src="./js/core/tour-updates.js?v=20261115-announcement-reading"></script>
+<script src="./js/core/itinerary-helpers.js?v=20261115-announcement-reading"></script>
+<script src="./js/core/resource-helpers.js?v=20261115-announcement-reading"></script>
+<script src="./js/core/tour-config-helpers.js?v=20261115-announcement-reading"></script>
+<script src="./js/core/today-state.js?v=20261115-announcement-reading"></script>
+<script src="./js/services/offline-guide.js?v=20261115-announcement-reading"></script>
+<script src="./js/services/experience-interest.js?v=20261115-announcement-reading"></script>
+<script src="./js/services/announcements.js?v=20261115-announcement-reading"></script>
+<script src="./js/services/auth.js?v=20261115-announcement-reading"></script>
+<script src="./js/services/storage.js?v=20261115-announcement-reading"></script>
+<script src="./js/services/admin-content-storage.js?v=20261115-announcement-reading"></script>
+<script src="./js/services/admin-content-overrides.js?v=20261115-announcement-reading"></script>
+<script src="./js/viewer/document-viewer.js?v=20261115-announcement-reading"></script>
+<script src="./js/maps/map-panel.js?v=20261115-announcement-reading"></script>
+<script src="./js/navigation/navigation.js?v=20261115-announcement-reading"></script>
+<script src="./js/rendering/contacts-renderer.js?v=20261115-announcement-reading"></script>
+<script src="./js/rendering/travel-director-renderer.js?v=20261115-announcement-reading"></script>
+<script src="./js/services/analytics.js?v=20261115-announcement-reading"></script>
+<script src="./js/services/onward-export.js?v=20261115-announcement-reading"></script>
+<script src="./js/core/journey-recaps.js?v=20261115-announcement-reading"></script>
+<script src="./js/rendering/experiences-renderer.js?v=20261115-announcement-reading"></script>
+<script src="./js/rendering/tools-renderer.js?v=20261115-announcement-reading"></script>
+<script src="./js/rendering/rewards-renderer.js?v=20261115-announcement-reading"></script>
+<script src="./js/rendering/travel-impact-renderer.js?v=20261115-announcement-reading"></script>
+<script src="./js/rendering/today-components.js?v=20261115-announcement-reading"></script>
+<script src="./js/rendering/itinerary-components.js?v=20261115-announcement-reading"></script>
 <script>
 const URL_PARAMS = new URLSearchParams(location.search);
 const DEFAULT_TOUR_CODE = "WWHI22L26A";
@@ -6017,7 +6017,7 @@ function setupToolsScreen() {
 
 function renderToolsAdminAccess(adminState) {
   if (ADMIN_MODE) {
-    return `<div class="tools-admin-bar"><div class="tools-admin-card"><div class="tools-admin-kicker">Admin controls</div><div class="tools-admin-copy">${FULL_ADMIN_UI ? "Full Edit Mode is on. Use the collapsed edit panels inside Today, Itinerary and Experiences." : "Private controls for quick Today edits, tool order, usage analytics and guest onward-travel submissions."}</div><div class="tools-admin-actions"><button class="tools-admin-btn" type="button" onclick="openQuickAdmin()">Quick Edit Today</button><button class="tools-admin-btn secondary" type="button" onclick="toggleFullAdminMode()">${FULL_ADMIN_UI ? "Hide Full Edit" : "Full Edit Mode"}</button><button class="tools-admin-btn secondary" type="button" onclick="toggleToolsReorder()">${toolsReorderMode ? "Done Reordering" : "Reorder Tools"}</button><button class="tools-admin-btn secondary" type="button" onclick="resetToolsOrder()">Reset Order</button><button class="tools-admin-btn secondary" type="button" onclick="openToolPanel('analytics')">Usage Analytics</button><button class="tools-admin-btn secondary" type="button" onclick="openToolPanel('onward')">Onward Travel Sheet</button><button class="tools-admin-btn secondary" type="button" onclick="lockMobileAdmin()">Lock Admin</button></div><div class="tools-admin-state">${escapeHtml(adminState)}</div></div></div>`;
+    return `<div class="tools-admin-bar"><div class="tools-admin-card"><div class="tools-admin-kicker">Admin controls</div><div class="tools-admin-copy">${FULL_ADMIN_UI ? "Full Edit Mode is on. Use the collapsed edit panels inside Today, Itinerary and Experiences." : "Private controls for quick Today edits, tool order, usage analytics and guest onward-travel submissions."}</div><div class="tools-admin-actions"><button class="tools-admin-btn" type="button" onclick="openQuickAdmin()">Quick Edit Today</button><button class="tools-admin-btn secondary" type="button" onclick="toggleFullAdminMode()">${FULL_ADMIN_UI ? "Hide Full Edit" : "Full Edit Mode"}</button><button class="tools-admin-btn secondary" type="button" onclick="toggleToolsReorder()">${toolsReorderMode ? "Done Reordering" : "Reorder Tools"}</button><button class="tools-admin-btn secondary" type="button" onclick="resetToolsOrder()">Reset Order</button><button class="tools-admin-btn secondary" type="button" onclick="openToolPanel('analytics')">Usage Analytics</button><button class="tools-admin-btn secondary" type="button" onclick="setTab('experiences');document.getElementById('guest-interest-report')?.scrollIntoView({block:'start'})">Guest Interest · Names & Totals</button><button class="tools-admin-btn secondary" type="button" onclick="openToolPanel('onward')">Onward Travel Sheet</button><button class="tools-admin-btn secondary" type="button" onclick="lockMobileAdmin()">Lock Admin</button></div><div class="tools-admin-state">${escapeHtml(adminState)}</div></div></div>`;
   }
   return '<div class="tools-admin-bar"><button class="tools-admin-btn secondary" type="button" onclick="openAdminLogin()">Unlock Admin</button></div>';
 }
@@ -6078,6 +6078,7 @@ function renderApp({ preserveScroll = false } = {}) {
     if (typeof setupToolsScreen === "function") setupToolsScreen();
     if (activeToolPanel && typeof initializeToolPanel === "function") setTimeout(() => initializeToolPanel(activeToolPanel), 0);
   }
+  if(typeof observeAnnouncementReading==='function')observeAnnouncementReading();
   if (activePhotoViewer) setTimeout(() => renderPhotoViewerContent(activePhotoViewer), 0);
   if (activeInformationMap) setTimeout(() => initializeInformationMap(), 0);
 }

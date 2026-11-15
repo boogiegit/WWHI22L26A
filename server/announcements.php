@@ -101,7 +101,8 @@ function handleAnnouncements(string $action): void {
         $stmt=$db->prepare('SELECT photo FROM announcements WHERE id=?'); $stmt->execute([(int)($_GET['id']??0)]);
         $path=$stmt->fetchColumn();
         if(!$path || !registeredPhotoPath($path)) respond(['error'=>'Photo unavailable.'],404);
-        session_write_close(); header('Content-Type: image/jpeg'); readfile(dirname(__DIR__).'/'.$path); exit;
+        session_write_close(); header('Content-Type: image/jpeg');
+        if(($_GET['download']??'')==='1')header('Content-Disposition: attachment; filename="whirl-photo-'.(int)($_GET['id']??0).'.jpg"'); readfile(dirname(__DIR__).'/'.$path); exit;
     }
     if($action==='announcementPushKey') {
         if(!announcementPushReady()) respond(['error'=>'Phone alerts are not available on this server yet.'],503);

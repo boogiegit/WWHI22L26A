@@ -24,7 +24,7 @@ function interestButton(experience) {
 function interestPanel() {
   const s=interestState;
   return `<section class="${ADMIN_MODE?'interest-panel':'interest-feedback'}"><p id="interest-status" role="status">${escapeHtml(s.error)}</p>
-  ${ADMIN_MODE?`<details><summary>Guest interest · director view</summary><button class="tools-admin-btn secondary" onclick="refreshInterest()">Refresh responses</button><div id="interest-summary">${interestSummary()}</div></details>`:''}
+  ${ADMIN_MODE?`<details id="guest-interest-report" open><summary>Guest interest · names & totals</summary><button class="tools-admin-btn secondary" onclick="refreshInterest()">Refresh responses</button><div id="interest-summary">${interestSummary()}</div></details>`:''}
   ${s.editing?interestForm():''}</section>`;
 }
 function interestForm() {
@@ -34,7 +34,7 @@ function interestForm() {
 function interestSummary() {
   if(!interestState.summary.length)return '<p>No responses received yet.</p>';
   return traditionalEuropeExperiences().map(exp=>{
-    const rows=interestState.summary.filter(item=>item.experience===exp.experienceId); if(!rows.length)return '';
+    const rows=interestState.summary.filter(item=>item.experience===exp.experienceId);
     return `<div class="interest-result"><strong>${escapeHtml(exp.displayTitle)}</strong><p>${rows.reduce((sum,item)=>sum+Number(item.people),0)} people · ${rows.length} ${rows.length===1?'response':'responses'}</p>${rows.map(item=>`<p>${escapeHtml(item.name)} — ${Number(item.people)} ${Number(item.people)===1?'person':'people'}</p>`).join('')}</div>`;
   }).join('');
 }

@@ -3,7 +3,42 @@ const announcementState = { items: [], loaded: false, error: '', busy: false, ph
 const ANNOUNCEMENT_READ_KEY = 'wwhi22l26a-announcements-read';
 const ANNOUNCEMENT_TOKEN_KEY = 'wwhi22l26a-announcements-device';
 function announcementReadId() { try { return Number(localStorage.getItem(ANNOUNCEMENT_READ_KEY)) || 0; } catch { return 0; } }
-function announcementUnread() { return announcementState.items.filter(item => item.id > announcementReadId()).length; }
+const ANNOUNCEMENT_SEEN_KEY='wwhi22l26a-announcements-seen-v2';
+const announcementSeen=new Set();
+try { const ids=JSON.parse(localStorage.getItem(ANNOUNCEMENT_SEEN_KEY)||'[]'); if(Array.isArray(ids))ids.filter(Number.isSafeInteger).forEach(id=>announcementSeen.add(id)); } catch {}
+function announcementUnread() { return announcementState.items.filter(item => !announcementSeen.has(Number(item.id))).length; }
+function markAnnouncementSeen(id) {
+  if(ADMIN_MODE || activeTab!=='announcements' || document.hidden || !announcementState.items.some(item=>Number(item.id)===id))return;
+  announcementSeen.add(id);
+  try {localStorage.setItem(ANNOUNCEMENT_SEEN_KEY,JSON.stringify([...announcementSeen].slice(-2000)));}catch{}
+  updateAnnouncementReadStatus();
+}
+function updateAnnouncementReadStatus(){
+  const count=announcementUnread(), status=document.getElementById('ann-read-status');
+  if(status)status.innerHTML=!ADMIN_MODE&&!count?announcementCaughtUp():'';
+  const badge=document.getElementById('ann-badge');if(badge){badge.textContent=count>9?'9+':String(count);badge.hidden=!count;}
+  document.querySelectorAll('[data-ann-read]').forEach(button=>{const read=announcementSeen.has(Number(button.dataset.annRead));button.textContent=read?'✓ Seen':'Mark as read';button.disabled=read;});
+}
+let announcementReadObserver=null;
+let announcementReadTimers=[];
+function observeAnnouncementReading(){
+  announcementReadObserver?.disconnect();announcementReadTimers.forEach(clearTimeout);announcementReadTimers=[];
+  if(ADMIN_MODE || activeTab!=='announcements' || typeof IntersectionObserver==='undefined')return;
+  const started=new Set();
+  announcementReadObserver=new IntersectionObserver(entries=>{
+    for(const entry of entries){if(!entry.isIntersecting||document.hidden)continue;
+      const id=Number(entry.target.dataset.annId);
+      if(entry.target.dataset.annEdge==='start'){started.add(id);continue;}
+      if(!started.has(id)||announcementSeen.has(id))continue;
+      announcementReadTimers.push(setTimeout(()=>{
+        if(!entry.target.isConnected||activeTab!=='announcements'||document.hidden)return;
+        const r=entry.target.getBoundingClientRect(), root=document.getElementById('scr-announcements').getBoundingClientRect();
+        if(r.top>=root.top && r.bottom<=Math.min(root.bottom,window.innerHeight)-90)markAnnouncementSeen(id);
+      },1500));
+    }
+  },{root:document.getElementById('scr-announcements'),rootMargin:'0px 0px -90px 0px',threshold:1});
+  document.querySelectorAll('[data-ann-edge]').forEach(el=>announcementReadObserver.observe(el));
+}
 function announcementRandom(bytes) { return Array.from(crypto.getRandomValues(new Uint8Array(bytes)), n => n.toString(16).padStart(2, '0')).join(''); }
 function announcementInline(text) {
   // Escape first; only our own fixed formatting tags can enter the rendered message.
@@ -22,14 +57,16 @@ function announcementText(text) {
 }
 function announcementCards() {
   if (!announcementState.loaded) return `<p class="ann-empty">${escapeHtml(announcementState.error || 'Loading announcements…')}</p>`;
-  if (!announcementState.items.length) return announcementCaughtUp();
-  return announcementState.items.map(item => `<article class="ann-card">
+  if (!announcementState.items.length) return '<div id="ann-read-status">'+(ADMIN_MODE?'':announcementCaughtUp())+'</div>';
+  return announcementState.items.map(item => `<article class="ann-card"><span data-ann-edge="start" data-ann-id="${Number(item.id)}" style="display:block;height:1px"></span>
     <p class="ann-meta">BRENDON · <time datetime="${escapeHtml(item.created)}">${escapeHtml(new Date(item.created).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }))}</time></p>
     <h2>${escapeHtml(item.title)}</h2><div class="ann-body">${announcementText(item.body)}</div>
-    ${item.photo && /^\.\/api\.php\?action=announcementPhoto&id=\d+$/.test(item.photo) ? `<a href="${escapeHtml(item.photo)}" target="_blank" rel="noopener"><img class="ann-photo" src="${escapeHtml(item.photo)}" alt="Photo from Brendon for ${escapeHtml(item.title)}" loading="lazy"></a>` : ''}
+    ${item.photo && /^\.\/api\.php\?action=announcementPhoto&id=\d+$/.test(item.photo) ? `<a href="${escapeHtml(item.photo)}" target="_blank" rel="noopener"><img class="ann-photo" src="${escapeHtml(item.photo)}" alt="Photo from Brendon for ${escapeHtml(item.title)}" loading="lazy"></a><p><a class="ann-media-link" href="${escapeHtml(item.photo)}&download=1" download>Save photo</a></p>` : ''}
     ${announcementMediaPlayer(item)}
     ${ADMIN_MODE ? `<button class="ann-remove" onclick="deleteAnnouncement(${Number(item.id)})">Remove announcement</button>` : ''}
-  </article>`).join('') + (!announcementUnread() ? announcementCaughtUp() : '');
+    ${!ADMIN_MODE?`<button class="ann-remove" data-ann-read="${Number(item.id)}" onclick="markAnnouncementSeen(${Number(item.id)})" ${announcementSeen.has(Number(item.id))?'disabled':''}>${announcementSeen.has(Number(item.id))?'✓ Seen':'Mark as read'}</button>`:''}
+    <span data-ann-edge="end" data-ann-id="${Number(item.id)}" style="display:block;height:1px"></span>
+  </article>`).join('') + `<div id="ann-read-status" role="status" aria-live="polite">${!ADMIN_MODE&&!announcementUnread()?announcementCaughtUp():''}</div>`;
 }
 function announcementAlertHint() {
   if (!USE_REMOTE_STORAGE) return 'Local preview. Publishing and phone alerts work on the hosted app.';
@@ -77,8 +114,8 @@ function announcementDraftPhoto() {
 function announcementStatus(message) { announcementState.message=message; const el=document.getElementById('ann-status'); if(el) el.textContent=message; }
 function syncAnnouncementView() {
   const s=announcementState;
-  if(activeTab==='announcements' && s.items.length) { try { localStorage.setItem(ANNOUNCEMENT_READ_KEY,String(Math.max(...s.items.map(item=>item.id)))); } catch {} }
-  const feed=document.getElementById('ann-feed'); if(feed) feed.innerHTML=announcementCards();
+
+  const feed=document.getElementById('ann-feed'); const signature=JSON.stringify([s.loaded,s.items,s.error,ADMIN_MODE]); if(feed && feed.dataset.signature!==signature){feed.innerHTML=announcementCards();feed.dataset.signature=signature;observeAnnouncementReading();} updateAnnouncementReadStatus();
   const hint=document.getElementById('ann-alert-hint'); if(hint) hint.textContent=announcementAlertHint();
   const button=document.getElementById('ann-alert-button'); if(button) button.textContent=s.subscribed?'Turn alerts off':'Enable alerts';
   const delivery=document.getElementById('ann-delivery'); if(delivery) delivery.textContent=announcementDeliveryText();
@@ -167,7 +204,7 @@ async function startAnnouncements() {
 function announcementMediaPlayer(item) {
   if(!/^\.\/api\.php\?action=announcementMedia&id=\d+$/.test(item.media||''))return '';
   const tag=String(item.mediaType).startsWith('audio/')?'audio':'video';
-  return `<${tag} class="ann-media" controls playsinline preload="none" src="${escapeHtml(item.media)}"></${tag}><a class="ann-media-link" href="${escapeHtml(item.media)}" target="_blank" rel="noopener">Open clip</a>`;
+  return `<${tag} class="ann-media" controls playsinline preload="none" src="${escapeHtml(item.media)}"></${tag}><a class="ann-media-link" href="${escapeHtml(item.media)}" target="_blank" rel="noopener">Open clip</a> · <a class="ann-media-link" href="${escapeHtml(item.media)}&download=1" download>Save ${tag==='video'?'video':'audio'}</a>`;
 }
 function updateAnnouncementPreview(){const el=document.getElementById('ann-message-preview');if(el)el.innerHTML=announcementText(announcementState.draft.body);}
 function formatAnnouncement(marker){const field=document.getElementById('ann-body');if(!field)return;const start=field.selectionStart,end=field.selectionEnd;const text=field.value;const selected=text.slice(start,end)||'your text';field.value=text.slice(0,start)+marker+selected+marker+text.slice(end);announcementState.draft.body=field.value;field.focus();field.setSelectionRange(start+1,start+1+selected.length);updateAnnouncementPreview();}
@@ -201,7 +238,7 @@ async function toggleAnnouncementRecording(){
   }catch{stream?.getTracks().forEach(track=>track.stop());announcementRecorder=null;announcementStatus('Microphone unavailable. Allow microphone access or use your keyboard microphone to dictate text.');}
 }
 
-function announcementCaughtUp(){return '<div class="ann-caught-up"><div class="bell" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg></div><strong>You’re all caught up.</strong><p>Updates, helpful tips and photos from Brendon will appear here.</p></div>';}
+function announcementCaughtUp(){return '<div class="ann-caught-up"><div class="bell" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg></div><strong>You’re all caught up.</strong><p>You’ve seen all the latest announcements. New updates will appear here.</p></div>';}
 function announcementWritingTools(){return `<div class="ann-writing"><strong>Speak or write your message</strong><div class="ann-format-tools"><button type="button" id="ann-dictate" onclick="dictateAnnouncement()">🎙 Dictate message</button><button type="button" id="ann-polish" onclick="polishAnnouncement()" ${authState.config?.announcementAiAvailable?'':'disabled'}>✨ Polish with AI</button><button type="button" onclick="undoAnnouncementPolish()">Undo polish</button></div><p>${authState.config?.announcementAiAvailable?'Polishing sends this draft to OpenAI. Review the result before publishing.':'AI polishing is awaiting service setup. Typing, dictation and publishing are ready.'}</p><p class="ann-help">Tap Dictate message, wait for Listening, then speak. Tap Stop dictation when finished. No need to tap the message box first.</p><p id="ann-writing-status" role="status"></p></div>`;}
 function addAnnouncementLink(){const input=document.getElementById('ann-link-input');try{const url=new URL(input.value.trim());if(!['https:','http:'].includes(url.protocol)||url.username||url.password)throw Error();const body=document.getElementById('ann-body');body.value=(body.value.trimEnd()+'\n'+url.href).trim();announcementState.draft.body=body.value;updateAnnouncementPreview();input.value='';document.getElementById('ann-link-box').open=false;}catch{announcementStatus('Paste a full link beginning with https://.');}}
 let announcementDictation=null,announcementBeforePolish='';
