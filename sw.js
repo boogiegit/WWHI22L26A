@@ -1,7 +1,7 @@
 // Cache only explicitly approved application code and icons. Never cache API responses,
 // private data, uploaded media, invitation links or third-party requests.
 // The public offline guide is the only saved tour-content document.
-const CACHE_NAME = 'wwhi22l26a-static-v177';
+const CACHE_NAME = 'wwhi22l26a-static-v178';
 const STATIC_PATHS = [
   './offline-guide.html', './js/services/offline-guide.js', './js/services/announcements.js', './js/services/experience-interest.js',
   './js/core/tour-updates.js',
@@ -24,7 +24,7 @@ self.addEventListener('install', event => {
 });
 self.addEventListener('activate', event => {
   event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME &&
-    key.startsWith('wwhi22l26a-') && key !== 'wwhi22l26a-offline-guide-v1').map(key => caches.delete(key))))
+    key.startsWith('wwhi22l26a-') && key !== 'wwhi22l26a-offline-guide-v2').map(key => caches.delete(key))))
     .then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', event => {
@@ -36,7 +36,7 @@ self.addEventListener('fetch', event => {
       [scopeURL.pathname, scopeURL.pathname+'app.html', scopeURL.pathname+'index.html', scopeURL.pathname+'offline-guide.html'].includes(url.pathname)) {
     event.respondWith(fetch(event.request, {cache:'no-store'}).catch(async () => {
       const guideURL = new URL('./offline-guide.html',self.registration.scope).href;
-      const saved = await caches.open('wwhi22l26a-offline-guide-v1');
+      const saved = await caches.open('wwhi22l26a-offline-guide-v2');
       return await saved.match(guideURL) || await caches.match(guideURL) || new Response('Connect to the internet once to save your trip guide.', {status:503,headers:{'Content-Type':'text/plain'}});
     }));
     return;

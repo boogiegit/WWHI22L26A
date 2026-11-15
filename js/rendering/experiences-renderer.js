@@ -84,11 +84,11 @@ function renderExperiences() {
               <span class="exp-meta-pill">${escapeHtml(experience.location)}</span>
               <span class="exp-meta-pill exp-price-pill">${escapeHtml(experience.price)}</span>
             </div>
+            ${interestButton(experience)}
             <div class="exp-img-title">${escapeHtml(experience.displayTitle || experience.title)}</div>
           </div>
           <div class="exp-body">
             <div class="exp-desc">${escapeHtml(experience.description)}</div>
-            ${interestButton(experience)}
           </div>
           ${builderReviewExperienceControlsByTitle(experience.title)}
           ${renderExperienceAdminEditor(findOptionalByTitle(experience.title))}

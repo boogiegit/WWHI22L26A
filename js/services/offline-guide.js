@@ -1,4 +1,4 @@
-const OFFLINE_GUIDE_CACHE='wwhi22l26a-offline-guide-v1';
+const OFFLINE_GUIDE_CACHE='wwhi22l26a-offline-guide-v2';
 async function saveOfflineGuide(){
   const status=document.getElementById('offline-guide-status'),button=document.getElementById('offline-guide-save');
   if(!('serviceWorker' in navigator)||!('caches' in window)){status.textContent='Offline saving is unavailable in this browser. Please use Safari or Chrome over HTTPS.';return;}
@@ -12,4 +12,4 @@ async function saveOfflineGuide(){
   }catch{status.textContent='Could not save the guide. Please connect to the internet and try again.';}
   finally{button.disabled=false;}
 }
-function offlineGuideCard(){return `<section class="offline-guide-card"><h2>Your trip, without internet</h2><p>Save all 12 days, hotel addresses and joining guidance on this device. This edition excludes live changes and announcements.</p><button class="tools-admin-btn" id="offline-guide-save" onclick="saveOfflineGuide()">Save offline guide</button> <a href="./offline-guide.html">View guide</a><p id="offline-guide-status" role="status">Save while online, then test once in flight mode. Clearing browser data removes saved guides.</p></section>`;}
+function offlineGuideCard(){return `<section class="offline-guide-card"><h2>Your trip, without internet</h2><p>Save itinerary overviews, experiences, hotels and contacts on this device. Today’s detailed schedules and announcements are not included.</p><button class="tools-admin-btn" id="offline-guide-save" onclick="saveOfflineGuide()">Save offline guide</button> <a href="./offline-guide.html">View guide</a><p id="offline-guide-status" role="status">Save while online, then test once in flight mode. Clearing browser data removes saved guides.</p></section>`;}

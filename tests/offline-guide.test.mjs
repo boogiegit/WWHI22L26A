@@ -14,3 +14,16 @@ const html=fs.readFileSync(new URL('../offline-guide.html',import.meta.url),'utf
 for(let day=1;day<=12;day++)assert.ok(html.includes(`id="day-${day}"`));
 assert.ok(html.includes('Arrival in London'));assert.ok(!html.includes('Meeting Point 3'));assert.ok(html.includes('Astoria'));assert.ok(html.includes('not live admin changes'));
 console.log('PASS: offline entry points, private-route isolation, 12 days, hotels and London guidance.');
+
+assert.ok(!html.includes('class="time"'));
+assert.ok(!html.includes('Colosseum entry'));
+for(const section of ['itinerary','experiences','hotels','contacts'])assert.ok(html.includes(`id="${section}"`));
+assert.ok(html.includes('Gondolas'));
+assert.ok(html.includes('+447850880535'));
+const deleted=[];
+context.caches.keys=async()=>['wwhi22l26a-offline-guide-v1','wwhi22l26a-offline-guide-v2','wwhi22l26a-static-v177','wwhi22l26a-static-v178','ewhi11j26a-static-v1'];
+context.caches.delete=async key=>deleted.push(key);
+context.self.clients={claim:async()=>{}};
+let activation;listeners.activate({waitUntil:p=>activation=p});await activation;
+assert.deepEqual(deleted,['wwhi22l26a-offline-guide-v1','wwhi22l26a-static-v177']);
+console.log('PASS: no Today schedule, offline experiences/contacts, old guide removed without touching original app caches.');

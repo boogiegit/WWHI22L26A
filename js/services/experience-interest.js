@@ -8,11 +8,11 @@ function interestToken() {
 function interestButton(experience) {
   const id=experience.experienceId; if(!id)return '';
   const saved=interestState.items.find(item=>item.experience===id);
-  return `<div class="interest-action"><button class="interest-button ${saved?'selected':''}" type="button" onclick="openInterest('${jsString(id)}')">${saved?`✓ Interested · ${Number(saved.people)} ${Number(saved.people)===1?'person':'people'}`:'I’m interested'}</button><small>Expression of interest only · not a booking</small></div>`;
+  return `<div class="interest-action"><button class="interest-button ${saved?'selected':''}" type="button" onclick="openInterest('${jsString(id)}')">${saved?`✓ Interested · ${Number(saved.people)} ${Number(saved.people)===1?'person':'people'}`:'I’m interested'}</button><small>Show expression of interest</small></div>`;
 }
 function interestPanel() {
   const s=interestState;
-  return `<section class="interest-panel"><p>A little heads-up for Brendon: tap <strong>I’m interested</strong> on any experience. One response per couple or group is enough. Your name and group size are visible only to Brendon.</p><p id="interest-status" role="status">${escapeHtml(s.error)}</p>
+  return `<section class="${ADMIN_MODE?'interest-panel':'interest-feedback'}"><p id="interest-status" role="status">${escapeHtml(s.error)}</p>
   ${ADMIN_MODE?`<details><summary>Guest interest · director view</summary><button class="tools-admin-btn secondary" onclick="refreshInterest()">Refresh responses</button><div id="interest-summary">${interestSummary()}</div></details>`:''}
   ${s.editing?interestForm():''}</section>`;
 }
@@ -45,7 +45,7 @@ async function openInterest(id) {
 function closeInterest(){if(interestState.busy)return;interestState.editing='';interestState.error='';renderApp({preserveScroll:true});}
 async function saveInterest(remove) {
   const s=interestState;if(s.busy)return;s.busy=true;s.error='';renderApp({preserveScroll:true});
-  try {await authRequest('interestSave',{token:interestToken(),experience:s.editing,name:s.name.trim(),people:remove?0:s.people});s.editing='';await refreshInterest();s.error=remove?'Your interest has been removed.':'Thank you — Brendon has your expression of interest. This is not a booking.';}
+  try {await authRequest('interestSave',{token:interestToken(),experience:s.editing,name:s.name.trim(),people:remove?0:s.people});s.editing='';await refreshInterest();s.error=remove?'Your interest has been removed.':'Thank you — Brendon has your expression of interest.';}
   catch(error){s.error=error.message||'Could not save. Please try again.';}
   finally{s.busy=false;renderApp({preserveScroll:true});}
 }
