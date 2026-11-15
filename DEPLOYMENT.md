@@ -279,3 +279,41 @@ sanitize already tracked files or recognize private content added under arbitrar
 new filenames. See the current repository history and local deployment status for publication progress.
 
 Couples select two people on the onward form. Their names stay in a single export row labelled “(2 people)”; all transfer tallies count people. Existing forms without a party size count as one until updated; names are never heuristically split. The analytics summary reports both saved forms and people represented.
+
+## Announcements
+
+The Announcements tab is a one-way broadcast feed for WWHI22L26A. Unlock the
+existing admin PIN, open Announcements, enter a title/message, optionally attach
+a photo, then choose **Publish & alert everyone**. Paste YouTube and Google Maps
+links into the message. Guests cannot publish or reply. The feed, like the
+itinerary, is readable by people with this app's URL; do not post private guest
+information. Only photos explicitly attached to a published announcement become
+readable through the announcement photo endpoint. Existing private gallery
+access stays protected.
+
+Phone alerts require HTTPS, PHP OpenSSL and cURL, a compatible browser and guest
+notification permission. iPhone/iPad users need iOS/iPadOS 16.4 or later and must
+open the installed Home Screen app before choosing **Enable alerts**. Android
+users can enable alerts in a compatible browser or installed app. No paid push
+service or Apple developer account is required.
+
+VAPID signing keys and subscription endpoints are created/stored only in this
+app's `.private/runtime.db`, never in Git or the deployment ZIP. Preserve that
+folder across updates. Broadcasts use standard payload-free Web Push; the service
+worker fetches the latest public announcement, with a generic visible alert if
+that request fails. There are no silent background pushes. Pending updates may
+coalesce to the latest announcement; the complete recent feed remains in-app.
+
+Publishing persists the announcement before attempting alerts. Up to 100 devices
+are attempted per batch (maximum 300 registered devices). Failed deliveries are
+retained with backoff and retried every minute while an administrator keeps the
+app open. This version does not install a background cron job: keep the admin app
+open if its delivery status shows waiting alerts. Expired endpoints (404/410) are
+removed. A push provider accepting an alert is not proof a phone displayed it;
+phone settings and connectivity still apply. Test on an installed phone before
+relying on alerts during the trip.
+
+Deploy `server/announcements.php` before the updated `api.php`. Deploy the updated
+JS/CSS/config files before `app.html` and `sw.js`. Use `scripts/package_app.py` for
+the full application-only archive; do not overwrite `server/config.local.php` or
+`.private/`. No existing credentials need changing.

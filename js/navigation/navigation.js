@@ -1,5 +1,5 @@
-const BUILDER_PREVIEW_TABS = new Set(["today", "programme", "experiences", "tools", "director", "rewards", "contacts"]);
-let activeTab = typeof URL_PARAMS !== "undefined" && URL_PARAMS.get("builderPreview") === "1" && BUILDER_PREVIEW_TABS.has(URL_PARAMS.get("previewTab")) ? URL_PARAMS.get("previewTab") : "today";
+const BUILDER_PREVIEW_TABS = new Set(["today", "programme", "experiences", "announcements", "tools", "director", "rewards", "contacts"]);
+let activeTab = new URLSearchParams(location.search).get("tab") === "announcements" ? "announcements" : typeof URL_PARAMS !== "undefined" && URL_PARAMS.get("builderPreview") === "1" && BUILDER_PREVIEW_TABS.has(URL_PARAMS.get("previewTab")) ? URL_PARAMS.get("previewTab") : "today";
 
 function setTab(tab) {
   if (tab === "programme") activeProgrammeTab = "days";
@@ -8,6 +8,7 @@ function setTab(tab) {
   normalizeActiveTabForNav();
   if (typeof trackAnalytics === "function") trackAnalytics(`tab:${activeTab}`);
   renderApp();
+  if (tab === "announcements") { syncAnnouncementView(); refreshAnnouncements(); }
 }
 
 function rewardsNavActive() {
@@ -34,6 +35,10 @@ function renderNav() {
       <button class="ni ${activeTab === "experiences" ? "active" : ""}" onclick="setTab('experiences')">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 2-4L12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0-2-4L12 7z"/></svg>
         <span>Experiences</span>
+      </button>
+      <button class="ni ${activeTab === "announcements" ? "active" : ""}" onclick="setTab('announcements')">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
+        <span>Announcements</span><b id="ann-badge" class="ann-badge" ${typeof announcementUnread !== 'function' || !announcementUnread() ? 'hidden' : ''}>${typeof announcementUnread === 'function' ? announcementUnread() : ''}</b>
       </button>
       <button class="ni ${activeTab === "tools" ? "active" : ""}" onclick="setTab('tools')">
         <svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>

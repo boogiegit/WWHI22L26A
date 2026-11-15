@@ -7197,3 +7197,34 @@ button.seating-meta-box {
   font-size: clamp(20px, 3.5vw, 28px);
   text-shadow: 0 1px 4px #000;
 }
+
+/* Announcement feed follows the existing red, gold and white app palette. */
+.bnav { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1fr) minmax(0,1.25fr) minmax(0,1.75fr) minmax(0,.75fr) repeat(2,minmax(0,1fr)); }
+.ni { min-width: 0; position: relative; padding-left: 1px; padding-right: 1px; }
+.ann-badge { position:absolute; top:1px; right:12%; background:var(--red); color:white; border-radius:12px; font:700 10px var(--ff); padding:2px 4px; }
+.ann-badge[hidden] { display:none; }
+.ann-wrap { max-width:740px; padding:28px 22px 40px; margin:auto; }
+.ann-wrap h1 { font-family:var(--ff-serif); font-size:30px; margin:8px 0; }
+.ann-wrap h2 { font-size:20px; margin:0 0 12px; }
+.ann-wrap p { line-height:1.6; }
+.ann-alerts,.ann-composer,.ann-card { border:1px solid var(--rule); border-radius:16px; background:var(--card); padding:20px; margin:20px 0; }
+.ann-alerts { background:var(--gold-lt); }
+.ann-alerts p { margin-top:0; }
+.ann-composer label { display:block; font-weight:650; margin:16px 0 6px; }
+.ann-composer input:not([type=file]),.ann-composer textarea { width:100%; box-sizing:border-box; border:1px solid #bbb; border-radius:10px; padding:12px; font:16px var(--ff); color:var(--text); background:white; }
+.ann-composer input[type=file] { max-width:100%; margin-bottom:15px; }
+.ann-composer button { margin-top:12px; }
+.ann-composer button:disabled { opacity:.55; cursor:wait; }
+.ann-meta { font-size:11px; color:var(--mid); letter-spacing:.04em; }
+.ann-body { white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.7; }
+.ann-body a { color:#9f1121; text-decoration:underline; font-weight:650; }
+.ann-photo { width:100%; max-height:600px; object-fit:contain; border-radius:12px; margin-top:15px; }
+.ann-thumbnail { max-height:180px; }
+.ann-remove { display:block; color:var(--mid); background:none; border:0; text-decoration:underline; padding:12px 0; cursor:pointer; }
+.ann-feed-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.ann-feed-heading h2 { margin:0; }
+.ann-empty { padding:24px 0; color:var(--mid); }
+#ann-status:empty { display:none; }
+#ann-status { color:#812113; }
+@media(max-width:600px) { .bnav .ni span { font-size:10px; letter-spacing:0; text-transform:none; } .ann-wrap { padding:22px 16px 35px; } }
+@media(max-width:350px) { .bnav .ni span { font-size:8px; } }

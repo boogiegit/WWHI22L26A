@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
-import { randomBytes } from 'node:crypto';
+import { randomBytes, createPublicKey, verify, generateKeyPairSync } from 'node:crypto';
 import { createRequire } from 'node:module';
 const root = path.resolve(import.meta.dirname, '..');
 const require = createRequire(path.join(root, 'tests/.runtime/package.json'));
@@ -13,7 +13,7 @@ const runtime = fs.mkdtempSync(path.join(root, 'tests/.runtime/run-'));
 const site = path.join(runtime, 'site');
 fs.mkdirSync(path.join(site, 'server'), { recursive: true });
 fs.mkdirSync(path.join(runtime, 'internal'), { recursive: true });
-for (const file of ['api.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php', 'server/config.example.php', 'tests/dev-router.php']) {
+for (const file of ['api.php', 'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php', 'server/config.example.php', 'tests/dev-router.php']) {
   fs.mkdirSync(path.dirname(path.join(site, file)), { recursive: true });
   fs.copyFileSync(path.join(root, file), path.join(site, file));
 }
@@ -26,7 +26,7 @@ await php.mount('/site', createNodeFsMountHandler(site));
 let checks = 0;
 function check(value, label) { assert.ok(value, label); checks++; }
 // Parse PHP using PHP itself. No original operational data is used by this test site.
-for (const file of ['api.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php', 'server/config.example.php', 'tests/dev-router.php']) {
+for (const file of ['api.php', 'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php', 'server/config.example.php', 'tests/dev-router.php']) {
   const result = await php.run({ code: `<?php token_get_all(file_get_contents(${JSON.stringify('/site/' + file)}), TOKEN_PARSE); echo 'ok';` });
   if (result.text !== 'ok' || result.errors) console.log('PHP parser diagnostic:', result.errors || result.text);
   check(result.text === 'ok' && !result.errors, `PHP syntax: ${file}`);
@@ -322,5 +322,60 @@ const cleaned=JSON.parse(reconciledCheck.text);
 check(cleaned[0].length===3 && cleaned[0][0].plan==='flying','Name punctuation/order and latest submission reconciled');
 check(cleaned[1].length===2 && cleaned[1][0].flightTime==='11:45' && cleaned[1][0].plan==='flying','Confirmed aliases and travel correction applied once');
 check(cleaned[2][0].plan==='eurostar' && !cleaned[2][0].flightTime,'Later submissions can change plans without inherited flight fields');
+
+// Broadcast isolation, idempotency, controlled public photos and subscription ownership.
+const announcer={}, reader={};
+await request(announcer,'session'); await request(reader,'session');
+check((await request(announcer,'login',{role:'admin',password:adminPassword},{ip:'127.0.0.33'})).status===200,'Announcement administrator login');
+const announcement={title:'Synthetic meeting point',body:'Meet here https://maps.app.goo.gl/example',photo:'',requestId:'a'.repeat(32)};
+check((await request(reader,'announcementPublish',announcement)).status===401,'Guest cannot broadcast');
+check((await request(reader,'announcementDelete',{id:1})).status===401,'Guest cannot delete announcements');
+check((await request(announcer,'announcementPublish',announcement,{headers:{'X-CSRF-Token':'invalid'}})).status===403,'Broadcast requires CSRF');
+const posted=await request(announcer,'announcementPublish',announcement);
+check(posted.status===200 && posted.data.id>0,'Admin publishes announcement');
+check((await request(announcer,'announcementPublish',announcement)).data.id===posted.data.id,'Retry never creates duplicate broadcast');
+let feed=await request(reader,'announcements');
+check(feed.data.items.length===1 && feed.data.items[0].body===announcement.body,'Guest reads the group feed');
+check(!('delivery' in feed.data) && !JSON.stringify(feed.data).includes('private'),'Public feed contains no subscription or signing data');
+check((await request(announcer,'announcementPublish',{...announcement,requestId:'b'.repeat(32),photo:'./api.php?action=privateFile&path=server/config.local.php'})).status===400,'Unregistered/private photo cannot be published');
+await php.run({code:"<?php $p='/site/server/config.local.php'; $c=require $p; $c['upload_quota_bytes']=100000000; file_put_contents($p,'<?php return '.var_export($c,true).';');"});
+// Upload a fresh synthetic image in this administrator session.
+const broadcastPhoto=await request(announcer,'uploadPhoto',{}, {rawBody:multipart(fs.readFileSync(path.join(root,'favicon-16.png'))),headers:{'Content-Type':`multipart/form-data; boundary=${boundary}`}});
+check(broadcastPhoto.status===200,'Announcement photo processed');
+const withPhoto=await request(announcer,'announcementPublish',{...announcement,requestId:'c'.repeat(32),photo:broadcastPhoto.data.url});
+check(withPhoto.status===200,'Admin can attach a processed photo');
+check((await request(reader,'announcementPhoto',undefined,{query:{id:withPhoto.data.id}})).status===200,'Only explicitly published photo becomes guest-readable');
+check((await request(reader,'privateFile',undefined,{query:{path:'uploads/photos/test.jpg'}})).status===401,'Private gallery endpoint stays protected');
+for(const endpoint of ['http://127.0.0.1/test','https://fcm.googleapis.com.evil.example/send','https://user@fcm.googleapis.com/send/abc','https://fcm.googleapis.com:444/send/abc','https://example.com/send/abc']) {
+ check((await request(reader,'announcementSubscribe',{endpoint,token:'d'.repeat(64)})).status===400,'Unsafe push endpoint rejected');
+}
+const endpoint='https://fcm.googleapis.com/fcm/send/synthetic-never-deliver';
+check((await request(reader,'announcementSubscribe',{endpoint,token:'d'.repeat(64)})).status===200,'Guest can register a device');
+check((await request(reader,'announcementSubscribe',{endpoint,token:'e'.repeat(64)})).status===403,'Subscription cannot be taken over');
+check((await request(reader,'announcementRetry',{})).status===401,'Guests cannot trigger outbound delivery');
+await request(reader,'announcementUnsubscribe',{endpoint,token:'e'.repeat(64)});
+check((await request(announcer,'announcements')).data.delivery.devices===1,'Wrong token cannot remove a subscription');
+await request(reader,'announcementUnsubscribe',{endpoint,token:'d'.repeat(64)});
+check((await request(announcer,'announcements')).data.delivery.devices===0,'Own device can unsubscribe');
+await request(announcer,'announcementDelete',{id:withPhoto.data.id});
+check((await request(reader,'announcementPhoto',undefined,{query:{id:withPhoto.data.id}})).status===404,'Removed announcement revokes its public photo');
+
+// WASM lacks the host OpenSSL key-generation configuration; seed only this test DB
+// with an ephemeral Node-generated key, then verify PHP's actual signing independently.
+const testPair=generateKeyPairSync('ec',{namedCurve:'prime256v1'});
+const publicJwk=testPair.publicKey.export({format:'jwk'});
+const testKeys={private:testPair.privateKey.export({type:'pkcs8',format:'pem'}),public:Buffer.concat([Buffer.from([4]),Buffer.from(publicJwk.x,'base64url'),Buffer.from(publicJwk.y,'base64url')]).toString('base64url')};
+fs.writeFileSync(path.join(site,'synthetic-push-keys.json'),JSON.stringify(testKeys));
+const signing = await php.run({code:`<?php require '/site/server/announcements.php';
+$db=new PDO('sqlite:/site/.private/runtime.db'); $origin='https://tour.example.invalid';
+announcementSchema(); $db->prepare('INSERT OR REPLACE INTO announcement_keys VALUES (?,?)')->execute(['vapid',file_get_contents('/site/synthetic-push-keys.json')]); $keys=announcementKeys();
+echo json_encode(['public'=>$keys['public'],'jwt'=>announcementJwt('https://web.push.apple.com',$keys),'again'=>announcementJwt('https://web.push.apple.com',$keys)]);`});
+check(!signing.errors,'VAPID key creation and signing run without warnings');
+const signed=JSON.parse(signing.text), publicBytes=Buffer.from(signed.public,'base64url');
+const keyObject=createPublicKey({key:{kty:'EC',crv:'P-256',x:publicBytes.subarray(1,33).toString('base64url'),y:publicBytes.subarray(33).toString('base64url')},format:'jwk'});
+const jwtParts=signed.jwt.split('.');
+check(verify('sha256',Buffer.from(jwtParts.slice(0,2).join('.')),{key:keyObject,dsaEncoding:'ieee-p1363'},Buffer.from(jwtParts[2],'base64url')),'Independent crypto verification of VAPID signature');
+check(JSON.parse(Buffer.from(jwtParts[1],'base64url')).aud==='https://web.push.apple.com','VAPID audience is the push provider');
+check(signed.jwt===signed.again,'VAPID token is reused for Apple rate limits');
 php.exit();
 console.log(`PASS: ${checks} PHP/API, permissions, privacy, exclusion and JavaScript syntax checks.`);

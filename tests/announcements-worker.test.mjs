@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const handlers={}, notices=[],messages=[],opened=[];
+const scope='https://tour.example.invalid/WWHI22L26A/';
+let fail=false,focused=0;
+const clients=[{url:'https://tour.example.invalid/EWHI11J26A/app.html',postMessage(){throw Error('Other app must not be touched');},focus(){throw Error('Other app must not be focused');}},
+ {url:scope+'app.html',postMessage(data){messages.push(data);},async focus(){focused++;}}];
+const sandbox={URL,Set,Promise,AbortSignal,fetch:async(url)=>{assert.equal(String(url),scope+'api.php?action=announcements');if(fail)throw Error('offline');return{ok:true,json:async()=>({items:[{title:'Meet at the coach',body:'Leave at 18:45'}]})};},self:{location:{origin:'https://tour.example.invalid'},registration:{scope,async showNotification(title,options){notices.push({title,...options});}},clients:{async matchAll(){return clients;},async openWindow(url){opened.push(url);}},addEventListener(name,handler){handlers[name]=handler;}}};
+vm.runInNewContext(fs.readFileSync(new URL('../sw.js',import.meta.url),'utf8'),sandbox);
+let work;const event={waitUntil(p){work=p;}};
+handlers.push(event);await work;
+assert.equal(notices[0].title,'Meet at the coach');assert.equal(messages[0].type,'announcements');
+fail=true;handlers.push(event);await work;
+assert.equal(notices.length,2,'Always display a notification, including API outages');
+assert.match(notices[1].body,/Open Xmas Whirl/);
+let closed=false;handlers.notificationclick({...event,notification:{close(){closed=true;}}});await work;
+assert.ok(closed);assert.equal(focused,1);assert.equal(messages.at(-1).open,true);assert.equal(opened.length,0);
+clients.pop();handlers.notificationclick({...event,notification:{close(){}}});await work;
+assert.equal(opened[0],scope+'app.html?tab=announcements');
+console.log('PASS: live announcement notification, offline fallback, existing app focus, correct deep link and original app isolation.');

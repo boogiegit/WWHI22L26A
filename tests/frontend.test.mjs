@@ -75,7 +75,7 @@ assert.ok(!calls.some(c => c.options?.body && typeof c.options.body === 'string'
 assert.ok(vm.runInContext('ADMIN_MODE === false', context), 'URL PIN cannot enable admin');
 assert.ok(calls.some(call => call.history && !call.history.includes('pin=')), 'Legacy PIN removed from URL');
 assert.ok(vm.runInContext('WHATSAPP_COMMUNITY_URL === authState.config.whatsappCommunityUrl', context), 'Runtime community configuration applied');
-for (const tab of ['today', 'programme', 'experiences', 'tools', 'director', 'contacts']) {
+for (const tab of ['today', 'programme', 'experiences', 'announcements', 'tools', 'director', 'contacts']) {
   vm.runInContext(`setTab(${JSON.stringify(tab)})`, context);
 }
 vm.runInContext('openAdminLogin()', context);
@@ -207,7 +207,7 @@ for (const file of ['api.php?action=get', 'menu-choices.json', 'seating-plans/pr
   listeners.fetch({ request: { url: scope + file, method: 'GET', mode: 'cors' }, respondWith(promise) { pending = promise; } }); await pending;
   assert.ok(fetched.at(-1).options.cache === 'no-store', 'Private request bypasses cache');
 }
-console.log('PASS: Full app startup, six tabs, admin sign-in/lock, invitation config, validated photo/thumbnail routes, failed-upload rejection, analytics filtering and service-worker privacy.');
+console.log('PASS: Full app startup, seven tabs, admin sign-in/lock, invitation config, validated photo/thumbnail routes, failed-upload rejection, analytics filtering and service-worker privacy.');
 
 vm.runInContext("activeTab='today'; recordAnalyticsVisit()",context);
 assert.ok(calls.some(c=>c.options?.body?.includes?.('tab:today')),'Initial Today counted');
@@ -334,3 +334,21 @@ assert.equal(document.getElementById('scr-today').scrollTop,950,'Background cont
 context.renderTodayTimelineNowLine=originalMarker;
 
 console.log("PASS: imported shared features preserve form drafts, nearby searches, translations and Today scroll.");
+
+vm.runInContext("ADMIN_MODE=false;activeTab='announcements';announcementState.loaded=true;announcementState.items=[{id:7,title:'<img src=x onerror=alert(1)>',body:'Meet here https://maps.app.goo.gl/example\\nWatch https://youtu.be/example\\n<script>bad()</script>',photo:'javascript:alert(1)',created:'2026-12-22T10:00:00Z'}];renderApp();syncAnnouncementView()",context);
+assert.equal(document.querySelectorAll('#ann-feed script,#ann-feed img').length,0,'No injected markup or unsafe photo URLs');
+assert.equal(document.querySelectorAll('#ann-feed a').length,2,'Maps and YouTube are clickable');
+assert.ok(document.getElementById('ann-feed').textContent.includes('<img'),'Title is rendered as text');
+assert.equal(document.querySelectorAll('#scr-announcements form').length,0,'Guests have no composer or reply form');
+assert.equal(vm.runInContext('announcementUnread()',context),0,'Viewing announcements marks them read');
+vm.runInContext("ADMIN_MODE=true;announcementState.draft.title='Draft title';announcementState.draft.body='My message';renderApp()",context);
+assert.equal(document.getElementById('ann-title').value,'Draft title');
+assert.ok(document.getElementById('ann-publish'),'Admin can publish');
+vm.runInContext("activeTab='today';renderApp();activeTab='announcements';renderApp()",context);
+assert.equal(document.getElementById('ann-title').value,'Draft title','Navigation preserves the announcement draft');
+context.fetch=async()=>{throw Error('Synthetic offline');};
+await vm.runInContext('publishAnnouncement()',context);
+assert.equal(document.getElementById('ann-title').value,'Draft title','Failed publishing preserves draft');
+assert.ok(document.getElementById('ann-status').textContent.includes('retry safely'));
+context.fetch=normalFetch;
+console.log('PASS: announcement guest/admin isolation, safe links and markup, unread state, draft persistence and failure recovery.');

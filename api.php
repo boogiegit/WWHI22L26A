@@ -3,12 +3,14 @@ declare(strict_types=1);
 require __DIR__ . '/server/bootstrap.php';
 require __DIR__ . '/server/onward.php';
 require __DIR__ . '/server/resource-preview.php';
+require __DIR__ . '/server/announcements.php';
 
-$getActions = ['session', 'get', 'list', 'analyticsSummary', 'privateFile', 'onwardSummary'];
-$postActions = ['login', 'logout', 'lockAdmin', 'set', 'delete', 'uploadPhoto', 'trackAnalytics', 'photoFeedback', 'resourcePreview'];
+$getActions = ['session', 'get', 'list', 'analyticsSummary', 'privateFile', 'onwardSummary', 'announcements', 'announcementPhoto', 'announcementPushKey'];
+$postActions = ['login', 'logout', 'lockAdmin', 'set', 'delete', 'uploadPhoto', 'trackAnalytics', 'photoFeedback', 'resourcePreview', 'announcementPublish', 'announcementDelete', 'announcementSubscribe', 'announcementUnsubscribe', 'announcementRetry'];
 if (!in_array($action, $method === 'GET' ? $getActions : $postActions, true)) {
     respond(['error' => 'Unknown action or method.'], 405);
 }
+if (str_starts_with($action, 'announcement')) handleAnnouncements($action);
 if ($action === 'session') respond(sessionInfo());
 if ($action === 'resourcePreview') {
     requireAdmin();
