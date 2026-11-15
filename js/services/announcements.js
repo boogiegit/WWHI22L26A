@@ -53,8 +53,11 @@ function renderAnnouncements() {
     <button class="tools-admin-btn secondary" onclick="toggleAnnouncementAlerts()" ${!USE_REMOTE_STORAGE ? 'disabled' : ''} id="ann-alert-button">${s.subscribed ? 'Turn alerts off' : 'Enable alerts'}</button></div>
     <p id="ann-status" role="status" aria-live="polite">${escapeHtml(s.message)}</p>
     ${ADMIN_MODE ? `<form class="ann-composer" onsubmit="event.preventDefault();publishAnnouncement()"><h2>New announcement</h2><p>Visible to everyone on this trip. Guests cannot reply.</p>
-      <label for="ann-title">Title</label><input id="ann-title" maxlength="120" required placeholder="A quick update for everyone" value="${escapeHtml(d.title)}" oninput="announcementState.draft.title=this.value">
-      <label for="ann-body">Message</label><textarea id="ann-body" maxlength="5000" rows="5" required placeholder="Write your message. Paste YouTube, Google Maps or Apple Maps links here." oninput="announcementState.draft.body=this.value;updateAnnouncementPreview()">${escapeHtml(d.body)}</textarea>
+      <label for="ann-body">Message</label><textarea id="ann-body" maxlength="5000" rows="5" placeholder="Write your message. Paste YouTube, Google Maps or Apple Maps links here." oninput="announcementState.draft.body=this.value;updateAnnouncementPreview()">${escapeHtml(d.body)}</textarea>
+<div class="ann-format-tools">      <button id="ann-publish" class="tools-admin-btn" type="submit" ${s.busy || s.photoBusy || announcementRecorder ? 'disabled' : ''}>${s.busy ? 'Publishing…' : 'Publish & alert everyone'}</button>      <button type="button" id="ann-record" onclick="toggleAnnouncementRecording()">${announcementRecorder?'Stop recording':'Record voice message'}</button></div>
+<p class="ann-help">Type or use your keyboard microphone, then publish. Everything below is optional.</p>
+<details><summary>Photos, video & formatting</summary>
+      <details><summary>Add a heading (optional)</summary><label for="ann-title">Heading</label><input id="ann-title" maxlength="120" placeholder="Update from Brendon" value="${escapeHtml(d.title)}" oninput="announcementState.draft.title=this.value"></details>
       <div class="ann-format-tools"><button type="button" onclick="formatAnnouncement('*')"><strong>Bold</strong></button><button type="button" onclick="formatAnnouncement('_')"><em>Italic</em></button></div>
       <p class="ann-help">Use *bold*, _italic_ and emojis. To dictate text, tap the microphone on your phone keyboard.</p>
       <details class="ann-preview"><summary>Preview your message</summary><div id="ann-message-preview" class="ann-body">${announcementText(d.body)}</div></details>
@@ -62,10 +65,10 @@ function renderAnnouncements() {
       <div id="ann-photo-draft">${announcementDraftPhoto()}</div>
       <label for="ann-media-upload">Add a video or voice clip (optional)</label><input id="ann-media-upload" type="file" accept="video/mp4,video/quicktime,video/webm,audio/mp4,audio/mpeg,audio/ogg,audio/webm,audio/wav,.m4a,.mov" onchange="attachAnnouncementMedia(this.files[0])" ${s.busy||s.photoBusy?'disabled':''}>
       <p class="ann-help">Up to 20 MB. MP4 is best across phones. For longer videos, paste a YouTube link. Clips are shared as uploaded, including any location metadata.</p>
-      <button type="button" id="ann-record" onclick="toggleAnnouncementRecording()">${announcementRecorder?'Stop recording':'Record voice message'}</button>
+
       <div id="ann-media-draft">${announcementDraftMedia()}</div>
-      <button id="ann-publish" class="tools-admin-btn" type="submit" ${s.busy || s.photoBusy || announcementRecorder ? 'disabled' : ''}>${s.busy ? 'Publishing…' : 'Publish & alert everyone'}</button>
-      <p id="ann-delivery" class="ann-meta">${escapeHtml(announcementDeliveryText())}</p>
+
+      </details><p id="ann-delivery" class="ann-meta">${escapeHtml(announcementDeliveryText())}</p>
     </form>` : ''}
     <div class="ann-feed-heading"><h2>Latest updates</h2><button class="tools-admin-btn secondary" onclick="refreshAnnouncements(true)">Refresh</button></div>
     <div id="ann-feed">${announcementCards()}</div></section>`;
@@ -105,7 +108,7 @@ async function attachAnnouncementPhoto(file) {
 async function publishAnnouncement() {
   const s=announcementState;
   if(!ADMIN_MODE || s.busy || s.photoBusy || announcementRecorder) return;
-  if(!s.draft.title.trim() || !s.draft.body.trim()) { announcementStatus('Add a title and message first.'); return; }
+  if(!s.draft.body.trim() && !s.draft.photo && !s.draft.media) { announcementStatus('Write a message, or add a photo or voice/video clip.'); return; }
   s.draft.requestId ||= announcementRandom(16); s.busy=true;
   for(const control of document.querySelectorAll('.ann-composer input,.ann-composer textarea,.ann-composer button')) control.disabled=true;
   announcementStatus('Publishing your announcement…');

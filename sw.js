@@ -1,8 +1,9 @@
 // Cache only explicitly approved application code and icons. Never cache API responses,
-// navigation, tour data, documents, uploaded media, invitation links or third-party requests.
-const CACHE_NAME = 'wwhi22l26a-static-v176';
+// private data, uploaded media, invitation links or third-party requests.
+// The public offline guide is the only saved tour-content document.
+const CACHE_NAME = 'wwhi22l26a-static-v177';
 const STATIC_PATHS = [
-  './js/services/announcements.js', './js/services/experience-interest.js',
+  './offline-guide.html', './js/services/offline-guide.js', './js/services/announcements.js', './js/services/experience-interest.js',
   './js/core/tour-updates.js',
   './css/app.css', './manifest.json', './favicon.ico', './favicon-16.png',
   './favicon-32.png', './apple-touch-icon.png', './icon-192.png', './icon-512.png',
@@ -23,13 +24,23 @@ self.addEventListener('install', event => {
 });
 self.addEventListener('activate', event => {
   event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME &&
-    key.startsWith('wwhi22l26a-')).map(key => caches.delete(key))))
+    key.startsWith('wwhi22l26a-') && key !== 'wwhi22l26a-offline-guide-v1').map(key => caches.delete(key))))
     .then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
   const canonical = url.origin + url.pathname;
+  const scopeURL = new URL(self.registration.scope);
+  if (event.request.mode === 'navigate' && url.origin === scopeURL.origin &&
+      [scopeURL.pathname, scopeURL.pathname+'app.html', scopeURL.pathname+'index.html', scopeURL.pathname+'offline-guide.html'].includes(url.pathname)) {
+    event.respondWith(fetch(event.request, {cache:'no-store'}).catch(async () => {
+      const guideURL = new URL('./offline-guide.html',self.registration.scope).href;
+      const saved = await caches.open('wwhi22l26a-offline-guide-v1');
+      return await saved.match(guideURL) || await caches.match(guideURL) || new Response('Connect to the internet once to save your trip guide.', {status:503,headers:{'Content-Type':'text/plain'}});
+    }));
+    return;
+  }
   if (!APPROVED.has(canonical) || event.request.mode === 'navigate') {
     // no-store also bypasses the ordinary HTTP cache for private requests.
     if (url.origin === self.location.origin) {

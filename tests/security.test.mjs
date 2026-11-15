@@ -380,6 +380,12 @@ check(verify('sha256',Buffer.from(jwtParts.slice(0,2).join('.')),{key:keyObject,
 check(JSON.parse(Buffer.from(jwtParts[1],'base64url')).aud==='https://web.push.apple.com','VAPID audience is the push provider');
 check(signed.jwt===signed.again,'VAPID token is reused for Apple rate limits');
 
+const quickAnnouncement=await request(announcer,'announcementPublish',{title:'',body:'Quick typed update',photo:'',requestId:'7'.repeat(32)});
+check(quickAnnouncement.status===200,'Message publishes without a heading');
+const quickFeed=await request(reader,'announcements');
+check(quickFeed.data.items.find(item=>item.id===quickAnnouncement.data.id).title==='Update from Brendon','Default heading added automatically');
+check((await request(announcer,'announcementPublish',{title:'',body:'',requestId:'6'.repeat(32)})).status===400,'Completely empty announcement rejected');
+
 // Interest responses are private, update in place and remain independent across parties.
 const catalog=JSON.parse(fs.readFileSync(path.join(root,'tours/WWHI22L26A/experiences.json')));
 const experience=catalog.days.flatMap(day=>day.optionals)[0].experienceId;

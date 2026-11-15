@@ -366,3 +366,7 @@ assert.ok(document.getElementById('interest-summary').textContent.includes('2 pe
 assert.equal(document.querySelectorAll('#interest-summary script').length,0);
 assert.ok(vm.runInContext("packingSections().some(s=>s.category==='Winter essentials'&&s.items.some(i=>i.title==='Thermal underwear / base layers'))",context));
 console.log('PASS: readable formatting, safe Apple Maps links, interest party counts/privacy and winter packing content.');
+assert.ok(vm.runInContext("(toolsConfig().faq||TOOL_FAQ_SECTIONS).some(s=>s.title==='Arrival in London')",context));
+assert.ok(!vm.runInContext("JSON.stringify(toolsConfig().faq||TOOL_FAQ_SECTIONS)",context).includes('Meeting Point 3'));
+assert.ok(vm.runInContext('renderAnnouncements()',context).includes('Add a heading (optional)'));
+console.log('PASS: London FAQ and optional announcement heading.');

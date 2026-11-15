@@ -132,10 +132,12 @@ function handleAnnouncements(string $action): void {
     }
     if($action==='announcementPublish') {
         $title=$input['title']??''; $body=$input['body']??''; $photo=$input['photo']??''; $request=$input['requestId']??'';
-        if(!is_string($title)||!is_string($body)||!is_string($photo)||!is_string($request)||strlen($title)>480||strlen($body)>20000||!preg_match('/^[a-f0-9]{32}$/D',$request)||trim($title)===''||trim($body)==='') respond(['error'=>'Add a title and message (up to 120 and 5,000 characters).'],400);
+        if(!is_string($title)||!is_string($body)||!is_string($photo)||!is_string($request)||strlen($title)>480||strlen($body)>20000||!preg_match('/^[a-f0-9]{32}$/D',$request)) respond(['error'=>'Keep the heading under 120 and message under 5,000 characters.'],400);
         $media=$input['media']??'';
         if(!is_string($media))respond(['error'=>'Invalid media.'],400);
         if($media!==''){$check=$db->prepare('SELECT id FROM announcement_media WHERE id=?');$check->execute([$media]);if(!$check->fetchColumn())respond(['error'=>'Upload your clip again.'],400);}
+        if(trim($body)==='' && $photo==='' && $media==='')respond(['error'=>'Write a message or add a photo or clip.'],400);
+        if(trim($title)==='')$title='Update from Brendon';
         $photoPath='';
         if($photo!=='') {
             if(!validatedPhotoUrl($photo)) respond(['error'=>'Please upload the photo again.'],400);

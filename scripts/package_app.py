@@ -5,7 +5,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 import json
 
 ROOT = Path(__file__).resolve().parents[1]
-FILES = ['.htaccess', 'index.html', 'app.html', 'api.php', 'manifest.json', 'sw.js',
+FILES = ['offline-guide.html', '.htaccess', 'index.html', 'app.html', 'api.php', 'manifest.json', 'sw.js',
          'colosseum-tickets.html', 'venice-passes.html', 'pantheon-tickets/index.html',
          'server/packing.php', 'server/experience-interest.php', 'server/announcement-media.php', 'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php',
          'server/config.example.php', 'server/.htaccess', 'data/.htaccess']
@@ -29,6 +29,8 @@ def app_files():
     return sorted(files)
 
 if __name__ == '__main__':
+    from build_offline_guide import build
+    build()
     destination = ROOT / 'dist'
     destination.mkdir(exist_ok=True)
     archive = destination / 'WWHI22L26A-app.zip'

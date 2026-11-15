@@ -343,3 +343,22 @@ Admin edits in Tools → Packing are stored separately in the private runtime DB
 guests receive the published list. Their checkmarks remain local to their device.
 Deploy all new PHP files before api.php and deploy the frontend as one update.
 Real iPhone/Android recording, codec playback and push delivery need device testing.
+
+### Offline guide and London joining guidance
+
+`python3 scripts/package_app.py` regenerates `offline-guide.html` from this tour's
+bundled itinerary, hotels and resource FAQ. The self-contained guide has all 12
+days and hotel contact details, no private records, external fonts or network
+requirements. Service-worker installation saves a default copy. Tools → Save
+offline guide explicitly refreshes the copy on that device. Offline navigation
+to this app's root, index or app page falls back to the guide. Private API and
+other document routes never use that fallback. Browser storage can be cleared or
+evicted; guests should save while online and test once in flight mode.
+The guide is explicitly a bundled edition: published admin overrides, alerts,
+map tiles, videos and guest submissions are not available offline.
+
+London arrival FAQ content lives in resources.json tools.faq. The pre-tour London
+hotel/airport transfer remain subject to guests' joining documents because no
+confirmed pre-tour London hotel was supplied. Day 1's overnight hotel is Amsterdam.
+The announcement composer now puts message/publish/record first, with an optional
+heading and optional attachments/formatting. Empty headings get a neutral default.

@@ -19,39 +19,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <title>Xmas Whirl 2026</title>
-<link rel="stylesheet" href="./css/app.css?v=20261115-media">
+<link rel="stylesheet" href="./css/app.css?v=20261115-offline">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 <div id="app">
   <div class="loading">Loading tour app...</div>
 </div>
-<script src="./js/core/utils.js?v=20261115-media"></script>
-<script src="./js/core/tour-updates.js?v=20261115-media"></script>
-<script src="./js/core/itinerary-helpers.js?v=20261115-media"></script>
-<script src="./js/core/resource-helpers.js?v=20261115-media"></script>
-<script src="./js/core/tour-config-helpers.js?v=20261115-media"></script>
-<script src="./js/core/today-state.js?v=20261115-media"></script>
-<script src="./js/services/experience-interest.js?v=20261115-media"></script>
-<script src="./js/services/announcements.js?v=20261115-media"></script>
-<script src="./js/services/auth.js?v=20261115-media"></script>
-<script src="./js/services/storage.js?v=20261115-media"></script>
-<script src="./js/services/admin-content-storage.js?v=20261115-media"></script>
-<script src="./js/services/admin-content-overrides.js?v=20261115-media"></script>
-<script src="./js/viewer/document-viewer.js?v=20261115-media"></script>
-<script src="./js/maps/map-panel.js?v=20261115-media"></script>
-<script src="./js/navigation/navigation.js?v=20261115-media"></script>
-<script src="./js/rendering/contacts-renderer.js?v=20261115-media"></script>
-<script src="./js/rendering/travel-director-renderer.js?v=20261115-media"></script>
-<script src="./js/services/analytics.js?v=20261115-media"></script>
-<script src="./js/services/onward-export.js?v=20261115-media"></script>
-<script src="./js/core/journey-recaps.js?v=20261115-media"></script>
-<script src="./js/rendering/experiences-renderer.js?v=20261115-media"></script>
-<script src="./js/rendering/tools-renderer.js?v=20261115-media"></script>
-<script src="./js/rendering/rewards-renderer.js?v=20261115-media"></script>
-<script src="./js/rendering/travel-impact-renderer.js?v=20261115-media"></script>
-<script src="./js/rendering/today-components.js?v=20261115-media"></script>
-<script src="./js/rendering/itinerary-components.js?v=20261115-media"></script>
+<script src="./js/core/utils.js?v=20261115-offline"></script>
+<script src="./js/core/tour-updates.js?v=20261115-offline"></script>
+<script src="./js/core/itinerary-helpers.js?v=20261115-offline"></script>
+<script src="./js/core/resource-helpers.js?v=20261115-offline"></script>
+<script src="./js/core/tour-config-helpers.js?v=20261115-offline"></script>
+<script src="./js/core/today-state.js?v=20261115-offline"></script>
+<script src="./js/services/offline-guide.js?v=20261115-offline"></script>
+<script src="./js/services/experience-interest.js?v=20261115-offline"></script>
+<script src="./js/services/announcements.js?v=20261115-offline"></script>
+<script src="./js/services/auth.js?v=20261115-offline"></script>
+<script src="./js/services/storage.js?v=20261115-offline"></script>
+<script src="./js/services/admin-content-storage.js?v=20261115-offline"></script>
+<script src="./js/services/admin-content-overrides.js?v=20261115-offline"></script>
+<script src="./js/viewer/document-viewer.js?v=20261115-offline"></script>
+<script src="./js/maps/map-panel.js?v=20261115-offline"></script>
+<script src="./js/navigation/navigation.js?v=20261115-offline"></script>
+<script src="./js/rendering/contacts-renderer.js?v=20261115-offline"></script>
+<script src="./js/rendering/travel-director-renderer.js?v=20261115-offline"></script>
+<script src="./js/services/analytics.js?v=20261115-offline"></script>
+<script src="./js/services/onward-export.js?v=20261115-offline"></script>
+<script src="./js/core/journey-recaps.js?v=20261115-offline"></script>
+<script src="./js/rendering/experiences-renderer.js?v=20261115-offline"></script>
+<script src="./js/rendering/tools-renderer.js?v=20261115-offline"></script>
+<script src="./js/rendering/rewards-renderer.js?v=20261115-offline"></script>
+<script src="./js/rendering/travel-impact-renderer.js?v=20261115-offline"></script>
+<script src="./js/rendering/today-components.js?v=20261115-offline"></script>
+<script src="./js/rendering/itinerary-components.js?v=20261115-offline"></script>
 <script>
 const URL_PARAMS = new URLSearchParams(location.search);
 const DEFAULT_TOUR_CODE = "WWHI22L26A";
@@ -4408,35 +4409,112 @@ const TOOL_PACKING = [
   ] }
 ];
 const TOOL_FAQ_SECTIONS = [
-  { title: "Before Departure", items: [
-    { question: "Should I take any health precautions?", answer: "Start taking multivitamins - especially Vitamin C (like Airborne) - before departure. A lot of guests find themselves run down from the long-haul flight. Wearing a mask during transit is proven to protect against viruses. The healthier you arrive, the more you enjoy Day 1." },
-    { question: "How strict are the suitcase size guidelines?", answer: "They're guidelines - don't stress about an inch here or there. That said, the coach doesn't have elastic sides, so please pack reasonably. Travelling lighter makes life easier, especially with early morning bag collections." },
-    { question: "What if my luggage doesn't arrive at the airport?", answer: "Fill out a report at the baggage claim desk immediately and include all your hotels on it. Always photograph your suitcase before check-in." }
-  ] },
-  { title: "Arrival in Rome", items: [
-    { question: "Where do we meet for the airport transfer?", answer: "After collecting your luggage, follow the Exit signs and head to Meeting Point 3 in Terminal 3. Our airport staff will be waiting for you there." },
-    { question: "What if my arrival time doesn't match the transfer?", answer: "Follow signs to the official taxi rank outside the airport. Do not accept rides from anyone approaching you - they will overcharge. A licensed Rome taxi has a meter; the fare to the city is approximately €55." },
-    { question: "Can I drink the tap water?", answer: "Yes - Italian tap water is safe and perfectly fine to drink throughout the country." }
-  ] },
-  { title: "Money & Payments", items: [
-    { question: "Should I bring US dollars in cash?", answer: "Do not bring dollars in cash. They are not accepted over the counter. Bring Euros or use your credit card. Notify your bank you're travelling to Europe and know your PIN for ATM withdrawals. Keep around €100 cash on you at all times." },
-    { question: "Do I need to book optional experiences in advance?", answer: "No - you'll book these with Brendon once the trip is underway. Come with an open mind and an appetite for the extraordinary." }
-  ] },
-  { title: "Hotels", items: [
-    { question: "What can I expect from European hotels?", answer: "Rooms are smaller than North American equivalents. Beds are usually standard doubles, not king size. Insert your key card into the slot inside your room to activate electricity - keep it away from your phone. No irons in most hotels." },
-    { question: "Is porterage included?", answer: "Yes - one bag per person, included. Your suitcase is collected each morning and delivered to your next room. Keep a day bag with everything you need during the day." },
-    { question: "What about breakfast?", answer: "Buffet breakfast usually starts at 07:00. No coffee before then. Dinner times are noted in your daily briefing card in the app." }
-  ] },
-  { title: "Packing", items: [
-    { question: "What should I pack in my carry-on?", answer: "Valuables, a change of clothes, prescription medication, and anything you cannot be separated from. Airlines do lose luggage - especially on connecting flights." },
-    { question: "What is the dress code?", answer: "Almost everything is come-as-you-are, but pack one smart outfit for special dinners. Churches require covered shoulders and knees - a scarf is your best friend. Shoes must be comfortable and already broken-in before you arrive." },
-    { question: "What about electrical adapters?", answer: "Europe generally uses 220-240V power, but plug types vary between countries, including Switzerland. Bring a good universal European adapter. Hotel rooms have limited sockets, so a small multi-plug power strip is useful. Leave high-powered hair tools at home unless they are clearly dual-voltage." },
-    { question: "What does the hotel NOT provide?", answer: "Washcloths, hair conditioner, and kettles (becoming more common but not guaranteed). Hairdryers provided but usually basic." }
-  ] },
-  { title: "Connectivity", items: [
-    { question: "How do I manage my phone abroad?", answer: "Make sure your phone is set up for international roaming before you leave. An eSIM often offers better value - Airalo is a reliable provider with European data plans. Keep photos of your passport and documents on your phone and also email them to yourself." },
-    { question: "Will there be Wi-Fi?", answer: "All hotels have Wi-Fi; quality varies. The coach does not have Wi-Fi. For reliable data throughout Italy, an eSIM with a European plan is the best solution." }
-  ] }
+  {
+    "title": "Before Departure",
+    "items": [
+      {
+        "question": "Should I take any health precautions?",
+        "answer": "Check any personal health or medication questions with your healthcare professional before travel. Keep essential medication and your travel insurance details in your carry-on."
+      },
+      {
+        "question": "How strict are the suitcase size guidelines?",
+        "answer": "They're guidelines - don't stress about an inch here or there. That said, the coach doesn't have elastic sides, so please pack reasonably. Travelling lighter makes life easier, especially with early morning bag collections."
+      },
+      {
+        "question": "What if my luggage doesn't arrive at the airport?",
+        "answer": "Fill out a report at the baggage claim desk immediately and include all your hotels on it. Always photograph your suitcase before check-in."
+      }
+    ]
+  },
+  {
+    "title": "Arrival in London",
+    "items": [
+      {
+        "question": "Where does this trip start?",
+        "answer": "This Xmas Whirl trip starts in London. Day 1 is Tuesday 22 December 2026, travelling by Eurostar from London St Pancras to Brussels, then by coach to Amsterdam. Please follow the London joining instructions in your booking documents."
+      },
+      {
+        "question": "Where do I meet an airport transfer?",
+        "answer": "Check your booking documents for your London arrival airport, whether a transfer is included, and its meeting point and time. London has several airports, so there is no single terminal or meeting point for everyone. If anything is unclear, contact your booking agent before travelling."
+      },
+      {
+        "question": "Which London hotel should I go to?",
+        "answer": "Use the pre-tour London hotel and address shown in your joining documents. The Day 1 hotel in this app is in Amsterdam, where we stay after travelling from London. Your pre-tour London hotel has not yet been confirmed in the app."
+      },
+      {
+        "question": "What if I arrive late or miss my transfer?",
+        "answer": "Use the assistance number in your travel documents and tell your booking agent or Travel Director. If you need to arrange your own transport, confirm the London hotel address first and use official airport transport or a licensed taxi. Allow enough time to join the early Day 1 departure."
+      },
+      {
+        "question": "What do I need for the Eurostar journey?",
+        "answer": "Keep your passport and travel documents in your day bag. Follow Brendon’s latest meeting and departure instructions in Today. Allow time for station check-in and border checks; your joining documents and live updates take priority over the saved itinerary."
+      }
+    ]
+  },
+  {
+    "title": "Money & Payments",
+    "items": [
+      {
+        "question": "Which currencies will I need?",
+        "answer": "Use pounds sterling in London, euros in the euro-area countries on our route, and Swiss francs in Switzerland. Bring a suitable payment card and some local cash. Check overseas fees with your bank before departure."
+      },
+      {
+        "question": "Do I need to book optional experiences in advance?",
+        "answer": "No - you'll book these with Brendon once the trip is underway. Come with an open mind and an appetite for the extraordinary."
+      }
+    ]
+  },
+  {
+    "title": "Hotels",
+    "items": [
+      {
+        "question": "What can I expect from European hotels?",
+        "answer": "Rooms are smaller than North American equivalents. Beds are usually standard doubles, not king size. Insert your key card into the slot inside your room to activate electricity - keep it away from your phone. No irons in most hotels."
+      },
+      {
+        "question": "Is porterage included?",
+        "answer": "Yes - one bag per person, included. Your suitcase is collected each morning and delivered to your next room. Keep a day bag with everything you need during the day."
+      },
+      {
+        "question": "What about breakfast?",
+        "answer": "Breakfast and luggage times vary by day and hotel. Check Today and Brendon’s latest announcements; Day 1 has an early departure from London."
+      }
+    ]
+  },
+  {
+    "title": "Packing",
+    "items": [
+      {
+        "question": "What should I pack in my carry-on?",
+        "answer": "Valuables, a change of clothes, prescription medication, and anything you cannot be separated from. Airlines do lose luggage - especially on connecting flights."
+      },
+      {
+        "question": "What is the dress code?",
+        "answer": "Almost everything is come-as-you-are, but pack one smart outfit for special dinners. Churches require covered shoulders and knees - a scarf is your best friend. Shoes must be comfortable and already broken-in before you arrive."
+      },
+      {
+        "question": "What about electrical adapters?",
+        "answer": "Bring adapters suitable for the UK and continental Europe, including Switzerland. Check that your chargers support the local voltage. Keep your phone charger and power bank in your day bag."
+      },
+      {
+        "question": "What does the hotel NOT provide?",
+        "answer": "Washcloths, hair conditioner, and kettles (becoming more common but not guaranteed). Hairdryers provided but usually basic."
+      }
+    ]
+  },
+  {
+    "title": "Connectivity",
+    "items": [
+      {
+        "question": "How do I manage my phone abroad?",
+        "answer": "Make sure your phone is set up for international roaming before you leave. An eSIM often offers better value - Airalo is a reliable provider with European data plans. Keep photos of your passport and documents on your phone and also email them to yourself."
+      },
+      {
+        "question": "Will there be Wi-Fi?",
+        "answer": "Hotel Wi-Fi quality varies. Check that your mobile plan covers the UK, the European countries on the route and Switzerland. Save the offline guide while connected so you can read the itinerary and hotel details without mobile data."
+      }
+    ]
+  }
 ];
 const TOOL_MOVIES = [
   { title: "Midnight in Paris", country: "France", note: "Paris at its most romantic and dreamlike." },
@@ -4446,7 +4524,7 @@ const TOOL_MOVIES = [
 ];
 const TOOL_SPOTIFY_EMBED = "https://open.spotify.com/embed/playlist/5ZiB4Otz4RpMP0qnB9LsVS?utm_source=generator";
 const TOOL_QUIZ_BANK = [
-  { q: "Which city begins this European Splendour trip?", answers: ["Rome", "Paris", "Venice", "Florence"], correct: "Rome" },
+  { q: "Which city begins this Xmas Whirl trip?", answers: ["London", "Paris", "Venice", "Florence"], correct: "London" },
   { q: "Which city is known as the City of Light?", answers: ["Paris", "Rome", "Lucerne", "Florence"], correct: "Paris" },
   { q: "Which Swiss city appears on the route?", answers: ["Lucerne", "Zurich", "Geneva", "Basel"], correct: "Lucerne" },
   { q: "Which city is famous for gondolas?", answers: ["Venice", "Florence", "Rome", "Paris"], correct: "Venice" },
@@ -4562,7 +4640,7 @@ function renderToolPanel() {
 }
 
 function renderFaqTool() {
-  return `<div class="faq-flat">${TOOL_FAQ_SECTIONS.map((section) => `
+  return `<div class="faq-flat">${(toolsConfig().faq || TOOL_FAQ_SECTIONS).map((section) => `
     <div class="faq-section-label">${escapeHtml(section.title)}</div>
     <div class="faq-accordion">
       ${section.items.map((item) => `
