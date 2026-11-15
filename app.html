@@ -129,7 +129,7 @@ initializeSession()
     migrateLegacyLocalStorageKeys();
     adminSelectedDay = currentTourDay();
     openItineraryDay = currentTourDay();
-    document.title = `${tour.meta.brand || "Trafalgar"} · ${tour.meta.name} ${tour.meta.year || ""}`.trim();
+    document.title = location.pathname.endsWith("/admin.php") ? "Xmas Whirl Admin" : `${tour.meta.brand || "Trafalgar"} · ${tour.meta.name} ${tour.meta.year || ""}`.trim();
     applyBrandTheme();
     return hydrateLiveData();
   })
@@ -3962,7 +3962,7 @@ function renderAdminUnlockModal() {
           <div class="quick-admin-kicker">Private admin</div>
           <div class="quick-admin-title"><span class="material-symbols-outlined" aria-hidden="true">lock</span> Enter PIN</div>
         </div>
-        <div class="mobile-admin-hint">Enter your four-digit admin PIN to edit Today times, titles and notes.</div>
+        <div class="mobile-admin-hint">Enter your four-digit admin PIN to publish announcements and manage your tour.</div>
         <input class="text-input" data-admin-pin type="password" autocomplete="current-password" aria-label="Admin PIN" placeholder="PIN" inputmode="numeric" onkeydown="if(event.key === 'Enter') unlockAdminWithPin()">
         ${quickAdminStatus ? `<div class="quick-admin-status">${escapeHtml(quickAdminStatus)}</div>` : ""}
         <div class="admin-unlock-actions">
