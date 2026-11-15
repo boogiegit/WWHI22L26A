@@ -88,9 +88,11 @@ function announcementSend(): array {
 function handleAnnouncements(string $action): void {
     global $db,$input;
     announcementSchema();
+    announcementMediaSchema();
+    if(in_array($action,['announcementMedia','announcementUploadMedia'],true)) handleAnnouncementMedia($action);
     if($action==='announcements') {
-        $items=$db->query('SELECT id,title,body,created,photo FROM announcements ORDER BY id DESC LIMIT 100')->fetchAll(PDO::FETCH_ASSOC);
-        foreach($items as &$item) { $item['id']=(int)$item['id']; $item['photo']=$item['photo']!==''?'./api.php?action=announcementPhoto&id='.$item['id']:''; } unset($item);
+        $items=$db->query('SELECT id,title,body,created,photo,media FROM announcements ORDER BY id DESC LIMIT 100')->fetchAll(PDO::FETCH_ASSOC);
+        foreach($items as &$item) { $item['id']=(int)$item['id']; $media=$db->prepare('SELECT mime FROM announcement_media WHERE id=?'); $media->execute([$item['media']]); $item['mediaType']=$media->fetchColumn()?:''; $item['media']=$item['media']!==''?'./api.php?action=announcementMedia&id='.$item['id']:''; $item['photo']=$item['photo']!==''?'./api.php?action=announcementPhoto&id='.$item['id']:''; } unset($item);
         $result=['items'=>$items,'pushAvailable'=>announcementPushReady()];
         if(($_SESSION['role']??'')==='admin') $result['delivery']=announcementDelivery();
         respond($result);
@@ -131,6 +133,9 @@ function handleAnnouncements(string $action): void {
     if($action==='announcementPublish') {
         $title=$input['title']??''; $body=$input['body']??''; $photo=$input['photo']??''; $request=$input['requestId']??'';
         if(!is_string($title)||!is_string($body)||!is_string($photo)||!is_string($request)||strlen($title)>480||strlen($body)>20000||!preg_match('/^[a-f0-9]{32}$/D',$request)||trim($title)===''||trim($body)==='') respond(['error'=>'Add a title and message (up to 120 and 5,000 characters).'],400);
+        $media=$input['media']??'';
+        if(!is_string($media))respond(['error'=>'Invalid media.'],400);
+        if($media!==''){$check=$db->prepare('SELECT id FROM announcement_media WHERE id=?');$check->execute([$media]);if(!$check->fetchColumn())respond(['error'=>'Upload your clip again.'],400);}
         $photoPath='';
         if($photo!=='') {
             if(!validatedPhotoUrl($photo)) respond(['error'=>'Please upload the photo again.'],400);
@@ -142,7 +147,7 @@ function handleAnnouncements(string $action): void {
         if($id=$stmt->fetchColumn()) respond(['ok'=>true,'id'=>(int)$id,'delivery'=>announcementDelivery()]);
         limitRequests('announcement-publish',30,3600);
         $db->beginTransaction();
-        $db->prepare('INSERT INTO announcements(title,body,photo,created,request_id) VALUES (?,?,?,?,?)')->execute([trim($title),trim($body),$photoPath,gmdate('c'),$request]);
+        $db->prepare('INSERT INTO announcements(title,body,photo,created,request_id,media) VALUES (?,?,?,?,?,?)')->execute([trim($title),trim($body),$photoPath,gmdate('c'),$request,$media]);
         $id=(int)$db->lastInsertId();
         $db->prepare('UPDATE announcement_push SET pending=?,attempts=0,next_try=0')->execute([$id]);
         $db->commit();

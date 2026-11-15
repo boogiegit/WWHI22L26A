@@ -1,19 +1,23 @@
 // One-way, public tour announcements. Only the existing administrator can publish.
-const announcementState = { items: [], loaded: false, error: '', busy: false, photoBusy: false, message: '', pushAvailable: false, subscribed: false, delivery: null, draft: { title: '', body: '', photo: '', requestId: '' } };
+const announcementState = { items: [], loaded: false, error: '', busy: false, photoBusy: false, message: '', pushAvailable: false, subscribed: false, delivery: null, draft: { title: '', body: '', photo: '', media: '', mediaName: '', requestId: '' } };
 const ANNOUNCEMENT_READ_KEY = 'wwhi22l26a-announcements-read';
 const ANNOUNCEMENT_TOKEN_KEY = 'wwhi22l26a-announcements-device';
 function announcementReadId() { try { return Number(localStorage.getItem(ANNOUNCEMENT_READ_KEY)) || 0; } catch { return 0; } }
 function announcementUnread() { return announcementState.items.filter(item => item.id > announcementReadId()).length; }
 function announcementRandom(bytes) { return Array.from(crypto.getRandomValues(new Uint8Array(bytes)), n => n.toString(16).padStart(2, '0')).join(''); }
+function announcementInline(text) {
+  // Escape first; only our own fixed formatting tags can enter the rendered message.
+  return escapeHtml(text).replace(/\*\*([^*\n]+)\*\*|\*([^*\n]+)\*/g, (_,a,b)=>`<strong>${a||b}</strong>`).replace(/(^|\s)_([^_\n]+)_(?=\s|[.,!?]|$)/g,'$1<em>$2</em>');
+}
 function announcementText(text) {
   return String(text).split(/(https?:\/\/[^\s<>]+)/gi).map(part => {
-    if (!/^https?:\/\//i.test(part)) return escapeHtml(part);
+    if (!/^https?:\/\//i.test(part)) return announcementInline(part);
     try {
       const url = new URL(part);
-      if (url.username || url.password || !['http:', 'https:'].includes(url.protocol)) return escapeHtml(part);
-      const label = /(^|\.)(youtube\.com|youtu\.be)$/.test(url.hostname) ? 'Watch on YouTube' : /(^|\.)(google\.[a-z.]+|maps\.app\.goo\.gl|goo\.gl)$/.test(url.hostname) ? 'Open Google Maps / link' : part;
+      if (url.username || url.password || !['http:', 'https:'].includes(url.protocol)) return announcementInline(part);
+      const label = /(^|\.)(youtube\.com|youtu\.be)$/.test(url.hostname) ? 'Watch on YouTube' : /(^|\.)(google\.[a-z.]+|maps\.app\.goo\.gl|goo\.gl)$/.test(url.hostname) ? 'Open Google Maps / link' : /(^|\.)maps\.apple(?:\.com)?$/.test(url.hostname) ? 'Open Apple Maps' : part;
       return `<a href="${escapeHtml(url.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
-    } catch { return escapeHtml(part); }
+    } catch { return announcementInline(part); }
   }).join('');
 }
 function announcementCards() {
@@ -23,6 +27,7 @@ function announcementCards() {
     <p class="ann-meta">BRENDON · <time datetime="${escapeHtml(item.created)}">${escapeHtml(new Date(item.created).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }))}</time></p>
     <h2>${escapeHtml(item.title)}</h2><div class="ann-body">${announcementText(item.body)}</div>
     ${item.photo && /^\.\/api\.php\?action=announcementPhoto&id=\d+$/.test(item.photo) ? `<a href="${escapeHtml(item.photo)}" target="_blank" rel="noopener"><img class="ann-photo" src="${escapeHtml(item.photo)}" alt="Photo from Brendon for ${escapeHtml(item.title)}" loading="lazy"></a>` : ''}
+    ${announcementMediaPlayer(item)}
     ${ADMIN_MODE ? `<button class="ann-remove" onclick="deleteAnnouncement(${Number(item.id)})">Remove announcement</button>` : ''}
   </article>`).join('');
 }
@@ -49,10 +54,17 @@ function renderAnnouncements() {
     <p id="ann-status" role="status" aria-live="polite">${escapeHtml(s.message)}</p>
     ${ADMIN_MODE ? `<form class="ann-composer" onsubmit="event.preventDefault();publishAnnouncement()"><h2>New announcement</h2><p>Visible to everyone on this trip. Guests cannot reply.</p>
       <label for="ann-title">Title</label><input id="ann-title" maxlength="120" required placeholder="A quick update for everyone" value="${escapeHtml(d.title)}" oninput="announcementState.draft.title=this.value">
-      <label for="ann-body">Message</label><textarea id="ann-body" maxlength="5000" rows="5" required placeholder="Write your message. Paste YouTube or Google Maps links here." oninput="announcementState.draft.body=this.value">${escapeHtml(d.body)}</textarea>
-      <label for="ann-upload">Add a photo (optional)</label><input id="ann-upload" type="file" accept="image/jpeg,image/png,image/webp,image/heic" onchange="attachAnnouncementPhoto(this.files[0])" ${s.busy || s.photoBusy ? 'disabled' : ''}>
+      <label for="ann-body">Message</label><textarea id="ann-body" maxlength="5000" rows="5" required placeholder="Write your message. Paste YouTube, Google Maps or Apple Maps links here." oninput="announcementState.draft.body=this.value;updateAnnouncementPreview()">${escapeHtml(d.body)}</textarea>
+      <div class="ann-format-tools"><button type="button" onclick="formatAnnouncement('*')"><strong>Bold</strong></button><button type="button" onclick="formatAnnouncement('_')"><em>Italic</em></button></div>
+      <p class="ann-help">Use *bold*, _italic_ and emojis. To dictate text, tap the microphone on your phone keyboard.</p>
+      <details class="ann-preview"><summary>Preview your message</summary><div id="ann-message-preview" class="ann-body">${announcementText(d.body)}</div></details>
+      <label for="ann-upload">Add a photo (optional)</label><input id="ann-upload" type="file" accept="image/jpeg,image/png,image/webp,image/heic" onchange="attachAnnouncementPhoto(this.files[0])" ${s.busy || s.photoBusy || announcementRecorder ? 'disabled' : ''}>
       <div id="ann-photo-draft">${announcementDraftPhoto()}</div>
-      <button id="ann-publish" class="tools-admin-btn" type="submit" ${s.busy || s.photoBusy ? 'disabled' : ''}>${s.busy ? 'Publishing…' : 'Publish & alert everyone'}</button>
+      <label for="ann-media-upload">Add a video or voice clip (optional)</label><input id="ann-media-upload" type="file" accept="video/mp4,video/quicktime,video/webm,audio/mp4,audio/mpeg,audio/ogg,audio/webm,audio/wav,.m4a,.mov" onchange="attachAnnouncementMedia(this.files[0])" ${s.busy||s.photoBusy?'disabled':''}>
+      <p class="ann-help">Up to 20 MB. MP4 is best across phones. For longer videos, paste a YouTube link. Clips are shared as uploaded, including any location metadata.</p>
+      <button type="button" id="ann-record" onclick="toggleAnnouncementRecording()">${announcementRecorder?'Stop recording':'Record voice message'}</button>
+      <div id="ann-media-draft">${announcementDraftMedia()}</div>
+      <button id="ann-publish" class="tools-admin-btn" type="submit" ${s.busy || s.photoBusy || announcementRecorder ? 'disabled' : ''}>${s.busy ? 'Publishing…' : 'Publish & alert everyone'}</button>
       <p id="ann-delivery" class="ann-meta">${escapeHtml(announcementDeliveryText())}</p>
     </form>` : ''}
     <div class="ann-feed-heading"><h2>Latest updates</h2><button class="tools-admin-btn secondary" onclick="refreshAnnouncements(true)">Refresh</button></div>
@@ -92,14 +104,14 @@ async function attachAnnouncementPhoto(file) {
 }
 async function publishAnnouncement() {
   const s=announcementState;
-  if(!ADMIN_MODE || s.busy || s.photoBusy) return;
+  if(!ADMIN_MODE || s.busy || s.photoBusy || announcementRecorder) return;
   if(!s.draft.title.trim() || !s.draft.body.trim()) { announcementStatus('Add a title and message first.'); return; }
   s.draft.requestId ||= announcementRandom(16); s.busy=true;
   for(const control of document.querySelectorAll('.ann-composer input,.ann-composer textarea,.ann-composer button')) control.disabled=true;
   announcementStatus('Publishing your announcement…');
   try {
     const result=await authRequest('announcementPublish',{...s.draft}); s.delivery=result.delivery;
-    s.draft={title:'',body:'',photo:'',requestId:''};
+    s.draft={title:'',body:'',photo:'',media:'',mediaName:'',requestId:''};
     announcementStatus(result.delivery?.pending ? 'Published. Some phone alerts are waiting to send; the app will retry while you keep it open.' : 'Published. Everyone can now read your announcement.');
     await refreshAnnouncements();
   } catch(error) { announcementStatus(`${error.message || 'Could not publish.'} Your draft is still here. You can retry safely.`); }
@@ -149,4 +161,41 @@ async function startAnnouncements() {
     await refreshAnnouncements();
     if(ADMIN_MODE && announcementState.delivery?.pending) { try { const result=await authRequest('announcementRetry',{}); announcementState.delivery=result.delivery; syncAnnouncementView(); } catch {} }
   },60000);
+}
+
+function announcementMediaPlayer(item) {
+  if(!/^\.\/api\.php\?action=announcementMedia&id=\d+$/.test(item.media||''))return '';
+  const tag=String(item.mediaType).startsWith('audio/')?'audio':'video';
+  return `<${tag} class="ann-media" controls playsinline preload="none" src="${escapeHtml(item.media)}"></${tag}><a class="ann-media-link" href="${escapeHtml(item.media)}" target="_blank" rel="noopener">Open clip</a>`;
+}
+function updateAnnouncementPreview(){const el=document.getElementById('ann-message-preview');if(el)el.innerHTML=announcementText(announcementState.draft.body);}
+function formatAnnouncement(marker){const field=document.getElementById('ann-body');if(!field)return;const start=field.selectionStart,end=field.selectionEnd;const text=field.value;const selected=text.slice(start,end)||'your text';field.value=text.slice(0,start)+marker+selected+marker+text.slice(end);announcementState.draft.body=field.value;field.focus();field.setSelectionRange(start+1,start+1+selected.length);updateAnnouncementPreview();}
+function announcementDraftMedia(){const d=announcementState.draft;return d.media?`<p>✓ ${escapeHtml(d.mediaName||'Clip ready')}</p><button type="button" class="ann-remove" onclick="announcementState.draft.media='';document.getElementById('ann-media-draft').innerHTML=''">Remove clip</button>`:'';}
+async function attachAnnouncementMedia(file){
+  const s=announcementState;if(!file||s.photoBusy||s.busy)return;
+  if(!USE_REMOTE_STORAGE){announcementStatus('Upload clips on the hosted app.');return;}
+  if(file.size>20000000){announcementStatus('This clip is larger than 20 MB. Choose a shorter clip or paste a YouTube link.');return;}
+  s.photoBusy=true;const button=document.getElementById('ann-publish');if(button)button.disabled=true;announcementStatus('Uploading your clip…');
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),120000);
+  try {const form=new FormData();form.append('action','announcementUploadMedia');form.append('media',file,file.name||'voice-message.webm');
+    const response=await fetch(`${API_URL}?action=announcementUploadMedia`,{method:'POST',credentials:'same-origin',headers:{'X-CSRF-Token':authState.csrfToken},body:form,signal:controller.signal});
+    const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'Upload failed. Try a smaller clip or a YouTube link.');
+    s.draft.media=data.media;s.draft.mediaName=file.name||'Voice message ready';const draft=document.getElementById('ann-media-draft');if(draft)draft.innerHTML=announcementDraftMedia();announcementStatus('Clip ready. Add your message, check the preview, then publish.');
+  }catch(error){announcementStatus(error.name==='AbortError'?'Upload timed out. Please try again with a smaller clip.':error.message);}
+  finally{clearTimeout(timer);s.photoBusy=false;if(button)button.disabled=s.busy;}
+}
+let announcementRecorder=null;
+async function toggleAnnouncementRecording(){
+  if(announcementRecorder){announcementRecorder.stop();return;}
+  if(announcementState.busy||announcementState.photoBusy)return;
+  if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder){announcementStatus('Voice recording is unavailable in this browser. You can attach a recorded audio file or dictate using your keyboard microphone.');return;}
+  let stream;
+  try {stream=await navigator.mediaDevices.getUserMedia({audio:true});const type=['audio/mp4','audio/webm;codecs=opus','audio/webm'].find(t=>MediaRecorder.isTypeSupported(t));
+    const recorder=new MediaRecorder(stream,type?{mimeType:type}:{}),chunks=[];let size=0;
+    announcementRecorder=recorder;const button=document.getElementById('ann-record');if(button)button.textContent='Stop recording';document.getElementById('ann-publish').disabled=true;announcementStatus('Recording… Tap Stop recording when finished (up to 2 minutes).');
+    const timer=setTimeout(()=>{if(recorder.state==='recording')recorder.stop();},120000);
+    recorder.ondataavailable=event=>{if(event.data.size){chunks.push(event.data);size+=event.data.size;if(size>19000000&&recorder.state==='recording')recorder.stop();}};
+    recorder.onstop=async()=>{clearTimeout(timer);stream.getTracks().forEach(track=>track.stop());announcementRecorder=null;const b=document.getElementById('ann-record');if(b)b.textContent='Record voice message';const blob=new Blob(chunks,{type:recorder.mimeType});await attachAnnouncementMedia(new File([blob],recorder.mimeType.includes('mp4')?'voice-message.m4a':'voice-message.webm',{type:recorder.mimeType}));};
+    recorder.onerror=()=>{announcementStatus('Recording failed. Please try again.');if(recorder.state!=='inactive')recorder.stop();};recorder.start(1000);
+  }catch{stream?.getTracks().forEach(track=>track.stop());announcementRecorder=null;announcementStatus('Microphone unavailable. Allow microphone access or use your keyboard microphone to dictate text.');}
 }

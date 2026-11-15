@@ -37,6 +37,7 @@ function traditionalEuropeExperiences() {
       const location = locationOverrides[key] || currentCity(day) || day.technical?.routeTitle || tour.meta.name;
       if (!seen.has(key)) {
         seen.set(key, {
+          experienceId: optional.experienceId,
           location: experienceLocationLabel(location),
           price: experiencePriceLabel(optional),
           title: optional.title,
@@ -72,6 +73,7 @@ function renderExperiences() {
       <div class="booking-note-inline"><strong>Ready to join?</strong> Confirm with your Travel Director on tour and pay by cash or card according to the normal ${escapeHtml(tour.meta.brand || "tour")} process.</div>
       ${builderReviewAddExperienceButton(dayByNumber(displayDayNumber()))}
     </div>
+    ${interestPanel()}
     <div class="exp-grid">
       ${experiences.map((experience) => `
         <div class="exp-card">
@@ -86,6 +88,7 @@ function renderExperiences() {
           </div>
           <div class="exp-body">
             <div class="exp-desc">${escapeHtml(experience.description)}</div>
+            ${interestButton(experience)}
           </div>
           ${builderReviewExperienceControlsByTitle(experience.title)}
           ${renderExperienceAdminEditor(findOptionalByTitle(experience.title))}

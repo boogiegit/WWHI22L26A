@@ -13,12 +13,14 @@ const runtime = fs.mkdtempSync(path.join(root, 'tests/.runtime/run-'));
 const site = path.join(runtime, 'site');
 fs.mkdirSync(path.join(site, 'server'), { recursive: true });
 fs.mkdirSync(path.join(runtime, 'internal'), { recursive: true });
-for (const file of ['api.php', 'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php', 'server/config.example.php', 'tests/dev-router.php']) {
+for (const file of ['api.php', 'server/packing.php', 'server/experience-interest.php', 'server/announcement-media.php', 'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php', 'server/config.example.php', 'tests/dev-router.php']) {
   fs.mkdirSync(path.dirname(path.join(site, file)), { recursive: true });
   fs.copyFileSync(path.join(root, file), path.join(site, file));
 }
 fs.mkdirSync(path.join(site,'config'),{recursive:true});
 fs.copyFileSync(path.join(root,'config/analytics-events.json'),path.join(site,'config/analytics-events.json'));
+fs.mkdirSync(path.join(site,'tours/WWHI22L26A'),{recursive:true});
+fs.copyFileSync(path.join(root,'tours/WWHI22L26A/experiences.json'),path.join(site,'tours/WWHI22L26A/experiences.json'));
 const php = new PHP(await loadNodeRuntime('8.3', {
   emscriptenOptions: { processId: 1, nativeInternalDirPath: path.join(runtime, 'internal') }
 }));
@@ -26,7 +28,7 @@ await php.mount('/site', createNodeFsMountHandler(site));
 let checks = 0;
 function check(value, label) { assert.ok(value, label); checks++; }
 // Parse PHP using PHP itself. No original operational data is used by this test site.
-for (const file of ['api.php', 'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php', 'server/config.example.php', 'tests/dev-router.php']) {
+for (const file of ['api.php', 'server/packing.php', 'server/experience-interest.php', 'server/announcement-media.php', 'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php', 'server/config.example.php', 'tests/dev-router.php']) {
   const result = await php.run({ code: `<?php token_get_all(file_get_contents(${JSON.stringify('/site/' + file)}), TOKEN_PARSE); echo 'ok';` });
   if (result.text !== 'ok' || result.errors) console.log('PHP parser diagnostic:', result.errors || result.text);
   check(result.text === 'ok' && !result.errors, `PHP syntax: ${file}`);
@@ -377,5 +379,44 @@ const jwtParts=signed.jwt.split('.');
 check(verify('sha256',Buffer.from(jwtParts.slice(0,2).join('.')),{key:keyObject,dsaEncoding:'ieee-p1363'},Buffer.from(jwtParts[2],'base64url')),'Independent crypto verification of VAPID signature');
 check(JSON.parse(Buffer.from(jwtParts[1],'base64url')).aud==='https://web.push.apple.com','VAPID audience is the push provider');
 check(signed.jwt===signed.again,'VAPID token is reused for Apple rate limits');
+
+// Interest responses are private, update in place and remain independent across parties.
+const catalog=JSON.parse(fs.readFileSync(path.join(root,'tours/WWHI22L26A/experiences.json')));
+const experience=catalog.days.flatMap(day=>day.optionals)[0].experienceId;
+const party={token:'1'.repeat(64),experience,name:'Synthetic couple',people:2};
+check((await request(reader,'interestSave',party)).status===200,'Guest submits interest for two people');
+check((await request(reader,'interestSave',{...party,people:3})).status===200,'Same party updates rather than duplicates');
+check((await request(reader,'interestMine',{token:party.token})).data.items[0].people===3,'Guest sees own saved size');
+check((await request(reader,'interestMine',{token:'2'.repeat(64)})).data.items.length===0,'Another token cannot read names');
+check((await request(reader,'interestSummary')).status===401,'Guest cannot read director interest summary');
+check((await request(announcer,'interestSummary')).data.items.length===1,'Director sees one response');
+check((await request(reader,'interestSave',{...party,experience:'made-up'})).status===400,'Unknown experience rejected');
+check((await request(reader,'interestSave',{...party,people:99})).status===400,'Invalid group size rejected');
+check((await request(reader,'interestSave',{...party,people:0})).status===200,'Guest can remove own interest');
+check((await request(announcer,'interestSummary')).data.items.length===0,'Removal updates director view');
+const packing={sections:[{category:'Winter',items:[{title:'Warm gloves',note:'Bring a pair'}]}]};
+check((await request(reader,'savePacking',packing)).status===401,'Only admin can edit packing');
+check((await request(announcer,'savePacking',packing)).status===200,'Admin publishes packing');
+check((await request(reader,'getPacking')).data.sections[0].category==='Winter','Guest sees published packing');
+check((await request(announcer,'savePacking',{sections:[]})).status===400,'Empty packing rejected');
+check((await request(reader,'announcementUploadMedia',{})).status===401,'Guests cannot upload clips');
+check((await request(announcer,'announcementPublish',{...announcement,requestId:'9'.repeat(32),media:'missing'})).status===400,'Unregistered media cannot be published');
+
+const wav=Buffer.alloc(844);wav.write('RIFF');wav.writeUInt32LE(836,4);wav.write('WAVEfmt ',8);wav.writeUInt32LE(16,16);wav.writeUInt16LE(1,20);wav.writeUInt16LE(1,22);wav.writeUInt32LE(8000,24);wav.writeUInt32LE(16000,28);wav.writeUInt16LE(2,32);wav.writeUInt16LE(16,34);wav.write('data',36);wav.writeUInt32LE(800,40);
+function mediaMultipart(bytes){return Buffer.concat([Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="action"\r\n\r\nannouncementUploadMedia\r\n--${boundary}\r\nContent-Disposition: form-data; name="media"; filename="voice.wav"\r\nContent-Type: audio/wav\r\n\r\n`),bytes,Buffer.from(`\r\n--${boundary}--\r\n`)]);}
+const mediaUpload=await request(announcer,'announcementUploadMedia',{}, {rawBody:mediaMultipart(wav),headers:{'Content-Type':`multipart/form-data; boundary=${boundary}`}});
+check(mediaUpload.status===200 && mediaUpload.data.media?.length===40,'Real audio upload receives a private media ID');
+check((await request(announcer,'announcementUploadMedia',{}, {rawBody:mediaMultipart(Buffer.from('<script>not audio</script>')),headers:{'Content-Type':`multipart/form-data; boundary=${boundary}`}})).status===415,'Disguised script upload rejected');
+// Fixture media exercises public access, byte ranges and revocation without external delivery.
+const mediaId='3'.repeat(40),mediaBytes=Buffer.from('Synthetic audio bytes for range verification');
+fs.mkdirSync(path.join(site,'.private/announcement-media'),{recursive:true});fs.writeFileSync(path.join(site,'.private/announcement-media',mediaId),mediaBytes);
+await php.run({code:`<?php $db=new PDO('sqlite:/site/.private/runtime.db');$db->prepare('INSERT INTO announcement_media VALUES (?,?,?,?)')->execute(['${mediaId}','audio/mpeg',${mediaBytes.length},time()]);`});
+const clip=await request(announcer,'announcementPublish',{...announcement,requestId:'8'.repeat(32),media:mediaId});
+check(clip.status===200,'Admin publishes registered media');
+let clipResponse=await request(reader,'announcementMedia',undefined,{query:{id:clip.data.id},headers:{Range:'bytes=2-7'}});
+check(clipResponse.status===206&&Buffer.from(clipResponse.bytes).equals(mediaBytes.subarray(2,8)),'Media range response returns exact requested bytes');
+check((await request(reader,'announcementMedia',undefined,{query:{id:clip.data.id},headers:{Range:'bytes=9999-'}})).status===416,'Unsatisfiable media range rejected');
+await request(announcer,'announcementDelete',{id:clip.data.id});
+check((await request(reader,'announcementMedia',undefined,{query:{id:clip.data.id}})).status===404,'Removing announcement revokes clip');
 php.exit();
 console.log(`PASS: ${checks} PHP/API, permissions, privacy, exclusion and JavaScript syntax checks.`);

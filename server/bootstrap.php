@@ -73,7 +73,8 @@ $_SESSION['owner'] ??= bin2hex(random_bytes(24));
 
 $input = [];
 if ($method === 'POST') {
-    if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 4000000) respond(['error' => 'Request too large.'], 413);
+    $uploadLimit = ($_GET['action'] ?? '') === 'announcementUploadMedia' && ($_SESSION['role'] ?? '') === 'admin' ? 21000000 : 4000000;
+    if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > $uploadLimit) respond(['error' => 'Request too large.'], 413);
     if (str_starts_with($_SERVER['CONTENT_TYPE'] ?? '', 'multipart/form-data')) {
         $input = $_POST;
     } else {

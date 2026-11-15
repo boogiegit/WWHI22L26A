@@ -317,3 +317,29 @@ Deploy `server/announcements.php` before the updated `api.php`. Deploy the updat
 JS/CSS/config files before `app.html` and `sw.js`. Use `scripts/package_app.py` for
 the full application-only archive; do not overwrite `server/config.local.php` or
 `.private/`. No existing credentials need changing.
+
+### Announcement media, interest and winter packing (15 November 2026)
+
+Announcements accept WhatsApp-style `*bold*`, `**bold**`, `_italic_`, emojis and safe
+HTTP(S) links, with a message preview. Admins can attach one processed photo and
+one video/audio clip per announcement. Clips are limited to 20 MB; MP4/H.264 is
+recommended for video across phones. MOV/WebM playback depends on phone codecs;
+longer clips can be shared by YouTube link. Phone keyboard dictation creates text;
+the Record voice message button records up to two minutes with microphone permission.
+Media stays in `.private/announcement-media/`; only published clips have guest
+playback URLs, with HTTP byte ranges. Raw clips retain their source metadata.
+Unused media is reclaimed on upload after 24 hours; the media quota is 500 MB.
+PHP upload/post limits must allow 20 MB files plus multipart overhead. No hosting
+configuration or credentials are overwritten by this update.
+
+Experiences have an “I’m interested” action, names and 1–12 people per response.
+The director sees named responses and totals; guests can only retrieve/update
+responses using their own random device token. This is a heads-up, not a booking.
+One couple/group should submit once on one device. Clearing browser data or using
+another device loses that device identity and can lead to duplicate responses.
+
+Winter packing content is bundled in `resources.json` under `tools.packing`.
+Admin edits in Tools → Packing are stored separately in the private runtime DB;
+guests receive the published list. Their checkmarks remain local to their device.
+Deploy all new PHP files before api.php and deploy the frontend as one update.
+Real iPhone/Android recording, codec playback and push delivery need device testing.

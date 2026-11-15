@@ -352,3 +352,17 @@ assert.equal(document.getElementById('ann-title').value,'Draft title','Failed pu
 assert.ok(document.getElementById('ann-status').textContent.includes('retry safely'));
 context.fetch=normalFetch;
 console.log('PASS: announcement guest/admin isolation, safe links and markup, unread state, draft persistence and failure recovery.');
+vm.runInContext("announcementState.items=[{id:8,title:'Meet here',body:'*Bold* and **also bold** _italic_ 😊 <script>bad()</script> https://maps.apple.com/?q=Paris',created:'2026-12-22T10:00:00Z',media:'javascript:bad()'}];renderApp()",context);
+assert.equal(document.querySelectorAll('#ann-feed strong').length,2);
+assert.equal(document.querySelectorAll('#ann-feed em').length,1);
+assert.equal(document.querySelectorAll('#ann-feed script,#ann-feed video').length,0);
+assert.ok(document.getElementById('ann-feed').textContent.includes('😊'));
+assert.ok(document.getElementById('ann-feed').textContent.includes('Open Apple Maps'));
+vm.runInContext("ADMIN_MODE=false;activeTab='experiences';renderApp()",context);
+assert.ok(document.querySelector('.interest-button'));
+assert.ok(!document.getElementById('interest-summary'),'No private summary in guest markup');
+vm.runInContext("ADMIN_MODE=true;interestState.summary=[{experience:traditionalEuropeExperiences()[0].experienceId,name:'<script>name</script>',people:2}];renderApp()",context);
+assert.ok(document.getElementById('interest-summary').textContent.includes('2 people · 1 response'));
+assert.equal(document.querySelectorAll('#interest-summary script').length,0);
+assert.ok(vm.runInContext("packingSections().some(s=>s.category==='Winter essentials'&&s.items.some(i=>i.title==='Thermal underwear / base layers'))",context));
+console.log('PASS: readable formatting, safe Apple Maps links, interest party counts/privacy and winter packing content.');

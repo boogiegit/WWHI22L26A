@@ -19,38 +19,39 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <title>Xmas Whirl 2026</title>
-<link rel="stylesheet" href="./css/app.css?v=20261115-announcements">
+<link rel="stylesheet" href="./css/app.css?v=20261115-media">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 <div id="app">
   <div class="loading">Loading tour app...</div>
 </div>
-<script src="./js/core/utils.js?v=20261115-announcements"></script>
-<script src="./js/core/tour-updates.js?v=20261115-announcements"></script>
-<script src="./js/core/itinerary-helpers.js?v=20261115-announcements"></script>
-<script src="./js/core/resource-helpers.js?v=20261115-announcements"></script>
-<script src="./js/core/tour-config-helpers.js?v=20261115-announcements"></script>
-<script src="./js/core/today-state.js?v=20261115-announcements"></script>
-<script src="./js/services/announcements.js?v=20261115-announcements"></script>
-<script src="./js/services/auth.js?v=20261115-announcements"></script>
-<script src="./js/services/storage.js?v=20261115-announcements"></script>
-<script src="./js/services/admin-content-storage.js?v=20261115-announcements"></script>
-<script src="./js/services/admin-content-overrides.js?v=20261115-announcements"></script>
-<script src="./js/viewer/document-viewer.js?v=20261115-announcements"></script>
-<script src="./js/maps/map-panel.js?v=20261115-announcements"></script>
-<script src="./js/navigation/navigation.js?v=20261115-announcements"></script>
-<script src="./js/rendering/contacts-renderer.js?v=20261115-announcements"></script>
-<script src="./js/rendering/travel-director-renderer.js?v=20261115-announcements"></script>
-<script src="./js/services/analytics.js?v=20261115-announcements"></script>
-<script src="./js/services/onward-export.js?v=20261115-announcements"></script>
-<script src="./js/core/journey-recaps.js?v=20261115-announcements"></script>
-<script src="./js/rendering/experiences-renderer.js?v=20261115-announcements"></script>
-<script src="./js/rendering/tools-renderer.js?v=20261115-announcements"></script>
-<script src="./js/rendering/rewards-renderer.js?v=20261115-announcements"></script>
-<script src="./js/rendering/travel-impact-renderer.js?v=20261115-announcements"></script>
-<script src="./js/rendering/today-components.js?v=20261115-announcements"></script>
-<script src="./js/rendering/itinerary-components.js?v=20261115-announcements"></script>
+<script src="./js/core/utils.js?v=20261115-media"></script>
+<script src="./js/core/tour-updates.js?v=20261115-media"></script>
+<script src="./js/core/itinerary-helpers.js?v=20261115-media"></script>
+<script src="./js/core/resource-helpers.js?v=20261115-media"></script>
+<script src="./js/core/tour-config-helpers.js?v=20261115-media"></script>
+<script src="./js/core/today-state.js?v=20261115-media"></script>
+<script src="./js/services/experience-interest.js?v=20261115-media"></script>
+<script src="./js/services/announcements.js?v=20261115-media"></script>
+<script src="./js/services/auth.js?v=20261115-media"></script>
+<script src="./js/services/storage.js?v=20261115-media"></script>
+<script src="./js/services/admin-content-storage.js?v=20261115-media"></script>
+<script src="./js/services/admin-content-overrides.js?v=20261115-media"></script>
+<script src="./js/viewer/document-viewer.js?v=20261115-media"></script>
+<script src="./js/maps/map-panel.js?v=20261115-media"></script>
+<script src="./js/navigation/navigation.js?v=20261115-media"></script>
+<script src="./js/rendering/contacts-renderer.js?v=20261115-media"></script>
+<script src="./js/rendering/travel-director-renderer.js?v=20261115-media"></script>
+<script src="./js/services/analytics.js?v=20261115-media"></script>
+<script src="./js/services/onward-export.js?v=20261115-media"></script>
+<script src="./js/core/journey-recaps.js?v=20261115-media"></script>
+<script src="./js/rendering/experiences-renderer.js?v=20261115-media"></script>
+<script src="./js/rendering/tools-renderer.js?v=20261115-media"></script>
+<script src="./js/rendering/rewards-renderer.js?v=20261115-media"></script>
+<script src="./js/rendering/travel-impact-renderer.js?v=20261115-media"></script>
+<script src="./js/rendering/today-components.js?v=20261115-media"></script>
+<script src="./js/rendering/itinerary-components.js?v=20261115-media"></script>
 <script>
 const URL_PARAMS = new URLSearchParams(location.search);
 const DEFAULT_TOUR_CODE = "WWHI22L26A";
@@ -4679,7 +4680,7 @@ async function initializeToolPanel(id) {
   if (id === "weather") await loadWeatherTool();
   if (id === "rates") await loadRatesTool();
   if (id === "map") await loadRouteMapTool();
-  if (id === "packing") renderPackingTool();
+  if (id === "packing") { renderPackingTool(); loadPublishedPacking(); }
   if (id === "photos") await loadToolPhotos();
   if (id === "photomap") await loadPhotoMapTool();
   if (id === "group") await loadGroupTool();
@@ -5302,24 +5303,38 @@ function loadPackingState() {
   try { return JSON.parse(localStorage.getItem(packingKey()) || "{}"); } catch (error) { return {}; }
 }
 
+let packingOverride=null;
+function packingSections(){return packingOverride||toolsConfig().packing||TOOL_PACKING;}
+async function loadPublishedPacking(){
+  if(!USE_REMOTE_STORAGE)return;
+  try{const data=await authRequest('getPacking');if(Array.isArray(data.sections))packingOverride=data.sections;renderPackingTool();}catch{}
+}
+async function savePackingEditor(){
+  const field=document.getElementById('packing-editor'),status=document.getElementById('packing-edit-status');
+  const sections=[];
+  for(const raw of field.value.split('\n')){const line=raw.trim();if(!line)continue;if(line.startsWith('# '))sections.push({category:line.slice(2).trim(),items:[]});else{if(!sections.length)sections.push({category:'Packing',items:[]});const [title,...notes]=line.split(' | ');sections.at(-1).items.push({title,note:notes.join(' | ')});}}
+  try{await authRequest('savePacking',{sections});packingOverride=sections;renderPackingTool();document.getElementById('packing-edit-status').textContent='Packing list saved for everyone.';}catch(error){status.textContent=error.message;}
+}
+function packingEditor(){if(!ADMIN_MODE)return '';const text=packingSections().map(section=>'# '+section.category+'\n'+section.items.map(raw=>typeof raw==='string'?raw:raw.title+(raw.note?' | '+raw.note:'')).join('\n')).join('\n\n');return `<details class="packing-editor"><summary>Edit packing list for everyone</summary><p>Use # for a section heading, then one item per line. Add an optional note after |.</p><textarea id="packing-editor" rows="14">${escapeHtml(text)}</textarea><button class="tools-admin-btn" onclick="savePackingEditor()">Save packing list</button><p id="packing-edit-status" role="status"></p></details>`;}
 function renderPackingTool() {
   const body = document.getElementById("tool-packing-body");
   if (!body) return;
   const checked = loadPackingState();
-  const total = TOOL_PACKING.reduce((sum, section) => sum + section.items.length, 0);
-  const done = TOOL_PACKING.reduce((sum, section) => sum + section.items.filter((rawItem) => {
+  const total = packingSections().reduce((sum, section) => sum + section.items.length, 0);
+  const done = packingSections().reduce((sum, section) => sum + section.items.filter((rawItem) => {
     const item = typeof rawItem === "string" ? { title: rawItem } : rawItem;
     return checked[item.title || ""];
   }).length, 0);
   const progress = total ? Math.round((done / total) * 100) : 0;
   body.innerHTML = `
+    ${packingEditor()}
     <div class="packing-flat">
       <div class="packing-progress">
         <div class="packing-progress-track"><span class="packing-progress-fill" style="width:${progress}%"></span></div>
         <div class="packing-progress-count">${done} / ${total}</div>
         <button class="packing-reset-link" type="button" onclick="resetPackingTool()">Reset</button>
       </div>
-      ${TOOL_PACKING.map((section) => `
+      ${packingSections().map((section) => `
         <div class="packing-section-label">${escapeHtml(section.category)}</div>
         <div class="packing-section">
           ${section.items.map((rawItem) => {

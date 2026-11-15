@@ -80,6 +80,175 @@
         ]
       }
     },
-    "specialPassSystems": []
+    "specialPassSystems": [],
+    "packing": [
+      {
+        "category": "Documents & Money",
+        "items": [
+          {
+            "title": "Passport",
+            "note": "Valid 6+ months after return"
+          },
+          {
+            "title": "Travel insurance documents"
+          },
+          {
+            "title": "Flight tickets / e-tickets"
+          },
+          {
+            "title": "Euros in cash",
+            "note": "~€200 recommended"
+          },
+          {
+            "title": "Credit / debit card - bank notified"
+          },
+          {
+            "title": "Emergency contact list"
+          }
+        ]
+      },
+      {
+        "category": "Clothing",
+        "items": [
+          {
+            "title": "Comfortable walking shoes",
+            "note": "Already broken in"
+          },
+          {
+            "title": "Smart outfit for dinners"
+          },
+          {
+            "title": "Lightweight layers / jacket"
+          },
+          {
+            "title": "Scarf",
+            "note": "Required for church visits"
+          },
+          {
+            "title": "Comfortable casual clothes"
+          },
+          {
+            "title": "Compact umbrella",
+            "note": "For rainy days and city walks"
+          },
+          {
+            "title": "Sun hat"
+          }
+        ]
+      },
+      {
+        "category": "Winter essentials",
+        "items": [
+          {
+            "title": "Very warm outer / puffer jacket",
+            "note": "An insulated coat for cold evenings and mountain visits"
+          },
+          {
+            "title": "Warm gloves"
+          },
+          {
+            "title": "Beanie / warm hat"
+          },
+          {
+            "title": "Warm scarf / neck warmer"
+          },
+          {
+            "title": "Thermal underwear / base layers",
+            "note": "Thermal top and leggings for layering"
+          },
+          {
+            "title": "Warm mid-layers",
+            "note": "Fleece or wool jumper"
+          },
+          {
+            "title": "Warm socks",
+            "note": "Pack spare pairs"
+          },
+          {
+            "title": "Water-resistant shoes with good grip",
+            "note": "Comfortable, broken-in soles for wet or slippery paths"
+          },
+          {
+            "title": "Waterproof outer layer"
+          },
+          {
+            "title": "Lip balm"
+          },
+          {
+            "title": "Hand cream / moisturiser"
+          },
+          {
+            "title": "Sunglasses",
+            "note": "Useful for bright winter days and mountain glare"
+          }
+        ]
+      },
+      {
+        "category": "Health & Toiletries",
+        "items": [
+          {
+            "title": "Prescription medications",
+            "note": "In carry-on with documentation"
+          },
+          {
+            "title": "Vitamin C / Airborne",
+            "note": "Start before departure"
+          },
+          {
+            "title": "Sunscreen SPF 30+"
+          },
+          {
+            "title": "Pain relief (ibuprofen / paracetamol)"
+          },
+          {
+            "title": "Blister plasters",
+            "note": "Your feet will thank you"
+          },
+          {
+            "title": "Small first aid kit"
+          }
+        ]
+      },
+      {
+        "category": "Electronics",
+        "items": [
+          {
+            "title": "Universal travel adapter",
+            "note": "Italy uses round-pin 230V"
+          },
+          {
+            "title": "Phone charger"
+          },
+          {
+            "title": "Portable power bank"
+          },
+          {
+            "title": "Earbuds / headphones"
+          },
+          {
+            "title": "eSIM or international roaming activated",
+            "note": "Airalo recommended"
+          }
+        ]
+      },
+      {
+        "category": "Luggage",
+        "items": [
+          {
+            "title": "Suitcase tagged with name & contact"
+          },
+          {
+            "title": "Day bag / backpack"
+          },
+          {
+            "title": "Luggage lock"
+          },
+          {
+            "title": "Photo of suitcase taken",
+            "note": "In case it goes missing"
+          }
+        ]
+      }
+    ]
   }
 }

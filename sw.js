@@ -1,8 +1,8 @@
 // Cache only explicitly approved application code and icons. Never cache API responses,
 // navigation, tour data, documents, uploaded media, invitation links or third-party requests.
-const CACHE_NAME = 'wwhi22l26a-static-v175';
+const CACHE_NAME = 'wwhi22l26a-static-v176';
 const STATIC_PATHS = [
-  './js/services/announcements.js',
+  './js/services/announcements.js', './js/services/experience-interest.js',
   './js/core/tour-updates.js',
   './css/app.css', './manifest.json', './favicon.ico', './favicon-16.png',
   './favicon-32.png', './apple-touch-icon.png', './icon-192.png', './icon-512.png',

@@ -7,7 +7,7 @@ import json
 ROOT = Path(__file__).resolve().parents[1]
 FILES = ['.htaccess', 'index.html', 'app.html', 'api.php', 'manifest.json', 'sw.js',
          'colosseum-tickets.html', 'venice-passes.html', 'pantheon-tickets/index.html',
-         'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php',
+         'server/packing.php', 'server/experience-interest.php', 'server/announcement-media.php', 'server/announcements.php', 'server/bootstrap.php', 'server/onward.php', 'server/resource-preview.php',
          'server/config.example.php', 'server/.htaccess', 'data/.htaccess']
 DIRS = ['assets', 'css', 'js', 'config', 'tours/WWHI22L26A']
 

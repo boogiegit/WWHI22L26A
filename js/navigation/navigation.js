@@ -8,6 +8,7 @@ function setTab(tab) {
   normalizeActiveTabForNav();
   if (typeof trackAnalytics === "function") trackAnalytics(`tab:${activeTab}`);
   renderApp();
+  if (tab === "experiences") refreshInterest();
   if (tab === "announcements") { syncAnnouncementView(); refreshAnnouncements(); }
 }
 
