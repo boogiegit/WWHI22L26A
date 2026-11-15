@@ -3,6 +3,7 @@ let moreNavOpen = false;
 let activeTab = (location.pathname.endsWith("/admin.php") || new URLSearchParams(location.search).get("tab") === "announcements") ? "announcements" : typeof URL_PARAMS !== "undefined" && URL_PARAMS.get("builderPreview") === "1" && BUILDER_PREVIEW_TABS.has(URL_PARAMS.get("previewTab")) ? URL_PARAMS.get("previewTab") : "today";
 
 function setTab(tab) {
+  if(typeof announcementDictation!=='undefined' && announcementDictation)stopAnnouncementDictation();
   moreNavOpen = false;
   if (tab === "programme") activeProgrammeTab = "days";
   if (tab === "experiences") activeProgrammeTab = "optionals";
@@ -61,7 +62,7 @@ function renderFullNav() {
     </nav>`;
 }
 
-function toggleMoreNav(){moreNavOpen=!moreNavOpen;renderApp({preserveScroll:true});}
+function toggleMoreNav(){if(!moreNavOpen)trackAnalytics('nav:more');moreNavOpen=!moreNavOpen;renderApp({preserveScroll:true});}
 function renderNav(){
   // Reuse the established icons and unread badge, with five phone-sized controls.
   const all=renderFullNav();

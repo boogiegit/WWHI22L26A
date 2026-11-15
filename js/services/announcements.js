@@ -103,6 +103,7 @@ async function attachAnnouncementPhoto(file) {
   finally { announcementState.photoBusy=false; const button=document.getElementById('ann-publish'); if(button)button.disabled=announcementState.busy; }
 }
 async function publishAnnouncement() {
+  if(announcementDictation){stopAnnouncementDictation();return;}
   const s=announcementState;
   if(!ADMIN_MODE || s.busy || s.photoBusy || announcementRecorder) return;
   if(!s.draft.body.trim() && !s.draft.photo && !s.draft.media) { announcementStatus('Write a message, or add a photo or voice/video clip.'); return; }
@@ -201,24 +202,45 @@ async function toggleAnnouncementRecording(){
 }
 
 function announcementCaughtUp(){return '<div class="ann-caught-up"><div class="bell" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg></div><strong>You’re all caught up.</strong><p>Updates, helpful tips and photos from Brendon will appear here.</p></div>';}
-function announcementWritingTools(){return `<div class="ann-writing"><strong>Speak or write your message</strong><div class="ann-format-tools"><button type="button" id="ann-dictate" onclick="dictateAnnouncement()">🎙 Dictate message</button><button type="button" id="ann-polish" onclick="polishAnnouncement()" ${authState.config?.announcementAiAvailable?'':'disabled'}>✨ Polish with AI</button><button type="button" onclick="undoAnnouncementPolish()">Undo polish</button></div><p>${authState.config?.announcementAiAvailable?'Polishing sends this draft to OpenAI. Review the result before publishing.':'AI polishing is awaiting service setup. Typing, dictation and publishing are ready.'}</p><p id="ann-writing-status" role="status"></p></div>`;}
+function announcementWritingTools(){return `<div class="ann-writing"><strong>Speak or write your message</strong><div class="ann-format-tools"><button type="button" id="ann-dictate" onclick="dictateAnnouncement()">🎙 Dictate message</button><button type="button" id="ann-polish" onclick="polishAnnouncement()" ${authState.config?.announcementAiAvailable?'':'disabled'}>✨ Polish with AI</button><button type="button" onclick="undoAnnouncementPolish()">Undo polish</button></div><p>${authState.config?.announcementAiAvailable?'Polishing sends this draft to OpenAI. Review the result before publishing.':'AI polishing is awaiting service setup. Typing, dictation and publishing are ready.'}</p><p class="ann-help">Tap Dictate message, wait for Listening, then speak. Tap Stop dictation when finished. No need to tap the message box first.</p><p id="ann-writing-status" role="status"></p></div>`;}
 function addAnnouncementLink(){const input=document.getElementById('ann-link-input');try{const url=new URL(input.value.trim());if(!['https:','http:'].includes(url.protocol)||url.username||url.password)throw Error();const body=document.getElementById('ann-body');body.value=(body.value.trimEnd()+'\n'+url.href).trim();announcementState.draft.body=body.value;updateAnnouncementPreview();input.value='';document.getElementById('ann-link-box').open=false;}catch{announcementStatus('Paste a full link beginning with https://.');}}
 let announcementDictation=null,announcementBeforePolish='';
+function stopAnnouncementDictation(){
+  if(!announcementDictation)return;
+  announcementDictation.stopping=true;
+  const status=document.getElementById('ann-writing-status');if(status)status.textContent='Finishing your last words…';
+  announcementDictation.stop();
+}
 function dictateAnnouncement(){
-  if(announcementDictation){announcementDictation.stop();return;}
+  if(announcementDictation){stopAnnouncementDictation();return;}
   const body=document.getElementById('ann-body'),status=document.getElementById('ann-writing-status');
   const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!Speech){body.focus();status.textContent='Tap the microphone on your phone keyboard and speak. Your words will appear in Message.';return;}
-  const speech=new Speech();announcementDictation=speech;speech.lang='en-GB';speech.continuous=false;speech.interimResults=false;
-  speech.onresult=event=>{const text=Array.from(event.results).filter(result=>result.isFinal).map(result=>result[0].transcript).join(' ');const current=document.getElementById('ann-body');if(current){current.value=(current.value.trimEnd()+' '+text).trim().slice(0,5000);announcementState.draft.body=current.value;updateAnnouncementPreview();}};
-  speech.onerror=()=>{status.textContent='Dictation stopped. You can also use the microphone on your phone keyboard.';};
-  speech.onend=()=>{announcementDictation=null;const button=document.getElementById('ann-dictate');if(button)button.textContent='🎙 Dictate message';};
-  try{speech.start();document.getElementById('ann-dictate').textContent='Stop dictation';status.textContent='Listening…';}catch{announcementDictation=null;body.focus();status.textContent='Use the microphone on your phone keyboard to dictate.';}
+  if(!Speech){body.focus();status.textContent='Use the microphone on your phone keyboard. Speak, then tap its Done or microphone button to stop. Your words appear in Message.';return;}
+  const speech=new Speech();announcementDictation=speech;speech.lang='en-GB';speech.continuous=true;speech.interimResults=true;
+  const prefix=body.value.trimEnd();let segments=[],failure='';
+  const sync=()=>{body.value=(prefix+(prefix&&segments.length?' ':'')+segments.join(' ')).slice(0,5000);announcementState.draft.body=body.value;updateAnnouncementPreview();};
+  const controls=active=>{
+    body.readOnly=active;
+    for(const id of ['ann-polish','ann-publish']){const el=document.getElementById(id);if(el)el.disabled=active;}
+    const button=document.getElementById('ann-dictate');if(button){button.textContent=active?'■ Stop dictation':'🎙 Dictate message';button.setAttribute('aria-pressed',String(active));}
+  };
+  controls(true);status.textContent='Starting microphone… Allow access if asked. Wait for “Listening” before speaking.';
+  speech.onstart=()=>{status.textContent='🔴 Listening — speak now. Your words appear above. Tap Stop dictation when finished.';trackAnalytics('announcement:dictate');};
+  speech.onresult=event=>{
+    // Results are cumulative within a session. Replace interim words instead of appending duplicates.
+    segments=Array.from(event.results).map(result=>result[0].transcript.trim());sync();
+    status.textContent='🔴 Listening — your words are appearing in Message. Tap Stop dictation when finished.';
+    if(body.value.length>=5000)stopAnnouncementDictation();
+  };
+  speech.onerror=event=>{failure=event.error==='not-allowed'?'Microphone access was not allowed. Use your phone keyboard’s microphone, or allow microphone access in browser settings.':event.error==='no-speech'?'No speech detected. Tap Dictate message to try again, or use your phone keyboard’s microphone.':'Dictation was interrupted. Your captured words are kept. Tap Dictate message to continue, or use your keyboard microphone.';};
+  speech.onend=()=>{if(announcementDictation!==speech)return;sync();announcementDictation=null;controls(false);status.textContent=failure||(segments.length?'Dictation stopped. Your words are saved in Message. Check them, then polish or publish.':'Dictation stopped without any words. Tap Dictate message to try again.');};
+  try{speech.start();}catch{announcementDictation=null;controls(false);body.focus();status.textContent='Could not start dictation. Use the microphone on your phone keyboard.';}
 }
 async function polishAnnouncement(){
+  if(announcementDictation){stopAnnouncementDictation();return;}
   const body=document.getElementById('ann-body'),button=document.getElementById('ann-polish'),status=document.getElementById('ann-writing-status');
   const original=body.value;if(!original.trim()){status.textContent='Type or dictate a message first.';return;}button.disabled=true;status.textContent='Polishing your draft…';
-  try{const result=await authRequest('polishAnnouncement',{text:original});if(body.isConnected&&body.value===original){announcementBeforePolish=original;body.value=result.text;announcementState.draft.body=result.text;updateAnnouncementPreview();status.textContent='Ready to review. Check names and times, then publish.';}else{status.textContent='Your draft changed while polishing. Your edits have been kept.';}}
+  try{const result=await authRequest('polishAnnouncement',{text:original});if(body.isConnected&&body.value===original){trackAnalytics('announcement:polish');announcementBeforePolish=original;body.value=result.text;announcementState.draft.body=result.text;updateAnnouncementPreview();status.textContent='Ready to review. Check names and times, then publish.';}else{status.textContent='Your draft changed while polishing. Your edits have been kept.';}}
   catch(error){status.textContent=error.message||'Could not polish. Your draft is unchanged.';}finally{button.disabled=false;}
 }
 function undoAnnouncementPolish(){if(!announcementBeforePolish)return;const body=document.getElementById('ann-body');body.value=announcementBeforePolish;announcementState.draft.body=announcementBeforePolish;announcementBeforePolish='';updateAnnouncementPreview();}

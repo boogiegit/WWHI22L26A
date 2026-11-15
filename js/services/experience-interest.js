@@ -1,5 +1,16 @@
 // Each device holds a private response token. Names and party sizes are director-only.
-const interestState={items:[],summary:[],loaded:false,busy:false,error:'',editing:'',name:'',people:1};
+const interestState={items:[],summary:[],loaded:false,busy:false,error:'',editing:'',name:'',people:1,profileReady:false};
+const INTEREST_PROFILE_KEY='wwhi22l26a-interest-profile';
+function loadInterestProfile(){
+  try {const p=JSON.parse(localStorage.getItem(INTEREST_PROFILE_KEY)||'null');
+    if(p && typeof p.name==='string' && p.name.trim() && p.name.length<=80){interestState.name=p.name.trim();interestState.people=Math.max(1,Math.min(12,Number(p.people)||1));interestState.profileReady=true;}
+  }catch{}
+}
+function rememberInterestProfile(){
+  interestState.profileReady=true;
+  try{localStorage.setItem(INTEREST_PROFILE_KEY,JSON.stringify({name:interestState.name.trim(),people:interestState.people}));}catch{}
+}
+function editInterestProfile(){interestState.profileReady=false;renderApp({preserveScroll:true});document.getElementById('interest-name')?.focus();}
 function interestToken() {
   const key='wwhi22l26a-interest-token'; let token=localStorage.getItem(key);
   if(!/^[a-f0-9]{64}$/.test(token||'')) { token=announcementRandom(32); localStorage.setItem(key,token); }
@@ -18,7 +29,7 @@ function interestPanel() {
 }
 function interestForm() {
   const s=interestState, experience=traditionalEuropeExperiences().find(item=>item.experienceId===s.editing);
-  return `<dialog open class="interest-dialog" aria-labelledby="interest-title"><form onsubmit="event.preventDefault();saveInterest(false)"><h2 id="interest-title">${escapeHtml(experience?.displayTitle||'Your interest')}</h2><p>Who would like to join? Include yourself in the number.</p><label>Your name(s)<input id="interest-name" maxlength="80" required value="${escapeHtml(s.name)}" oninput="interestState.name=this.value" autocomplete="name" placeholder="e.g. Sam and Alex Taylor"></label><label>Number of people<select id="interest-people" onchange="interestState.people=Number(this.value)">${Array.from({length:12},(_,i)=>`<option value="${i+1}" ${s.people===i+1?'selected':''}>${i+1}${i===0?' — just me':i===1?' — two of us':''}</option>`).join('')}</select></label><p>We’ll remember this on this device. Please don’t submit again on another phone. You can change or remove your interest here.</p><p role="status">${escapeHtml(s.error)}</p><div class="interest-actions"><button class="interest-button" ${s.busy?'disabled':''}>${s.busy?'Saving…':'Save interest'}</button><button type="button" onclick="closeInterest()" ${s.busy?'disabled':''}>Cancel</button>${s.items.some(item=>item.experience===s.editing)?`<button type="button" onclick="saveInterest(true)" ${s.busy?'disabled':''}>Remove interest</button>`:''}</div></form></dialog>`;
+  return `<dialog open class="interest-dialog" aria-labelledby="interest-title"><form onsubmit="event.preventDefault();saveInterest(false)"><h2 id="interest-title">${escapeHtml(experience?.displayTitle||'Your interest')}</h2><p>Who would like to join? Include yourself in the number.</p>${s.profileReady?`<p class="interest-identity"><strong>${escapeHtml(s.name)}</strong> <button type="button" onclick="editInterestProfile()">Change name</button></p>`:`<label>Your name(s)<input id="interest-name" maxlength="80" required value="${escapeHtml(s.name)}" oninput="interestState.name=this.value" autocomplete="name" placeholder="e.g. Sam and Alex Taylor"></label>`}<label>Number of people<select id="interest-people" onchange="interestState.people=Number(this.value)">${Array.from({length:12},(_,i)=>`<option value="${i+1}" ${s.people===i+1?'selected':''}>${i+1}${i===0?' — just me':i===1?' — two of us':''}</option>`).join('')}</select></label><p>Your name is remembered on this device. You can change your interest anytime.</p><p role="status">${escapeHtml(s.error)}</p><div class="interest-actions"><button class="interest-button" ${s.busy?'disabled':''}>${s.busy?'Saving…':'I’m interested'}</button><button type="button" onclick="closeInterest()" ${s.busy?'disabled':''}>Cancel</button>${s.items.some(item=>item.experience===s.editing)?`<button type="button" onclick="saveInterest(true)" ${s.busy?'disabled':''}>Remove interest</button>`:''}</div></form></dialog>`;
 }
 function interestSummary() {
   if(!interestState.summary.length)return '<p>No responses received yet.</p>';
@@ -38,14 +49,15 @@ async function refreshInterest() {
 async function openInterest(id) {
   if(!USE_REMOTE_STORAGE){interestState.error='Interest responses can be sent from the hosted app.';renderApp({preserveScroll:true});return;}
   if(!interestState.loaded) {await refreshInterest();if(!interestState.loaded)return;}
-  const saved=interestState.items.find(item=>item.experience===id)||interestState.items[0];
-  interestState.editing=id; interestState.name=saved?.name||interestState.name; interestState.people=Number(saved?.people||interestState.people);interestState.error='';renderApp({preserveScroll:true});
+  loadInterestProfile();
+  const saved=interestState.items.find(item=>item.experience===id)||(!interestState.profileReady?interestState.items[0]:null);
+  interestState.editing=id; interestState.name=saved?.name||interestState.name; interestState.people=Number(saved?.people||interestState.people);interestState.error='';if(saved?.name)rememberInterestProfile();trackAnalytics('interest:open');renderApp({preserveScroll:true});
   document.getElementById('interest-name')?.focus();
 }
 function closeInterest(){if(interestState.busy)return;interestState.editing='';interestState.error='';renderApp({preserveScroll:true});}
 async function saveInterest(remove) {
   const s=interestState;if(s.busy)return;s.busy=true;s.error='';renderApp({preserveScroll:true});
-  try {await authRequest('interestSave',{token:interestToken(),experience:s.editing,name:s.name.trim(),people:remove?0:s.people});s.editing='';await refreshInterest();s.error=remove?'Your interest has been removed.':'Thank you — Brendon has your expression of interest.';}
+  try {await authRequest('interestSave',{token:interestToken(),experience:s.editing,name:s.name.trim(),people:remove?0:s.people});rememberInterestProfile();trackAnalytics(remove?'interest:remove':'interest:save');s.editing='';await refreshInterest();s.error=remove?'Your interest has been removed.':'Thank you — Brendon has your expression of interest.';}
   catch(error){s.error=error.message||'Could not save. Please try again.';}
   finally{s.busy=false;renderApp({preserveScroll:true});}
 }

@@ -83,5 +83,13 @@
   "recap:day:10",
   "recap:day:11",
   "recap:day:12",
-  "tab:announcements"
+  "tab:announcements",
+  "interaction:announcements",
+  "nav:more",
+  "interest:open",
+  "interest:save",
+  "interest:remove",
+  "announcement:dictate",
+  "announcement:polish",
+  "media:play"
 ]
