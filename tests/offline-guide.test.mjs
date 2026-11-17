@@ -21,9 +21,9 @@ for(const section of ['itinerary','experiences','hotels','contacts'])assert.ok(h
 assert.ok(html.includes('Gondolas'));
 assert.ok(html.includes('+447850880535'));
 const deleted=[];
-context.caches.keys=async()=>['wwhi22l26a-offline-guide-v1','wwhi22l26a-offline-guide-v2','wwhi22l26a-static-v177','wwhi22l26a-static-v180','ewhi11j26a-static-v1'];
+context.caches.keys=async()=>['wwhi22l26a-offline-guide-v1','wwhi22l26a-offline-guide-v2','wwhi22l26a-offline-guide-v3','wwhi22l26a-static-v177','wwhi22l26a-static-v182','ewhi11j26a-static-v1'];
 context.caches.delete=async key=>deleted.push(key);
 context.self.clients={claim:async()=>{}};
 let activation;listeners.activate({waitUntil:p=>activation=p});await activation;
-assert.deepEqual(deleted,['wwhi22l26a-offline-guide-v1','wwhi22l26a-static-v177']);
+assert.deepEqual(deleted,['wwhi22l26a-offline-guide-v1','wwhi22l26a-offline-guide-v2','wwhi22l26a-static-v177']);
 console.log('PASS: no Today schedule, offline experiences/contacts, old guide removed without touching original app caches.');

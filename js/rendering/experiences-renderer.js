@@ -67,10 +67,11 @@ function renderExperiences() {
       <div class="prog-overline">Experiences</div>
       <div class="prog-intro-title">Make the Magnificent Happen</div>
       <div class="prog-intro-divider"></div>
+      ${tour.meta.optionalExperiencesVideoUrl?`<a class="experience-video" href="${escapeHtml(tour.meta.optionalExperiencesVideoUrl)}" target="_blank" rel="noopener">▶ Watch an introduction to the experiences</a>`:''}
       <div class="prog-intro-text">A great tour is about more than just the places you visit—it is about the connections you make and the moments that stay with you forever. Our Experiences are the essential extras that transform a normal trip into a magnificent one.</div>
       <div class="prog-intro-text">Imagine standing above Lucerne on Mount Pilatus, gliding through Venice on the Gondolas and Grand Canal, crossing the lagoon to colourful Burano, or seeing the sparkle of Paris by night. These are the experiences our guests talk about for years to come. Don't just see the world; immerse yourself in it.</div>
       <div class="experience-discount-note"><span class="material-symbols-outlined">family_restroom</span><span>Children 15 and under receive 25% off all experiences.</span></div>
-      <p class="interest-instruction">Tap the “I’m interested” box to show your interest.</p>
+      <p class="interest-instruction">${navigator.onLine===false?'You’re viewing offline. Connect to the internet to show or change your interest.':'Tap the “I’m interested” box to show your interest.'}</p>
       <div class="booking-note-inline"><strong>Ready to join?</strong> Confirm with your Travel Director on tour and pay by cash or card according to the normal ${escapeHtml(tour.meta.brand || "tour")} process.</div>
       ${builderReviewAddExperienceButton(dayByNumber(displayDayNumber()))}
     </div>

@@ -1,6 +1,6 @@
 const BUILDER_PREVIEW_TABS = new Set(["today", "programme", "experiences", "announcements", "tools", "director", "rewards", "contacts"]);
 let moreNavOpen = false;
-let activeTab = (location.pathname.endsWith("/admin.php") || new URLSearchParams(location.search).get("tab") === "announcements") ? "announcements" : typeof URL_PARAMS !== "undefined" && URL_PARAMS.get("builderPreview") === "1" && BUILDER_PREVIEW_TABS.has(URL_PARAMS.get("previewTab")) ? URL_PARAMS.get("previewTab") : "today";
+let activeTab = (location.pathname.endsWith("/admin.php") || new URLSearchParams(location.search).get("tab") === "announcements") ? "announcements" : new URLSearchParams(location.search).get("tab") === "experiences" ? "experiences" : typeof URL_PARAMS !== "undefined" && URL_PARAMS.get("builderPreview") === "1" && BUILDER_PREVIEW_TABS.has(URL_PARAMS.get("previewTab")) ? URL_PARAMS.get("previewTab") : "today";
 
 function setTab(tab) {
   if(typeof announcementDictation!=='undefined' && announcementDictation)stopAnnouncementDictation();

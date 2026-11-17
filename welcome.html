@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Welcome to London | European Whirl</title>
+
+  <!-- Open Graph / WhatsApp preview -->
+  <meta property="og:title" content="Welcome to London | European Whirl">
+  <meta property="og:description" content="Your arrival guide for the Trafalgar European Whirl — London, 20–22 December 2026.">
+  <meta property="og:image" content="https://brendonbush.com/images/londonskyview.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brendonbush.com/WWHI22L26A/welcome.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Welcome to London | European Whirl">
+  <meta name="twitter:image" content="https://brendonbush.com/images/londonskyview.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Trafalgar brand tokens ── */
+    :root {
+      --red:       #CE1126;
+      --red-dk:    #A80E1E;
+      --navy:      #0D1B2A;
+      --navy-md:   #1A2E44;
+      --navy-lt:   #243D57;
+      --gold:      #C9A84C;
+      --gold-lt:   #E0C06E;
+      --gold-pale: #F6EDDA;
+      --white:     #FFFFFF;
+      --off:       #F8F6F2;
+      --text:      #1A1A1A;
+      --mid:       #4A4048;
+      --soft:      #8A8080;
+      --border:    #E0D8D0;
+      --border-lt: #EDE8E2;
+    }
+
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--off);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 0 80px;
+    }
+
+    /* ── Brand header ── */
+    .brand-bar {
+      background: var(--navy);
+      border-bottom: 3px solid var(--red);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .brand-bar-left {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-name {
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .brand-name span {
+      color: var(--red);
+      background: var(--red);
+      color: var(--white);
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-right: 6px;
+    }
+    .brand-tour {
+      font-family: 'Noto Serif', serif;
+      font-style: italic;
+      font-size: 12px;
+      color: var(--gold-lt);
+      letter-spacing: 0.02em;
+    }
+    .brand-day {
+      background: var(--red);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 4px;
+    }
+
+    /* ── Hero image ── */
+    .hero {
+      position: relative;
+      height: 280px;
+      overflow: hidden;
+    }
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 60%;
+    }
+    @media (min-width: 640px) {
+      .hero { height: 400px; }
+      .hero img { object-position: center 35%; }
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(13,27,42,0.1) 0%, rgba(13,27,42,0.82) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 28px 24px;
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .hero-title {
+      font-family: 'Noto Serif', serif;
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold-lt);
+    }
+    .hero-sub {
+      font-family: 'Noto Serif', serif;
+      font-style: italic;
+      font-size: 13px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.5;
+      max-width: 480px;
+    }
+
+    /* ── CRITICAL DEPARTURE BANNER ── */
+    .dep-alert-banner {
+      background: var(--navy);
+      border-bottom: 3px solid var(--red);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .dep-alert-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2px;
+    }
+    .dep-alert-time {
+      font-family: 'Noto Serif', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .dep-alert-time span { color: var(--gold-lt); }
+    .dep-alert-note {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+      margin-top: 3px;
+    }
+    .dep-alert-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--red);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 16px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .dep-alert-btn.disabled {
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.4);
+      cursor: default;
+      pointer-events: none;
+    }
+    .dep-seat-avail {
+      font-size: 10px;
+      color: rgba(255,255,255,0.4);
+      text-align: right;
+      margin-top: 4px;
+      width: 100%;
+    }
+
+    /* ── Cards / sections ── */
+    .section {
+      margin: 0 14px 14px;
+    }
+    .section:first-of-type { margin-top: 18px; }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border-lt);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .card-pad {
+      padding: 18px 20px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .card-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 6px;
+    }
+    .card-title {
+      font-family: 'Noto Serif', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .card-body {
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.75;
+    }
+    .card-body p + p { margin-top: 10px; }
+    .card-body strong { color: var(--navy); font-weight: 700; }
+
+    /* ── Info pills row ── */
+    .info-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .info-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy-md);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    /* ── Director card ── */
+    .director-wrap {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .director-portrait {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+      flex-shrink: 0;
+    }
+    .director-name {
+      font-family: 'Noto Serif', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+    .director-role {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 10px;
+    }
+
+    /* ── Dark info banners (Addison Lee style) ── */
+    .avail-banner {
+      background: var(--navy);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .avail-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+    .avail-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .avail-banner p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.65;
+      margin-bottom: 8px;
+    }
+    .avail-banner p:last-child { margin-bottom: 0; }
+    .avail-banner strong { color: var(--gold-lt); }
+    .avail-banner a { color: var(--gold-lt); font-weight: 600; }
+
+    /* ── Hotel card ── */
+    .hotel-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: var(--red);
+      color: var(--white);
+      border-radius: 3px;
+      padding: 3px 10px;
+      margin-bottom: 10px;
+    }
+    .hotel-name {
+      font-family: 'Noto Serif', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .hotel-addr {
+      font-size: 13px;
+      color: var(--soft);
+      margin-bottom: 12px;
+    }
+    .map-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+    .notice-box {
+      background: var(--gold-pale);
+      border: 1px solid rgba(201,168,76,0.35);
+      border-left: 3px solid var(--gold);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+    .notice-box strong { color: var(--navy); }
+    .notice-box.red {
+      background: #FEF2F2;
+      border-color: #fca5a5;
+      border-left-color: var(--red);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border-lt);
+      margin: 16px 0;
+    }
+
+    /* ── Attraction cards ── */
+    .attr-card {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border-lt);
+      margin-bottom: 12px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+      display: flex;
+    }
+    .attr-img {
+      width: 100px;
+      flex-shrink: 0;
+      object-fit: cover;
+      object-position: center 30%;
+    }
+    .attr-body {
+      padding: 14px 16px;
+      background: var(--white);
+    }
+    .attr-title {
+      font-family: 'Noto Serif', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .attr-copy {
+      font-size: 13px;
+      color: var(--mid);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .attr-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .attr-link {
+      display: inline-flex;
+      align-items: center;
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--red);
+    }
+    @media (max-width: 480px) {
+      .attr-card { flex-direction: column; }
+      .attr-img { width: 100%; height: 160px; }
+    }
+
+    /* ── Day header banners ── */
+    .day-header {
+      border-radius: 10px;
+      padding: 22px 24px 20px;
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .day-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-radius: 10px 10px 0 0;
+    }
+    .day-header--free,
+    .day-header--saturday,
+    .day-header--sunday {
+      background: var(--navy);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .day-header--free::before,
+    .day-header--saturday::before,
+    .day-header--sunday::before { background: var(--red); }
+    .day-header-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: var(--gold);
+    }
+    .day-header-title {
+      font-family: 'Noto Serif', serif;
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.05;
+      margin-bottom: 6px;
+      color: var(--white);
+    }
+    .day-header-sub {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.4;
+      color: rgba(255,255,255,0.62);
+    }
+
+    /* ── Passport alert ── */
+    .passport-alert {
+      background: linear-gradient(135deg, rgba(206,17,38,0.08), rgba(206,17,38,0.04));
+      border: 1.5px solid rgba(206,17,38,0.3);
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .passport-alert-icon { font-size: 24px; flex-shrink: 0; line-height: 1.2; }
+    .passport-alert-title {
+      font-family: 'Noto Serif', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--red-dk);
+      margin-bottom: 4px;
+    }
+    .passport-alert-body {
+      font-size: 13px;
+      color: #5a1a1a;
+      line-height: 1.6;
+    }
+
+    /* ── Timeline ── */
+    .tl-card {
+      background: var(--white);
+      border: 1px solid var(--border-lt);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+    }
+    .tl-row {
+      display: grid;
+      grid-template-columns: 66px 1fr;
+      gap: 0;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border-lt);
+      position: relative;
+    }
+    .tl-row:last-child { border-bottom: none; }
+    .tl-row::before {
+      content: '';
+      position: absolute;
+      left: 66px;
+      top: 38px;
+      bottom: -1px;
+      width: 1px;
+      background: var(--border-lt);
+    }
+    .tl-row:last-child::before { display: none; }
+    .tl-time {
+      font-family: 'Noto Serif', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy-md);
+      font-variant-numeric: tabular-nums;
+      padding-top: 2px;
+      line-height: 1.2;
+    }
+    .tl-time small {
+      display: block;
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--soft);
+      margin-top: 1px;
+    }
+    .tl-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+    .tl-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--red);
+      background: rgba(206,17,38,0.08);
+      border-radius: 4px;
+      padding: 2px 8px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .tl-note {
+      font-size: 13px;
+      color: var(--soft);
+      line-height: 1.55;
+    }
+    .tl-row.tl-depart {
+      background: linear-gradient(135deg, rgba(13,27,42,0.06), rgba(13,27,42,0.02));
+      border-left: 3px solid var(--red);
+    }
+    .tl-row.tl-depart .tl-time {
+      font-size: 18px;
+      color: var(--red);
+    }
+    .tl-row.tl-depart .tl-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+    .tl-row.tl-highlight {
+      background: linear-gradient(135deg, rgba(201,168,76,0.07), rgba(201,168,76,0.03));
+      border-left: 3px solid var(--gold);
+    }
+    .tl-row.tl-highlight .tl-time { color: var(--gold); }
+
+    /* ── Why box ── */
+    .why-box {
+      background: var(--white);
+      border: 1px solid var(--border-lt);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .why-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--soft);
+      margin-bottom: 8px;
+    }
+    .why-body {
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.75;
+    }
+    .why-body strong { color: var(--navy); }
+
+    /* ── Shopping list ── */
+    .shop-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .shop-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-lt);
+      font-size: 13px;
+      color: var(--mid);
+      line-height: 1.55;
+      display: flex;
+      gap: 10px;
+    }
+    .shop-item:last-child { border-bottom: none; }
+    .shop-name {
+      font-weight: 700;
+      color: var(--navy);
+      min-width: 110px;
+      flex-shrink: 0;
+    }
+
+    /* ── WhatsApp join card ── */
+    .whatsapp-card {
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .wa-icon { font-size: 32px; flex-shrink: 0; }
+    .wa-title {
+      font-family: 'Noto Serif', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .wa-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--white);
+      color: #128c7e;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 9px 16px;
+      border-radius: 6px;
+    }
+
+    /* ── Contacts ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 420px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+    .contact-item {
+      background: var(--white);
+      border: 1px solid var(--border-lt);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      text-align: center;
+    }
+    .contact-icon { font-size: 20px; }
+    .contact-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+    .contact-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--red);
+      word-break: break-all;
+    }
+    .contact-val a { color: var(--red); }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--navy);
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-top: 28px;
+    }
+    .footer-wordmark {
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      color: var(--white);
+      background: var(--red);
+      padding: 4px 12px;
+      border-radius: 3px;
+    }
+    .footer-portrait {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+    }
+    .footer-name {
+      font-family: 'Noto Serif', serif;
+      font-style: italic;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+      text-align: center;
+    }
+    .footer-role {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-align: center;
+      margin-top: -8px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .footer-meta {
+      font-size: 11px;
+      color: rgba(255,255,255,0.28);
+      text-align: center;
+    }
+
+    /* ── Back to top ── */
+    .back-top {
+      display: flex;
+      justify-content: center;
+      padding: 16px 0 0;
+    }
+    .back-top a {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--red);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── CTA fixed bar ── */
+    .cta-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      display: flex;
+      gap: 10px;
+      z-index: 200;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .cta-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      border: none;
+      cursor: pointer;
+    }
+    .cta-btn.call {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .cta-btn.whatsapp {
+      background: #25d366;
+      color: var(--white);
+    }
+    .shopping-extras summary { cursor: pointer; font-size: 14px; font-weight: 700; color: var(--navy); }
+    .shopping-extras[open] summary { margin-bottom: 10px; }
+    .shopping-extras summary:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+  </style>
+</head>
+<body id="top">
+<nav style="padding:14px;text-align:center;background:#fff"><a href="./app.html" style="font-weight:700;color:#ae1025">← Return to the Xmas Whirl app</a></nav>
+
+<!-- ══════════════════════════════════════
+     STICKY BRAND BAR
+     ══════════════════════════════════════ -->
+<div class="brand-bar">
+  <div class="brand-bar-left">
+    <div class="brand-name"><span>TRAFALGAR</span></div>
+    <div class="brand-tour">European Whirl</div>
+  </div>
+  <div class="brand-day">December 2026</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     HERO IMAGE
+     ══════════════════════════════════════ -->
+<div class="hero">
+  <img src="https://brendonbush.com/images/londonskyview.jpg" alt="London skyline">
+  <div class="hero-overlay">
+    <div class="hero-title">Welcome to <em>London</em></div>
+    <div class="hero-sub">"Travel makes one modest. You see what a tiny place you occupy in the world." — Gustave Flaubert</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     CRITICAL DEPARTURE BANNER
+     ══════════════════════════════════════ -->
+<div class="dep-alert-banner">
+  <div class="dep-alert-left">
+    <div class="dep-alert-eyebrow">🚨 Tuesday 22 December — All Guests</div>
+    <div class="dep-alert-time">Departs <span>7:00 AM</span></div>
+    <div class="dep-alert-note">Lobby by 6:50am · Passport on your person</div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;" id="seat-btn-wrap">
+    <!-- Injected by JS -->
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ══════════════════════════════════════
+       QUICK INFO PILLS
+       ══════════════════════════════════════ -->
+  <div class="section" style="margin-top:18px;">
+    <div class="info-pills">
+      <div class="info-pill">📞 Guest Services &nbsp;<strong>+44 207 620 8900</strong></div>
+      <div class="info-pill">🏨 Check-in <strong>from 15:00</strong></div>
+      <div class="info-pill">🏩 <strong>Tower Hotel London</strong></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       YOUR TOUR DIRECTOR
+       ══════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Travel Director</div>
+    <div class="card card-pad">
+      <div class="director-wrap">
+        <img class="director-portrait" src="https://brendonbush.com/images/portrait.jpg" alt="Brendon Bush">
+        <div>
+          <div class="director-name">Brendon Bush</div>
+          <div class="director-role">Trafalgar Travel Director</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="card-body">
+        <p>Welcome to London — and to the start of your European Whirl adventure! I'm delighted to have you with us. I'll meet <strong>everyone on Tuesday 22 December</strong>, our departure morning, and be with you every step of the way from there.</p>
+        <p>The trip length depends on where you booked:</p>
+        <p><strong>North America &amp; Canada — 14 days:</strong> Your itinerary includes arrival in London on Sunday 20 December and a London day on Monday 21 December. Local London hosts will welcome you and help with hotel check-in, and a local Blue Badge guide will lead Monday's city tour. Tuesday is <strong>Day 3</strong> of your trip.</p>
+        <p><strong>Anywhere else — 12 days:</strong> Your tour starts on <strong>Tuesday 22 December — Day 1</strong> for you.</p>
+        <p>Any questions before Tuesday, call or WhatsApp me anytime on <a href="tel:+447850880535" style="color:var(--red);font-weight:700;">+44 7850 880535</a>. See you soon! 👋</p>
+      </div>
+    </div>
+
+    <!-- Addison Lee Transfer Banner -->
+    <div style="margin-top:12px;">
+      <div class="avail-banner">
+        <div class="avail-icon">🚗</div>
+        <div>
+          <div class="avail-label">Private Airport Transfer — Addison Lee</div>
+          <p><strong>⚠️ If your transfer was booked via Trafalgar.</strong></p>
+          <p>Your Addison Lee driver will be waiting for you in the terminal after you have collected your bags and cleared customs. Please look out for your driver — they will be standing to the side waiting for you.</p>
+          <p>If you cannot find your driver, please contact <strong>Guest Services</strong> for help with your transfer on <a href="tel:+442076208900"><strong>+44 207 620 8900</strong></a>.</p>
+        </div>
+      </div>
+
+      <!-- Local Hosts Banner -->
+      <div class="avail-banner">
+        <div class="avail-icon">📍</div>
+        <div>
+          <div class="avail-label">Trafalgar Local Hosts — In the Lobby</div>
+          <p>Your Trafalgar Local Hosts will be available in the lobby of Tower Hotel London on <strong>Sunday 20 December</strong> and <strong>Monday 21 December</strong> to help with any questions. Times will be confirmed closer to the date. If you cannot locate them, contact Guest Services on <a href="tel:+442076208900"><strong>+44 207 620 8900</strong></a> or email <a href="mailto:europeanguestservices@ttc.com">europeanguestservices@ttc.com</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       YOUR HOTEL IN LONDON
+       ══════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">🏨 Your Hotel in London</div>
+    <div class="card card-pad">
+      <div class="hotel-tag">Steps from the Thames</div>
+      <div class="hotel-name">Tower Hotel London</div>
+      <div class="hotel-addr">St Katharine’s Way, London E1W 1LD, United Kingdom</div>
+      <a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=The+Tower+Hotel+St+Katharines+Way+London+E1W+1LD" target="_blank" rel="noopener">
+        📍 Open in Maps
+      </a>
+      <div class="notice-box">
+        <strong>Not staying at the Tower Hotel London?</strong><br>
+        If you are staying elsewhere, our team will reach out to confirm Tuesday’s meeting arrangements. Ensure your contact details in the <a href="https://my.trafalgar.com/login" target="_blank" rel="noopener" style="color:var(--navy);font-weight:700;text-decoration:underline;">My Travel Portal</a> are correct. If you haven't heard from our team by <strong>midday Monday 21 December</strong>, please contact Guest Services on <a href="tel:+442076208900" style="color:var(--navy);font-weight:700;">+44 207 620 8900</a>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SUNDAY 20th DECEMBER — ARRIVAL DAY
+       ══════════════════════════════════════ -->
+  <div class="section">
+    <div class="day-header day-header--free">
+      <div class="day-header-eyebrow">Arrival Day</div>
+      <div class="day-header-title">Sunday 20 December</div>
+      <div class="day-header-sub">London — Welcome & Settle In</div>
+    </div>
+    <div class="card card-pad">
+      <div class="card-body">
+        <p>Welcome to London! Today is your arrival day — check in, get settled, and begin exploring this extraordinary city at your own pace. The hotel reception is available 24 hours should you need anything.</p>
+        <p>Your Local Hosts may be available in the lobby throughout the day — look out for them if you have any questions.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MONDAY 21st DECEMBER — LONDON CITY TOUR + FREE DAY
+       ══════════════════════════════════════ -->
+  <div class="section">
+    <div class="day-header day-header--saturday">
+      <div class="day-header-eyebrow">London City Tour</div>
+      <div class="day-header-title">Monday 21 December</div>
+      <div class="day-header-sub">Sightseeing Tour + Free Afternoon</div>
+    </div>
+
+    <!-- City tour notice -->
+    <div class="notice-box" style="margin-bottom:12px;">
+      🇬🇧 <strong>For North American &amp; Canadian Guests Only</strong> — Half-day London City Sightseeing Tour with Local Specialist.
+    </div>
+
+    <!-- Timeline for Monday -->
+    <div class="tl-card">
+      <div class="tl-row tl-highlight">
+        <div class="tl-time">8:15<small>AM</small></div>
+        <div>
+          <div class="tl-title">Meet in the Lobby</div>
+          <div class="tl-note">Gather in the lobby of Tower Hotel London for your London City Sightseeing Tour.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">8:20<small>–8:30</small></div>
+        <div>
+          <div class="tl-title">Departure Window</div>
+          <div class="tl-note">Coach departs for the city tour with Local Specialist.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time" style="font-size:12px;padding-top:4px;">Afternoon<br>&amp; Evening</div>
+        <div>
+          <div class="tl-title">Free Time in London</div>
+          <div class="tl-note">The rest of the day is yours to explore at your own pace.</div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       TUESDAY 22nd DECEMBER — DEPARTURE
+       ══════════════════════════════════════ -->
+  <div class="section" id="sunday-departure">
+    <div class="day-header day-header--sunday">
+      <div class="day-header-eyebrow">Departure for Amsterdam — All Guests</div>
+      <div class="day-header-title">Tuesday 22 December</div>
+      <div class="day-header-sub">Lobby by 6:50 AM · Coach departs 7:00 AM</div>
+    </div>
+
+    <!-- Passport alert -->
+    <div class="passport-alert">
+      <div class="passport-alert-icon">🛂</div>
+      <div>
+        <div class="passport-alert-title">Passport — carry on your person</div>
+        <div class="passport-alert-body">
+          Your passport must be on your person — <strong>not in your bag or suitcase.</strong>
+          Border checks take place this morning.
+          Do not pack it away the night before.
+        </div>
+      </div>
+    </div>
+
+    <!-- Different hotel notice -->
+    <div class="notice-box" style="margin-bottom:12px;">
+      🏨 <strong>Staying at a Different Hotel?</strong> — Bring all your luggage to the Tower Hotel London foyer between <strong>6:30 and 6:45 AM</strong>, no later than <strong>6:45 AM</strong>, ready for coach loading. The room wake-up and luggage collection times below apply only to guests staying at the Tower Hotel.
+    </div>
+
+    <!-- Hotel booking clarification notice -->
+    <div class="notice-box red" style="margin-bottom:14px;">
+      📌 <strong>Staying at the Tower Hotel?</strong> — Porter service is included if your stay was booked through Trafalgar. If you booked your Tower Hotel stay independently, bring your luggage to the foyer by the concierge desk <strong>before breakfast, no later than 6:30 AM</strong>.
+    </div>
+
+    <!-- Departure Timeline -->
+    <div class="tl-card">
+      <div class="tl-row tl-highlight">
+        <div class="tl-time">5:30<small>AM</small></div>
+        <div>
+          <div class="tl-title">Morning Call</div>
+          <div class="tl-note">Wake-up call to your room. Time to get up and get ready for departure!</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">6:00<small>AM</small></div>
+        <div>
+          <div class="tl-title">Luggage Collection<span class="tl-tag">If hotel booked via Trafalgar only</span></div>
+          <div class="tl-note">Place one suitcase per person outside your room by 6:00 AM for collection. Porters will bring luggage as far as reception — you will need to carry all luggage to the coach.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">6:30<small>AM latest</small></div>
+        <div>
+          <div class="tl-title">Bring Your Luggage to the Foyer<span class="tl-tag">Tower Hotel · independent bookings</span></div>
+          <div class="tl-note">If you booked your Tower Hotel stay independently, bring your luggage to the foyer by the concierge desk before breakfast, no later than 6:30 AM. Guests staying elsewhere should follow the separate arrival instructions above.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time">6:30<small>AM</small></div>
+        <div>
+          <div class="tl-title">Breakfast Available</div>
+          <div class="tl-note">For Tower Hotel guests whose booking includes breakfast, whether booked through Trafalgar or independently. This breakfast arrangement does not apply to guests staying elsewhere. We know that 20 minutes is a short time for breakfast, but past guests have preferred this to a box breakfast. Thank you for your understanding.</div>
+        </div>
+      </div>
+      <div class="tl-row tl-highlight">
+        <div class="tl-time">6:50<small>AM</small></div>
+        <div>
+          <div class="tl-title">Meet in the Hotel Foyer</div>
+          <div class="tl-note">Gather near the concierge desk in the hotel lobby with your luggage. Collect important documents from Brendon. Have your passport ready.</div>
+        </div>
+      </div>
+      <div class="tl-row tl-depart">
+        <div class="tl-time">7:00<small>AM</small></div>
+        <div>
+          <div class="tl-title">Coach Departs for Eurostar 🚌</div>
+          <div class="tl-note">Please be ready on time—we have a Eurostar train to catch and must depart at 7:00 AM. See you in the lobby!<br><em>Please pack compactly and combine bags where possible. You must carry all your luggage, including suitcases and hand luggage, through the station and on and off the Eurostar train yourself.</em></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seating plan card — JS-controlled -->
+    <div class="card card-pad" style="margin-bottom:14px;" id="seat-card">
+      <!-- Injected by JS -->
+    </div>
+
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CONTACT BRENDON
+       ══════════════════════════════════════ -->
+  <div class="section">
+    <div class="whatsapp-card">
+      <div class="wa-icon">💬</div>
+      <div>
+        <div class="wa-title">Contact Brendon via WhatsApp</div>
+        <p><a class="wa-btn" href="./app.html?tab=announcements">Open app announcements →</a></p><div class="wa-sub">For questions, message Brendon directly. Tour updates and announcements are now in the Xmas Whirl app.</div>
+        <a class="wa-btn" href="https://wa.me/447850880535" target="_blank" rel="noopener">Contact Brendon →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       KEY CONTACTS
+       ══════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">📞 Key Contacts</div>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div class="contact-label">Guest Services</div>
+        <div class="contact-val"><a href="tel:+442076208900">+44 207 620 8900</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-label">Guest Services Email</div>
+        <div class="contact-val"><a href="mailto:europeanguestservices@ttc.com" style="font-size:11px;">europeanguestservices@ttc.com</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">💬</div>
+        <div class="contact-label">WhatsApp Brendon</div>
+        <div class="contact-val"><a href="https://wa.me/447850880535">+44 7850 880535</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div class="contact-label">Brendon's Email</div>
+        <div class="contact-val"><a href="mailto:bushylove74@gmail.com">bushylove74@gmail.com</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="london-free-time">
+    <div class="section-label">Ideas for your free time in London</div>
+    <!-- Suggested sights -->
+    <div style="margin-top:12px;">
+      <div class="card-eyebrow">Places to explore</div>
+
+      <div class="attr-card">
+        <img class="attr-img" src="https://brendonbush.com/images/towerlondon.jpg" alt="Tower of London" loading="lazy">
+        <div class="attr-body">
+          <div class="attr-title">🏰 Tower of London</div>
+          <div class="attr-copy">Unlock 1,000 years of history — the dazzling Crown Jewels, ancient battlements and thrilling tales of royals, rebels and ravens.</div>
+          <div class="attr-links">
+            <a class="attr-link" href="https://www.getyourguide.com/tower-of-london-l2708/london-tower-of-london-and-crown-jewels-exhibition-ticket-t21253/?partner_id=QWWROEW" target="_blank" rel="noopener">GetYourGuide</a>
+            <a class="attr-link" href="https://www.viator.com/en-GB/London-attractions/Tower-of-London/d737-a93" target="_blank" rel="noopener">Viator</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="attr-card">
+        <img class="attr-img" src="https://brendonbush.com/images/westminsterabbey.jpg" alt="Westminster Abbey" loading="lazy">
+        <div class="attr-body">
+          <div class="attr-title">⛪ Westminster Abbey</div>
+          <div class="attr-copy">Britain's most famous church, where kings and queens have been crowned for centuries — stunning Gothic architecture and royal tombs.</div>
+          <div class="attr-links">
+            <a class="attr-link" href="https://www.getyourguide.com/westminster-abbey-l2710/london-westminster-abbey-entrance-ticket-t399163/?partner_id=QWWROEW" target="_blank" rel="noopener">GetYourGuide</a>
+            <a class="attr-link" href="https://www.viator.com/en-GB/London-attractions/Westminster-Abbey/d737-a95?pid=P00247383&mcid=42383&medium=link" target="_blank" rel="noopener">Viator</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <details class="card card-pad shopping-extras">
+      <summary>Shopping suggestions · five places to explore</summary>
+      <ul class="shop-list">
+        <li class="shop-item"><span class="shop-name">Oxford Street</span>Flagship shops and department stores.</li>
+        <li class="shop-item"><span class="shop-name">Regent Street</span>Hamleys, Liberty and classic London shopping.</li>
+        <li class="shop-item"><span class="shop-name">Bond Street</span>Luxury fashion and designer boutiques.</li>
+        <li class="shop-item"><span class="shop-name">Carnaby Street</span>Independent boutiques and British brands.</li>
+        <li class="shop-item"><span class="shop-name">Covent Garden</span>Market stalls, shops and street performances.</li>
+      </ul>
+    </details>
+  </div>
+
+  <div class="back-top">
+    <a href="#top">↑ Back to top</a>
+  </div>
+
+</div><!-- end .page -->
+
+<!-- ══════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-wordmark">TRAFALGAR</div>
+  <img class="footer-portrait" src="https://brendonbush.com/images/portrait.jpg" alt="Brendon Bush">
+  <div class="footer-name">Brendon Bush</div>
+  <div class="footer-role">Travel Director</div>
+  <div class="footer-links">
+    <a class="footer-link" href="tel:+447850880535">📞 Call Brendon</a>
+    <a class="footer-link" href="https://wa.me/447850880535" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <a class="footer-link" href="https://www.trafalgar.com/en-gb/tours/european-whirl/578" target="_blank" rel="noopener">View Tour ↗</a>
+  </div>
+  <div class="footer-meta">v1 · European Whirl · London · 20–22 December 2026</div>
+</footer>
+
+<!-- ══════════════════════════════════════
+     FIXED CALL / WHATSAPP BAR
+     ══════════════════════════════════════ -->
+<div class="cta-bar">
+  <a class="cta-btn call" href="tel:+447850880535">📞 Call Brendon</a>
+  <a class="cta-btn whatsapp" href="https://wa.me/447850880535" target="_blank" rel="noopener">💬 WhatsApp Brendon</a>
+</div>
+
+<!-- ══════════════════════════════════════
+     SEATING PLAN — UPDATE WHEN READY
+     PDF embedded below for both seating-plan buttons.
+     Replace the embedded PDF data when updating the seating plan.
+     ══════════════════════════════════════ -->
+<script>
+(function () {
+  // Seating plan is embedded so this HTML needs no separate PDF upload.
+  var seatingPlanBase64 = "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BDJlEfS1HCmtcfjK0iYdS5s5LFn6r4RJvNJm0wpcSSilVDkq8e6Gsoj6Wo6T1jicW2lTZqXNeJUsbVXC5FNpc0CFriSYUlY5+LsbyiLqazlOWuMwRaVN2JQ211KyhEkJ0x6lzT8UupJgSqlytOLdDWUR9LUcKa1xOIrS5hZKmxgoWXafhLl2Au8nIWywf4RmQ5niBPpajoOOKkMn3t3QbCgjGtTXchx0pa0UHF01fl+EoUMZ0aC+luOgi0NlFLiSzOiwciA6kOlHAPpajoPun4fn6MpP9Ef4ia6MQ2sYh1KhARptfHfzv0rnbigKZW5kc3RyZWFtCmVuZG9iagoxIDAgb2JqPDwvQ29udGVudHMgNiAwIFIvVHlwZS9QYWdlL1Jlc291cmNlczw8L1Byb2NTZXQgWy9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUldL0ZvbnQ8PC9GMSAyIDAgUi9GMiAzIDAgUj4+L1hPYmplY3Q8PC9pbWcxIDUgMCBSL2ltZzAgNCAwIFI+Pj4+L1BhcmVudCA3IDAgUi9NZWRpYUJveFswIDAgNjEyIDc5Ml0+PgplbmRvYmoKMyAwIG9iajw8L1N1YnR5cGUvVHlwZTEvVHlwZS9Gb250L0Jhc2VGb250L0hlbHZldGljYS9FbmNvZGluZy9XaW5BbnNpRW5jb2Rpbmc+PgplbmRvYmoKMiAwIG9iajw8L1N1YnR5cGUvVHlwZTEvVHlwZS9Gb250L0Jhc2VGb250L0hlbHZldGljYS1Cb2xkL0VuY29kaW5nL1dpbkFuc2lFbmNvZGluZz4+CmVuZG9iago3IDAgb2JqPDwvS2lkc1sxIDAgUl0vVHlwZS9QYWdlcy9Db3VudCAxPj4KZW5kb2JqCjggMCBvYmo8PC9UeXBlL0NhdGFsb2cvUGFnZXMgNyAwIFI+PgplbmRvYmoKOSAwIG9iajw8L01vZERhdGUoRDoyMDI2MTAwNzE2MDcyM1opL0NyZWF0aW9uRGF0ZShEOjIwMjYxMDA3MTYwNzIzWikvUHJvZHVjZXIoaVRleHQgMi4wLjggXChieSBsb3dhZ2llLmNvbVwpKT4+CmVuZG9iagp4cmVmCjAgMTAKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDEwMTU0IDAwMDAwIG4gCjAwMDAwMTA0NDAgMDAwMDAgbiAKMDAwMDAxMDM1MyAwMDAwMCBuIAowMDAwMDAwMDE1IDAwMDAwIG4gCjAwMDAwMDAyNDIgMDAwMDAgbiAKMDAwMDAwMjE1OSAwMDAwMCBuIAowMDAwMDEwNTMyIDAwMDAwIG4gCjAwMDAwMTA1ODIgMDAwMDAgbiAKMDAwMDAxMDYyNiAwMDAwMCBuIAp0cmFpbGVyCjw8L0luZm8gOSAwIFIvSUQgWzwyMGZmM2ZkNjY2N2I1N2M0ZGNmZDQ4MDc5MWQ4YjM5ZD48NzU5YWMxZWY0MzY2ZWRiMTU0NjBmN2IwODZlN2IwODI+XS9Sb290IDggMCBSL1NpemUgMTA+PgpzdGFydHhyZWYKMTA3NDUKJSVFT0YK";
+  var seatingPlanBytes = Uint8Array.from(atob(seatingPlanBase64), function (c) { return c.charCodeAt(0); });
+  var SEATING_PLAN_URL = URL.createObjectURL(new Blob([seatingPlanBytes], { type: "application/pdf" }));
+
+  var topWrap = document.getElementById("seat-btn-wrap");
+  if (topWrap) {
+    if (SEATING_PLAN_URL) {
+      topWrap.innerHTML =
+        '<a class="dep-alert-btn" href="' + SEATING_PLAN_URL + '" target="_blank" rel="noopener">🪑 View Your Seat</a>';
+    } else {
+      topWrap.innerHTML =
+        '<button class="dep-alert-btn disabled" type="button" disabled>🪑 Coach Seating Plan</button>' +
+        '<div class="dep-seat-avail">Available Mon 21 December</div>';
+    }
+  }
+
+  var seatCard = document.getElementById("seat-card");
+  if (seatCard) {
+    if (SEATING_PLAN_URL) {
+      seatCard.innerHTML =
+        '<div style="display:flex;align-items:center;gap:12px;">' +
+          '<div style="font-size:24px;">🪑</div>' +
+          '<div>' +
+            '<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:3px;">Coach Seating Plan</div>' +
+            '<div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px;">Find your seat before Tuesday morning</div>' +
+            '<a href="' + SEATING_PLAN_URL + '" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;font-size:13px;font-weight:800;padding:10px 18px;border-radius:6px;">View Seating Plan →</a>' +
+          '</div>' +
+        '</div>';
+    } else {
+      seatCard.innerHTML =
+        '<div style="display:flex;align-items:center;gap:12px;">' +
+          '<div style="font-size:24px;">🪑</div>' +
+          '<div>' +
+            '<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:3px;">Coach Seating Plan</div>' +
+            '<div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px;">Your seat assignment</div>' +
+            '<div style="font-size:13px;color:#888;margin-bottom:10px;">The seating plan will be available here from <strong style="color:var(--navy);">Monday 21 December.</strong></div>' +
+            '<div style="display:inline-flex;align-items:center;gap:6px;background:var(--off);border:1px solid var(--border);color:#aaa;font-size:13px;font-weight:800;padding:10px 18px;border-radius:6px;">🔒 Not yet available</div>' +
+          '</div>' +
+        '</div>';
+    }
+  }
+})();
+</script>
+
+</body>
+</html>

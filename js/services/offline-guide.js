@@ -1,4 +1,4 @@
-const OFFLINE_GUIDE_CACHE='wwhi22l26a-offline-guide-v2';
+const OFFLINE_GUIDE_CACHE='wwhi22l26a-offline-guide-v3';
 async function saveOfflineGuide(){
   const status=document.getElementById('offline-guide-status'),button=document.getElementById('offline-guide-save');
   if(!('serviceWorker' in navigator)||!('caches' in window)){status.textContent='Offline saving is unavailable in this browser. Please use Safari or Chrome over HTTPS.';return;}

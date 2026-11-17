@@ -19,40 +19,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <title>Xmas Whirl 2026</title>
-<link rel="stylesheet" href="./css/app.css?v=20261115-announcement-reading">
+<link rel="stylesheet" href="./css/app.css?v=20261117-welcome-offline">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 <div id="app">
   <div class="loading">Loading tour app...</div>
 </div>
-<script src="./js/core/utils.js?v=20261115-announcement-reading"></script>
-<script src="./js/core/tour-updates.js?v=20261115-announcement-reading"></script>
-<script src="./js/core/itinerary-helpers.js?v=20261115-announcement-reading"></script>
-<script src="./js/core/resource-helpers.js?v=20261115-announcement-reading"></script>
-<script src="./js/core/tour-config-helpers.js?v=20261115-announcement-reading"></script>
-<script src="./js/core/today-state.js?v=20261115-announcement-reading"></script>
-<script src="./js/services/offline-guide.js?v=20261115-announcement-reading"></script>
-<script src="./js/services/experience-interest.js?v=20261115-announcement-reading"></script>
-<script src="./js/services/announcements.js?v=20261115-announcement-reading"></script>
-<script src="./js/services/auth.js?v=20261115-announcement-reading"></script>
-<script src="./js/services/storage.js?v=20261115-announcement-reading"></script>
-<script src="./js/services/admin-content-storage.js?v=20261115-announcement-reading"></script>
-<script src="./js/services/admin-content-overrides.js?v=20261115-announcement-reading"></script>
-<script src="./js/viewer/document-viewer.js?v=20261115-announcement-reading"></script>
-<script src="./js/maps/map-panel.js?v=20261115-announcement-reading"></script>
-<script src="./js/navigation/navigation.js?v=20261115-announcement-reading"></script>
-<script src="./js/rendering/contacts-renderer.js?v=20261115-announcement-reading"></script>
-<script src="./js/rendering/travel-director-renderer.js?v=20261115-announcement-reading"></script>
-<script src="./js/services/analytics.js?v=20261115-announcement-reading"></script>
-<script src="./js/services/onward-export.js?v=20261115-announcement-reading"></script>
-<script src="./js/core/journey-recaps.js?v=20261115-announcement-reading"></script>
-<script src="./js/rendering/experiences-renderer.js?v=20261115-announcement-reading"></script>
-<script src="./js/rendering/tools-renderer.js?v=20261115-announcement-reading"></script>
-<script src="./js/rendering/rewards-renderer.js?v=20261115-announcement-reading"></script>
-<script src="./js/rendering/travel-impact-renderer.js?v=20261115-announcement-reading"></script>
-<script src="./js/rendering/today-components.js?v=20261115-announcement-reading"></script>
-<script src="./js/rendering/itinerary-components.js?v=20261115-announcement-reading"></script>
+<script src="./js/core/utils.js?v=20261117-welcome-offline"></script>
+<script src="./js/core/tour-updates.js?v=20261117-welcome-offline"></script>
+<script src="./js/core/itinerary-helpers.js?v=20261117-welcome-offline"></script>
+<script src="./js/core/resource-helpers.js?v=20261117-welcome-offline"></script>
+<script src="./js/core/tour-config-helpers.js?v=20261117-welcome-offline"></script>
+<script src="./js/core/today-state.js?v=20261117-welcome-offline"></script>
+<script src="./js/services/offline-guide.js?v=20261117-welcome-offline"></script>
+<script src="./js/services/experience-interest.js?v=20261117-welcome-offline"></script>
+<script src="./js/services/announcements.js?v=20261117-welcome-offline"></script>
+<script src="./js/services/auth.js?v=20261117-welcome-offline"></script>
+<script src="./js/services/storage.js?v=20261117-welcome-offline"></script>
+<script src="./js/services/admin-content-storage.js?v=20261117-welcome-offline"></script>
+<script src="./js/services/admin-content-overrides.js?v=20261117-welcome-offline"></script>
+<script src="./js/viewer/document-viewer.js?v=20261117-welcome-offline"></script>
+<script src="./js/maps/map-panel.js?v=20261117-welcome-offline"></script>
+<script src="./js/navigation/navigation.js?v=20261117-welcome-offline"></script>
+<script src="./js/rendering/contacts-renderer.js?v=20261117-welcome-offline"></script>
+<script src="./js/rendering/travel-director-renderer.js?v=20261117-welcome-offline"></script>
+<script src="./js/services/analytics.js?v=20261117-welcome-offline"></script>
+<script src="./js/services/onward-export.js?v=20261117-welcome-offline"></script>
+<script src="./js/core/journey-recaps.js?v=20261117-welcome-offline"></script>
+<script src="./js/rendering/experiences-renderer.js?v=20261117-welcome-offline"></script>
+<script src="./js/rendering/tools-renderer.js?v=20261117-welcome-offline"></script>
+<script src="./js/rendering/rewards-renderer.js?v=20261117-welcome-offline"></script>
+<script src="./js/rendering/travel-impact-renderer.js?v=20261117-welcome-offline"></script>
+<script src="./js/rendering/today-components.js?v=20261117-welcome-offline"></script>
+<script src="./js/rendering/itinerary-components.js?v=20261117-welcome-offline"></script>
 <script>
 const URL_PARAMS = new URLSearchParams(location.search);
 const DEFAULT_TOUR_CODE = "WWHI22L26A";
@@ -4010,6 +4010,15 @@ function renderQuickAdminPanel() {
     </div>`;
 }
 
+function londonPreparationVisible(now=Date.now()) {
+  return now < Date.parse(tour.meta.londonDepartureAt || '2026-12-22T07:00:00+00:00');
+}
+function renderLondonPreparation(){
+  if(!londonPreparationVisible())return '';
+  return `<section id="london-preparation" class="london-preparation"><p class="sec-label">START HERE</p><h2>Welcome to London</h2><p>Your hotel, arrival arrangements and Tuesday 22 December departure instructions.</p><a class="london-primary" href="./welcome.html">Read arrival instructions</a><details><summary>Before we travel · a few essentials</summary><h3>Save this app to your phone</h3><p>iPhone: in Safari, tap Share → Add to Home Screen.<br>Android: in Chrome, open the ⋮ menu → Add to Home screen or Install app.</p><p><a href="mailto:bushylove74@gmail.com?subject=Xmas%20Whirl%202026%20-%20Dietary%20requirements&body=Name(s)%3A%20%0AFood%20allergies%20or%20dietary%20requirements%3A%20">Send dietary requirements</a> — please include your name and any food allergies or dietary needs before the trip.</p><p>Tour updates come through Announcements. Open it and tap Enable alerts to receive notifications.</p><button type="button" class="tools-admin-btn secondary" onclick="setTab('announcements')">Open Announcements</button></details></section>`;
+}
+setInterval(()=>{if(!londonPreparationVisible())document.getElementById('london-preparation')?.remove();},30000);
+
 function renderToday() {
   const day = dayByNumber(displayDayNumber());
   const hotel = hotelForDay(day);
@@ -4032,6 +4041,7 @@ function renderToday() {
   }
 
   return `
+    ${renderLondonPreparation()}
     ${renderBuilderTodayPreviewNav(day)}
     ${renderMobileAdminBar(day)}
     <div class="today-hero${todayHeroImage(day.number) ? " has-image" : ""}"${todayHeroImage(day.number) ? ` style="${todayHeroStyle(day.number)}"` : ""}>

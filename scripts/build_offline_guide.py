@@ -20,7 +20,7 @@ def build():
     out.append('<article id="itinerary"><h2>Itinerary overview</h2>')
     for d in days:
         out.append(f'<details id="day-{d["number"]}"><summary>Day {d["number"]} · {e(d["guest"]["title"])}</summary><p class="badge">{e(d["weekday"])} {e(d["date"])}</p><p>{e(d["guest"].get("narrative"))}</p></details>')
-    out.append('</article><article id="experiences"><h2>Experiences</h2>')
+    out.append('</article><article id="experiences"><h2>Experiences</h2><p id="offline-interest-note" class="note">You’re viewing offline. Connect to the internet to show or change your interest.</p>')
     seen=set()
     for day in experiences:
         for item in day.get('optionals',[]):
@@ -28,7 +28,7 @@ def build():
             if key in seen:continue
             seen.add(key)
             price=item.get('price',{})
-            out.append(f'<details><summary>{e(item["title"])}</summary><p>{e(price.get("currency"))} {e(price.get("amount"))}</p><p>{e(item.get("description"))}</p></details>')
+            out.append(f'<details><summary>{e(item["title"])}</summary><p>{e(price.get("currency"))} {e(price.get("amount"))}</p><p>{e(item.get("description"))}</p><a data-interest-id="{e(key)}" class="interest-guide" href="./app.html?tab=experiences">I’m interested</a><small class="interest-guide-help"></small></details>')
     out.append('</article><article id="hotels"><h2>Hotels</h2>')
     for h in hotels.values():
         out.append(f'<details><summary>{e(h.get("city"))} · {e(h["name"])}</summary><p>{e(h.get("address"))}<br>{e(h.get("phone"))}</p></details>')
@@ -41,6 +41,21 @@ def build():
     for section in faq:
         out.append(f'<h3>{escape(section["title"])}</h3>')
         for item in section['items']:out.append(f'<details><summary>{escape(item["question"])}</summary><p>{escape(item["answer"])}</p></details>')
+    out.append("""<style>.interest-guide{display:inline-block;padding:10px 16px;border-radius:12px;background:#16863c;color:white;font-weight:700;text-decoration:none}.interest-guide[aria-disabled=true]{background:#666;cursor:default}.interest-guide-help{display:block;color:#555}</style><script>
+function updateOfflineInterest(){
+ let saved=[];try{saved=JSON.parse(localStorage.getItem('wwhi22l26a-interest-saved')||'[]');if(!Array.isArray(saved))saved=[];}catch{}
+ const offline=navigator.onLine===false;
+ document.getElementById('offline-interest-note').textContent=offline?'You’re viewing offline. Connect to the internet to show or change your interest.':'You’re viewing your saved guide. Open the live app to show or change your interest.';
+ document.querySelectorAll('[data-interest-id]').forEach(button=>{
+  const interested=saved.some(item=>item.experience===button.dataset.interestId && Number(item.people)>0);
+  button.textContent=interested?'✓ You’re interested':offline?'Connect to show interest':'I’m interested';
+  button.setAttribute('aria-disabled',String(offline));
+  if(offline){button.removeAttribute('href');button.setAttribute('role','button');}else{button.href='./app.html?tab=experiences';button.removeAttribute('role');}
+  button.nextElementSibling.textContent=interested?(offline?'Last saved on this device. Changes available when connected.':'Open the live app to view or change your interest.'):'';
+ });
+}
+updateOfflineInterest();window.addEventListener('online',updateOfflineInterest);window.addEventListener('offline',updateOfflineInterest);window.addEventListener('pageshow',updateOfflineInterest);window.addEventListener('storage',updateOfflineInterest);
+</script>""")
     out.append('</article><footer><a href="./app.html">Return to the live app when connected</a></footer></main></html>')
     (ROOT/'offline-guide.html').write_text(''.join(out))
 if __name__=='__main__':build()

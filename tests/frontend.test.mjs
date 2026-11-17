@@ -392,3 +392,16 @@ for(const label of ['Itinerary','Contacts & hotels','Brendon'])assert.ok(nav.inc
 assert.ok(vm.runInContext('announcementCaughtUp()',context).includes('You’re all caught up'));
 assert.ok(vm.runInContext('renderExperiences()',context).includes('swiss-carriages-winter.jpeg'));
 console.log('PASS: five-button navigation, More destinations, caught-up message and winter carriage photo.');
+
+assert.equal(vm.runInContext("londonPreparationVisible(Date.parse('2026-12-22T06:59:59Z'))",context),true);
+assert.equal(vm.runInContext("londonPreparationVisible(Date.parse('2026-12-22T07:00:00Z'))",context),false);
+context.navigator.onLine=false;
+vm.runInContext("interestState.items=[{experience:'known',people:2}];",context);
+assert.match(vm.runInContext("interestButton({experienceId:'known'})",context),/disabled.*You’re interested/);
+assert.match(vm.runInContext("interestButton({experienceId:'new'})",context),/disabled.*Connect to show interest/);
+const beforeOffline=calls.length;
+await vm.runInContext("openInterest('new');saveInterest(false)",context);
+assert.equal(calls.length,beforeOffline,'Offline interest never sends a request');
+context.navigator.onLine=true;
+assert.doesNotMatch(vm.runInContext("interestButton({experienceId:'new'})",context),/disabled/);
+console.log('PASS: exact London departure cutoff, offline interest state and blocked submission, online green action.');

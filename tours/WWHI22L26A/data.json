@@ -12,7 +12,9 @@
       "Vatican City",
       "Switzerland",
       "France"
-    ]
+    ],
+    "londonDepartureAt": "2026-12-22T07:00:00+00:00",
+    "optionalExperiencesVideoUrl": "https://youtu.be/TtNAdpcRBu4"
   },
   "hostDefaults": {
     "tabLabel": "Brendon",
