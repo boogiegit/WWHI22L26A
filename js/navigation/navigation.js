@@ -16,7 +16,7 @@ function setTab(tab) {
 }
 
 function rewardsNavActive() {
-  return displayDayNumber() >= 5;
+  return true;
 }
 
 function normalizeActiveTabForNav() {

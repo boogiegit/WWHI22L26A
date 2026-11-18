@@ -7265,3 +7265,5 @@ button.seating-meta-box {
 .london-preparation summary{display:list-item;width:fit-content;max-width:100%;padding:14px 20px;border-radius:24px;background:#eee5cc;color:#45350e;font-size:17px;min-height:48px}.london-preparation details>p a{font-weight:750;text-decoration:underline;text-underline-offset:3px}
 
 .london-welcome-image{display:block;width:calc(100% + 44px);max-width:none;margin:-22px -22px 22px;height:clamp(190px,32vw,360px);object-fit:cover;border-radius:14px 14px 0 0}.london-preparation .offline-guide-card{margin:22px 0 0}.london-preparation h3{line-height:1.4}
+
+.experiences-intro{padding-bottom:12px;margin-bottom:10px}.experiences-intro .interest-instruction{margin-bottom:0}.experiences-intro + .exp-grid{margin-top:0}.london-preparation .welcome-resources{margin:22px 0}.london-preparation .day-link-list{padding:0}

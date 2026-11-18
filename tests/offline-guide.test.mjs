@@ -21,9 +21,14 @@ for(const section of ['itinerary','experiences','hotels','contacts'])assert.ok(h
 assert.ok(html.includes('Gondolas'));
 assert.ok(html.includes('+447850880535'));
 const deleted=[];
-context.caches.keys=async()=>['wwhi22l26a-offline-guide-v1','wwhi22l26a-offline-guide-v2','wwhi22l26a-offline-guide-v4','wwhi22l26a-static-v177','wwhi22l26a-static-v185','ewhi11j26a-static-v1'];
+context.caches.keys=async()=>['wwhi22l26a-offline-guide-v1','wwhi22l26a-offline-guide-v2','wwhi22l26a-offline-guide-v4','wwhi22l26a-static-v177','wwhi22l26a-static-v186','ewhi11j26a-static-v1'];
 context.caches.delete=async key=>deleted.push(key);
 context.self.clients={claim:async()=>{}};
 let activation;listeners.activate({waitUntil:p=>activation=p});await activation;
 assert.deepEqual(deleted,['wwhi22l26a-offline-guide-v1','wwhi22l26a-offline-guide-v2','wwhi22l26a-static-v177']);
 console.log('PASS: no Today schedule, offline experiences/contacts, old guide removed without touching original app caches.');
+assert.ok(html.includes('id="where-next"'));
+for(const title of ['Best of Spain','Imperial Europe','Contrasts of Switzerland','Iceland incl. Blue Lagoon','Balkan Delight','Australian Highlights'])assert.ok(html.includes(title));
+assert.ok(html.includes('Global Tour Rewards'));
+assert.ok(!html.includes('<img'));
+console.log('PASS: Where Next written information saved without remote media dependencies.');

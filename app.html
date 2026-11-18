@@ -19,40 +19,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <title>Xmas Whirl 2026</title>
-<link rel="stylesheet" href="./css/app.css?v=20261118-london-prep">
+<link rel="stylesheet" href="./css/app.css?v=20261118-refinements">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 <div id="app">
   <div class="loading">Loading tour app...</div>
 </div>
-<script src="./js/core/utils.js?v=20261118-london-prep"></script>
-<script src="./js/core/tour-updates.js?v=20261118-london-prep"></script>
-<script src="./js/core/itinerary-helpers.js?v=20261118-london-prep"></script>
-<script src="./js/core/resource-helpers.js?v=20261118-london-prep"></script>
-<script src="./js/core/tour-config-helpers.js?v=20261118-london-prep"></script>
-<script src="./js/core/today-state.js?v=20261118-london-prep"></script>
-<script src="./js/services/offline-guide.js?v=20261118-london-prep"></script>
-<script src="./js/services/experience-interest.js?v=20261118-london-prep"></script>
-<script src="./js/services/announcements.js?v=20261118-london-prep"></script>
-<script src="./js/services/auth.js?v=20261118-london-prep"></script>
-<script src="./js/services/storage.js?v=20261118-london-prep"></script>
-<script src="./js/services/admin-content-storage.js?v=20261118-london-prep"></script>
-<script src="./js/services/admin-content-overrides.js?v=20261118-london-prep"></script>
-<script src="./js/viewer/document-viewer.js?v=20261118-london-prep"></script>
-<script src="./js/maps/map-panel.js?v=20261118-london-prep"></script>
-<script src="./js/navigation/navigation.js?v=20261118-london-prep"></script>
-<script src="./js/rendering/contacts-renderer.js?v=20261118-london-prep"></script>
-<script src="./js/rendering/travel-director-renderer.js?v=20261118-london-prep"></script>
-<script src="./js/services/analytics.js?v=20261118-london-prep"></script>
-<script src="./js/services/onward-export.js?v=20261118-london-prep"></script>
-<script src="./js/core/journey-recaps.js?v=20261118-london-prep"></script>
-<script src="./js/rendering/experiences-renderer.js?v=20261118-london-prep"></script>
-<script src="./js/rendering/tools-renderer.js?v=20261118-london-prep"></script>
-<script src="./js/rendering/rewards-renderer.js?v=20261118-london-prep"></script>
-<script src="./js/rendering/travel-impact-renderer.js?v=20261118-london-prep"></script>
-<script src="./js/rendering/today-components.js?v=20261118-london-prep"></script>
-<script src="./js/rendering/itinerary-components.js?v=20261118-london-prep"></script>
+<script src="./js/core/utils.js?v=20261118-refinements"></script>
+<script src="./js/core/tour-updates.js?v=20261118-refinements"></script>
+<script src="./js/core/itinerary-helpers.js?v=20261118-refinements"></script>
+<script src="./js/core/resource-helpers.js?v=20261118-refinements"></script>
+<script src="./js/core/tour-config-helpers.js?v=20261118-refinements"></script>
+<script src="./js/core/today-state.js?v=20261118-refinements"></script>
+<script src="./js/services/offline-guide.js?v=20261118-refinements"></script>
+<script src="./js/services/experience-interest.js?v=20261118-refinements"></script>
+<script src="./js/services/announcements.js?v=20261118-refinements"></script>
+<script src="./js/services/auth.js?v=20261118-refinements"></script>
+<script src="./js/services/storage.js?v=20261118-refinements"></script>
+<script src="./js/services/admin-content-storage.js?v=20261118-refinements"></script>
+<script src="./js/services/admin-content-overrides.js?v=20261118-refinements"></script>
+<script src="./js/viewer/document-viewer.js?v=20261118-refinements"></script>
+<script src="./js/maps/map-panel.js?v=20261118-refinements"></script>
+<script src="./js/navigation/navigation.js?v=20261118-refinements"></script>
+<script src="./js/rendering/contacts-renderer.js?v=20261118-refinements"></script>
+<script src="./js/rendering/travel-director-renderer.js?v=20261118-refinements"></script>
+<script src="./js/services/analytics.js?v=20261118-refinements"></script>
+<script src="./js/services/onward-export.js?v=20261118-refinements"></script>
+<script src="./js/core/journey-recaps.js?v=20261118-refinements"></script>
+<script src="./js/rendering/experiences-renderer.js?v=20261118-refinements"></script>
+<script src="./js/rendering/tools-renderer.js?v=20261118-refinements"></script>
+<script src="./js/rendering/rewards-renderer.js?v=20261118-refinements"></script>
+<script src="./js/rendering/travel-impact-renderer.js?v=20261118-refinements"></script>
+<script src="./js/rendering/today-components.js?v=20261118-refinements"></script>
+<script src="./js/rendering/itinerary-components.js?v=20261118-refinements"></script>
 <script>
 const URL_PARAMS = new URLSearchParams(location.search);
 const DEFAULT_TOUR_CODE = "WWHI22L26A";
@@ -4016,10 +4016,15 @@ function londonPreparationVisible(now=Date.now()) {
 function startHereOnly(now=Date.now()) {
   return !ADMIN_MODE && !builderPreviewMode() && !localTodayPreviewMode() && now < Date.parse(tour.meta.dayOneReleaseAt || '2026-12-21T16:00:00+00:00');
 }
+function renderWelcomeResources(){
+  const day=dayByNumber(1);
+  const links=getDayResourceLinks(1).filter(item=>/know-before-you-go|eurostar/i.test(item.url || ''));
+  return `<section class="welcome-resources"><h3>Know before you travel</h3><div class="day-link-list">${links.map(item=>dayResourceItemCard(item,day)).join('')}</div></section>`;
+}
 function renderLondonPreparation(){
   if(!londonPreparationVisible())return '';
   const image = Date.now() < Date.parse(tour.meta.dayOneReleaseAt || '2026-12-21T16:00:00+00:00') ? '<img class="london-welcome-image" src="https://brendonbush.com/images/londonskyview.jpg" alt="London skyline">' : '';
-  return `<section id="london-preparation" class="london-preparation">${image}<p class="sec-label">START HERE</p><h2>Welcome to London</h2><p>Airport arrivals, your hotel, London sightseeing and Tuesday 22 December departure instructions.</p><a class="london-primary" href="./welcome.html">London information</a><details ${onwardTravelOpen ? 'open' : ''}><summary>Before we travel · a few essentials</summary><h3>Special dietary requirements — please tell me before 18 December</h3><p><strong>If you have any food allergies or special dietary requirements, I need to know before 18 December 2026.</strong> Please include the full name of each person and their requirements.</p><p><a href="mailto:bushylove74@gmail.com?subject=Xmas%20Whirl%202026%20-%20Dietary%20requirements&body=Name(s)%3A%20%0AFood%20allergies%20or%20dietary%20requirements%3A%20"><strong>Tap here to email Brendon your dietary requirements</strong></a></p><h3>Onward travel &amp; airport transfers</h3><p>Using the complimentary Paris transfer, a booked private transfer, or the Trafalgar Eurostar extension? Please send your details so I can check the arrangements. If you are making all your own arrangements and need no transfer, you do not need to complete this form.</p>${renderOnwardTravelPrompt()}<h3>Save this app to your phone</h3><p>iPhone: in Safari, tap Share → Add to Home Screen.<br>Android: in Chrome, open the ⋮ menu → Add to Home screen or Install app.</p><h3>Turn on announcement alerts</h3><p>Open Announcements and tap Enable alerts to receive trip updates.</p><button type="button" class="tools-admin-btn secondary" onclick="setTab('announcements')">Open Announcements</button></details>${offlineGuideCard()}</section>`;
+  return `<section id="london-preparation" class="london-preparation">${image}<p class="sec-label">START HERE</p><h2>Welcome to London</h2><p>Airport arrivals, your hotel, London sightseeing and Tuesday 22 December departure instructions.</p><a class="london-primary" href="./welcome.html">London information</a><details ${onwardTravelOpen ? 'open' : ''}><summary>Before we travel · a few essentials</summary><h3>Special dietary requirements — please tell me before 18 December</h3><p><strong>If you have any food allergies or special dietary requirements, I need to know before 18 December 2026.</strong> Please include the full name of each person and their requirements.</p><p><a href="mailto:bushylove74@gmail.com?subject=Xmas%20Whirl%202026%20-%20Dietary%20requirements&body=Name(s)%3A%20%0AFood%20allergies%20or%20dietary%20requirements%3A%20"><strong>Tap here to email Brendon your dietary requirements</strong></a></p><h3>Onward travel &amp; airport transfers</h3><p>Using the complimentary Paris transfer, a booked private transfer, or the Trafalgar Eurostar extension? Please send your details so I can check the arrangements. If you are making all your own arrangements and need no transfer, you do not need to complete this form.</p>${renderOnwardTravelPrompt()}<h3>Save this app to your phone</h3><p>iPhone: in Safari, tap Share → Add to Home Screen.<br>Android: in Chrome, open the ⋮ menu → Add to Home screen or Install app.</p><h3>Turn on announcement alerts</h3><p>Open Announcements and tap Enable alerts to receive trip updates.</p><button type="button" class="tools-admin-btn secondary" onclick="setTab('announcements')">Open Announcements</button></details>${renderWelcomeResources()}${offlineGuideCard()}</section>`;
 }
 function refreshLondonPhase(){
   if(!tour)return;

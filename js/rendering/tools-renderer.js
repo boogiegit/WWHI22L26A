@@ -76,8 +76,8 @@ function renderTools() {
       <div class="hero-chips"><span class="hero-chip">${BEST_TOOL_DEFAULT_ORDER.length} tools</span><span class="hero-chip">${escapeHtml(tour.meta.countries.join(" · "))}</span>${currentHotel ? `<span class="hero-chip">Tonight · ${escapeHtml(currentHotel.city)}</span>` : ""}</div>
     </div>
     ${renderToolsAdminAccess(adminState)}
-    ${offlineGuideCard()}
     ${toolsReorderMode ? `<div class="best-tools-grid">${toolOrder.map(renderToolCard).join("")}</div>` : renderToolGroups()}
+    ${offlineGuideCard()}
     ${renderToolPanel()}
     <div class="full-spacer"></div>`;
 }
