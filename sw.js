@@ -1,7 +1,7 @@
 // Cache only explicitly approved application code and icons. Never cache API responses,
 // private data, uploaded media, invitation links or third-party requests.
 // The public offline guide is the only saved tour-content document.
-const CACHE_NAME = 'wwhi22l26a-static-v186';
+const CACHE_NAME = 'wwhi22l26a-static-v187';
 const STATIC_PATHS = [
   './offline-guide.html', './js/services/offline-guide.js', './js/services/announcements.js', './js/services/experience-interest.js',
   './js/core/tour-updates.js',
