@@ -252,6 +252,57 @@
     ],
     "faq": [
       {
+        "title": "Arrival in London",
+        "items": [
+          {
+            "question": "Where does this trip start?",
+            "answer": "There are two booking lengths. The 14-day booking includes arrival in London on Sunday 20 December 2026 at the Tower Hotel London, where Trafalgar representatives will be available. On Monday 21 December, meet your Local Guide in hotel reception at 8:15 a.m. for your included London city sightseeing tour. The 12-day booking joins the onward journey on Tuesday 22 December: Eurostar from London St Pancras to Brussels, then by coach to Amsterdam. The app numbers this shared journey as Day 1. Your booking documents confirm which London accommodation and sightseeing are included for you."
+          },
+          {
+            "question": "Where do I meet my private airport transfer?",
+            "answer": "If your private transfer was booked via Trafalgar, your Addison Lee driver will be waiting in the terminal after you have collected your bags and cleared customs. Look to the side of the arrivals area for your driver. If you cannot find them, call European Guest Services on +44 207 620 8900. Please do not call Brendon about airport transfers: he cannot locate or arrange your driver. European Guest Services can help.",
+            "links": [
+              {
+                "label": "Call European Guest Services: +44 207 620 8900",
+                "url": "tel:+442076208900"
+              }
+            ]
+          },
+          {
+            "question": "What if I have not booked an airport transfer?",
+            "answer": "You will need to make your own way to the Tower Hotel London. If you would like a private transfer arranged before you arrive, contact Trafalgar or your booking agent in advance to request and confirm a booking. A private transfer is not automatically included for everyone."
+          },
+          {
+            "question": "Which London hotel should I go to?",
+            "answer": "The London joining hotel is the Tower Hotel London, St Katharine’s Way, London E1W 1LD, United Kingdom. Check your booking documents for the nights included in your booking. If you are staying elsewhere, follow the London information page’s Tuesday departure instructions for joining at the Tower Hotel."
+          },
+          {
+            "question": "What if I arrive late or miss my transfer?",
+            "answer": "For a delayed arrival, a missed pre-booked transfer or a driver you cannot find, contact European Guest Services on +44 207 620 8900 or europeanguestservices@ttc.com. Call for immediate help. Please contact them directly rather than Brendon, as he cannot resolve airport-transfer arrangements.",
+            "links": [
+              {
+                "label": "Call European Guest Services: +44 207 620 8900",
+                "url": "tel:+442076208900"
+              },
+              {
+                "label": "Email European Guest Services",
+                "url": "mailto:europeanguestservices@ttc.com"
+              }
+            ]
+          },
+          {
+            "question": "What do I need for the Eurostar journey?",
+            "answer": "Keep your passport and travel documents easily accessible and follow the Eurostar boarding instructions linked below. Consolidate your luggage into as few bags as possible and make sure they are easy for you to carry: you must carry your own bags through the stations and onto and off the trains at both ends. Follow the London information page and Brendon’s latest departure instructions. The boarding-instructions link needs internet.",
+            "links": [
+              {
+                "label": "Eurostar boarding instructions",
+                "url": "https://trafalgar.world/guides/allbrands/regions/discoveries/eurostar/"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "title": "Before Departure",
         "items": [
           {
@@ -265,31 +316,6 @@
           {
             "question": "What if my luggage doesn't arrive at the airport?",
             "answer": "Fill out a report at the baggage claim desk immediately and include all your hotels on it. Always photograph your suitcase before check-in."
-          }
-        ]
-      },
-      {
-        "title": "Arrival in London",
-        "items": [
-          {
-            "question": "Where does this trip start?",
-            "answer": "This Xmas Whirl trip starts in London. Day 1 is Tuesday 22 December 2026, travelling by Eurostar from London St Pancras to Brussels, then by coach to Amsterdam. Please follow the London joining instructions in your booking documents."
-          },
-          {
-            "question": "Where do I meet an airport transfer?",
-            "answer": "Check your booking documents for your London arrival airport, whether a transfer is included, and its meeting point and time. London has several airports, so there is no single terminal or meeting point for everyone. If anything is unclear, contact your booking agent before travelling."
-          },
-          {
-            "question": "Which London hotel should I go to?",
-            "answer": "Use the pre-tour London hotel and address shown in your joining documents. The Day 1 hotel in this app is in Amsterdam, where we stay after travelling from London. Your pre-tour London hotel has not yet been confirmed in the app."
-          },
-          {
-            "question": "What if I arrive late or miss my transfer?",
-            "answer": "Use the assistance number in your travel documents and tell your booking agent or Travel Director. If you need to arrange your own transport, confirm the London hotel address first and use official airport transport or a licensed taxi. Allow enough time to join the early Day 1 departure."
-          },
-          {
-            "question": "What do I need for the Eurostar journey?",
-            "answer": "Keep your passport and travel documents in your day bag. Follow Brendon’s latest meeting and departure instructions in Today. Allow time for station check-in and border checks; your joining documents and live updates take priority over the saved itinerary."
           }
         ]
       },

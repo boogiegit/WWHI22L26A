@@ -40,7 +40,9 @@ def build():
     out.append('<article id="joining"><h2>Joining & FAQ</h2>')
     for section in faq:
         out.append(f'<h3>{escape(section["title"])}</h3>')
-        for item in section['items']:out.append(f'<details><summary>{escape(item["question"])}</summary><p>{escape(item["answer"])}</p></details>')
+        for item in section['items']:
+            links=''.join(f'<p><a href="{escape(link["url"], quote=True)}">{escape(link["label"])}</a></p>' for link in item.get('links',[]) if link['url'].startswith(('https://','tel:','mailto:')))
+            out.append(f'<details><summary>{escape(item["question"])}</summary><p>{escape(item["answer"])}</p>{links}</details>')
     out.append("""<style>.interest-guide{display:inline-block;padding:10px 16px;border-radius:12px;background:#16863c;color:white;font-weight:700;text-decoration:none}.interest-guide[aria-disabled=true]{background:#666;cursor:default}.interest-guide-help{display:block;color:#555}</style><script>
 function updateOfflineInterest(){
  let saved=[];try{saved=JSON.parse(localStorage.getItem('wwhi22l26a-interest-saved')||'[]');if(!Array.isArray(saved))saved=[];}catch{}
