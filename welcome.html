@@ -60,6 +60,27 @@
       padding: 0 0 80px;
     }
 
+    /* Keep the return control visible throughout the London information page. */
+    .app-return {
+      position: sticky;
+      top: 0;
+      z-index: 300;
+      padding: calc(6px + env(safe-area-inset-top, 0px)) 16px 6px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+    .app-return a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 12px;
+      border-radius: 8px;
+      color: var(--red);
+      font-weight: 800;
+    }
+    .app-return a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+
     /* ── Brand header ── */
     .brand-bar {
       background: var(--navy);
@@ -68,9 +89,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: relative;
     }
     .brand-bar-left {
       display: flex;
@@ -886,10 +905,10 @@
   </style>
 </head>
 <body id="top">
-<nav style="padding:14px;text-align:center;background:#fff"><a href="./app.html" style="font-weight:700;color:#ae1025">← Return to the Xmas Whirl app</a></nav>
+<nav class="app-return" aria-label="Return to app"><a href="./app.html">← Back to app</a></nav>
 
 <!-- ══════════════════════════════════════
-     STICKY BRAND BAR
+     BRAND BAR
      ══════════════════════════════════════ -->
 <div class="brand-bar">
   <div class="brand-bar-left">
