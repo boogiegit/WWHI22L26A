@@ -229,6 +229,8 @@ vm.runInContext(`const oldDeparture={number:2,schedule:[{time:'14:20',title:'Dep
 
 vm.runInContext(`localStorage.setItem('tour:EWHI11J26A:keep','original'); localStorage.setItem('tour:WWHI22L26A:clear','new'); clearPrivateBrowserState(); if(localStorage.getItem('tour:EWHI11J26A:keep')!=='original' || localStorage.getItem('tour:WWHI22L26A:clear')!==null)throw Error('Independent tour storage');`,context);
 
+vm.runInContext("tour.meta.dayOneReleaseAt='2020-12-21T16:00:00Z'",context);
+
 // An unfinished form survives redraws and reloads without becoming a submission.
 vm.runInContext("clearOnwardTravelDraft(); sessionStorage.removeItem(storageKey('onward-travel-mine')); ADMIN_MODE=false; activeTab='today'; onwardTravelOpen=true; renderApp()",context);
 document.getElementById('onward-name').value='Unfinished synthetic couple';
@@ -405,3 +407,28 @@ assert.equal(calls.length,beforeOffline,'Offline interest never sends a request'
 context.navigator.onLine=true;
 assert.doesNotMatch(vm.runInContext("interestButton({experienceId:'new'})",context),/disabled/);
 console.log('PASS: exact London departure cutoff, offline interest state and blocked submission, online green action.');
+
+// Guest welcome-only mode and exact UTC release, independent of device timezone.
+vm.runInContext("ADMIN_MODE=false; tour.meta.dayOneReleaseAt='2026-12-21T16:00:00+00:00'",context);
+const RealDate=context.Date;
+function at(iso){const time=Date.parse(iso);context.Date=class extends RealDate{constructor(...args){super(...(args.length?args:[time]));}static now(){return time;}};}
+at('2026-12-21T15:59:59Z');
+assert.equal(vm.runInContext('startHereOnly()',context),true);
+let welcomeOnly=vm.runInContext('renderToday()',context);
+assert.ok(welcomeOnly.includes('Welcome to London'));
+assert.ok(!welcomeOnly.includes('today-hero')&&!welcomeOnly.includes('today-timeline'));
+assert.ok(vm.runInContext('renderHeader()',context).includes('Start Here'));
+vm.runInContext('renderApp()',context);
+at('2026-12-21T16:00:00Z');
+vm.runInContext('refreshLondonPhase()',context);
+assert.equal(document.getElementById('start-here-only'),null);
+assert.ok(document.getElementById('today-timeline'));
+assert.ok(document.getElementById('london-preparation'));
+at('2026-12-22T06:59:59Z');vm.runInContext('refreshLondonPhase()',context);
+assert.ok(document.getElementById('london-preparation'));
+at('2026-12-22T07:00:00Z');vm.runInContext('refreshLondonPhase()',context);
+assert.equal(document.getElementById('london-preparation'),null);
+at('2026-12-20T12:00:00Z');vm.runInContext('ADMIN_MODE=true',context);
+assert.ok(vm.runInContext('renderToday()',context).includes('today-timeline'),'Admin can still review schedules');
+context.Date=RealDate;
+console.log('PASS: guest Start Here only, exact release transition, London departure removal and admin schedule preview.');
